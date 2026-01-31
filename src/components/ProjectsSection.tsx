@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Smartphone } from "lucide-react";
+import { ExternalLink, Github, Smartphone, Star, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
@@ -8,29 +8,39 @@ const projects = [
     description: "A beautiful Android weather app built with Kotlin and Jetpack Compose. Features real-time forecasts and stunning animations.",
     tags: ["Kotlin", "Jetpack Compose", "Retrofit"],
     image: "🌤️",
-    accent: "primary",
+    featured: true,
   },
   {
     title: "Fitness Tracker",
     description: "Track your workouts, set goals, and monitor progress. Clean MVVM architecture with Room database.",
     tags: ["Android", "Room DB", "Material3"],
     image: "💪",
-    accent: "secondary",
+    featured: false,
   },
   {
     title: "Task Master Pro",
     description: "Productivity app with smart reminders and beautiful UI. Featured on Google Play with 10K+ downloads.",
     tags: ["Kotlin", "WorkManager", "Firebase"],
     image: "✅",
-    accent: "accent",
+    featured: true,
+  },
+  {
+    title: "Social Connect",
+    description: "A modern social networking app with real-time messaging and content sharing features.",
+    tags: ["Firebase", "Kotlin", "MVVM"],
+    image: "💬",
+    featured: false,
   },
 ];
 
 const ProjectsSection = () => {
   return (
-    <section className="py-24 relative">
+    <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-glow opacity-30" />
+      <div 
+        className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+      />
       
       <div className="container mx-auto px-6 relative z-10">
         {/* Section header */}
@@ -51,8 +61,8 @@ const ProjectsSection = () => {
           </p>
         </motion.div>
 
-        {/* Projects grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Bento-style projects grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[200px]">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -60,44 +70,67 @@ const ProjectsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="group"
+              whileHover={{ scale: 1.02 }}
+              className={`group relative ${
+                project.featured ? "md:col-span-2 md:row-span-2" : ""
+              }`}
             >
-              <div className="bg-gradient-card rounded-2xl border border-border overflow-hidden shadow-card hover:shadow-glow transition-all duration-500">
-                {/* Project preview */}
-                <div className="relative h-48 bg-muted flex items-center justify-center">
-                  <span className="text-7xl">{project.image}</span>
-                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button size="icon" variant="outline" className="h-8 w-8 bg-background/80 backdrop-blur-sm">
+              <div className="glass-card rounded-2xl h-full p-6 flex flex-col justify-between overflow-hidden hover:border-primary/30 transition-all duration-500">
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Top row */}
+                <div className="relative z-10 flex items-start justify-between">
+                  <span className={`text-4xl ${project.featured ? "md:text-6xl" : ""}`}>
+                    {project.image}
+                  </span>
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      className="p-2 rounded-full glass text-muted-foreground hover:text-foreground transition-colors"
+                    >
                       <Github className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="outline" className="h-8 w-8 bg-background/80 backdrop-blur-sm">
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      className="p-2 rounded-full glass text-muted-foreground hover:text-foreground transition-colors"
+                    >
                       <ExternalLink className="h-4 w-4" />
-                    </Button>
+                    </motion.button>
                   </div>
-                  <div className="absolute bottom-4 left-4">
-                    <span className="inline-flex items-center gap-1 text-xs font-body text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded-full">
+                </div>
+                
+                {/* Content */}
+                <div className="relative z-10 mt-auto">
+                  <div className="flex items-center gap-2 mb-2">
+                    {project.featured && (
+                      <span className="inline-flex items-center gap-1 text-xs font-body text-primary bg-primary/20 px-2 py-0.5 rounded-full">
+                        <Star className="w-3 h-3" />
+                        Featured
+                      </span>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-xs font-body text-muted-foreground">
                       <Smartphone className="w-3 h-3" />
                       Android
                     </span>
                   </div>
-                </div>
-                
-                {/* Project info */}
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                  
+                  <h3 className="font-display text-xl font-bold text-foreground mb-2 group-hover:text-gradient transition-all">
                     {project.title}
                   </h3>
-                  <p className="font-body text-muted-foreground text-sm leading-relaxed mb-4">
-                    {project.description}
-                  </p>
+                  
+                  {project.featured && (
+                    <p className="font-body text-muted-foreground text-sm leading-relaxed mb-4">
+                      {project.description}
+                    </p>
+                  )}
                   
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
+                    {project.tags.slice(0, project.featured ? 3 : 2).map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs font-body text-primary bg-primary/10 px-2 py-1 rounded-md"
+                        className="text-xs font-body text-primary/80 bg-primary/10 px-2 py-1 rounded-md"
                       >
                         {tag}
                       </span>
@@ -117,9 +150,13 @@ const ProjectsSection = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center mt-12"
         >
-          <Button variant="outline" size="lg" className="font-display font-semibold">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="font-display font-semibold glass border-primary/30 hover:bg-primary/10 group"
+          >
             View All Projects
-            <ExternalLink className="ml-2 h-4 w-4" />
+            <ArrowUpRight className="ml-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </Button>
         </motion.div>
       </div>
