@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
+  { label: "Gaming", href: "#gaming" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
@@ -14,6 +15,8 @@ const navItems = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const resumeUrl = "https://raw.githubusercontent.com/Sahil-dev7/Sahil-dev7/main/Resume.pdf";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +41,7 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "glass-strong py-3" : "py-6"
+          isScrolled ? "glass-strong py-3 border-b border-border/30" : "py-6"
         }`}
       >
         <div className="container mx-auto px-6">
@@ -49,7 +52,7 @@ const Navbar = () => {
               className="font-display text-2xl font-bold text-gradient"
               whileHover={{ scale: 1.05 }}
             >
-              DEVELOPER
+              SAHIL DEV
             </motion.a>
 
             {/* Desktop Navigation */}
@@ -58,7 +61,7 @@ const Navbar = () => {
                 <motion.button
                   key={item.label}
                   onClick={() => scrollToSection(item.href)}
-                  className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
+                  className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
                   whileHover={{ y: -2 }}
                 >
                   {item.label}
@@ -71,9 +74,11 @@ const Navbar = () => {
             <div className="hidden md:block">
               <Button
                 className="bg-gradient-primary text-primary-foreground font-display font-semibold shadow-glow hover:scale-105 transition-transform"
-                onClick={() => scrollToSection("#contact")}
+                asChild
               >
-                Resume/CV
+                <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+                  Resume/CV
+                </a>
               </Button>
             </div>
 
@@ -96,7 +101,7 @@ const Navbar = () => {
           opacity: isMobileMenuOpen ? 1 : 0,
         }}
         transition={{ duration: 0.3 }}
-        className="fixed inset-y-0 right-0 w-3/4 z-40 glass-strong md:hidden"
+        className="fixed inset-y-0 right-0 w-3/4 z-40 glass-strong border-l border-border/30 md:hidden"
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
           {navItems.map((item) => (
@@ -104,11 +109,19 @@ const Navbar = () => {
               key={item.label}
               onClick={() => scrollToSection(item.href)}
               className="font-display text-2xl font-bold text-foreground"
-              whileHover={{ scale: 1.1, color: "hsl(0 85% 55%)" }}
+              whileHover={{ scale: 1.1 }}
             >
               {item.label}
             </motion.button>
           ))}
+          <Button
+            className="bg-gradient-primary text-primary-foreground font-display font-semibold mt-4"
+            asChild
+          >
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+              Resume/CV
+            </a>
+          </Button>
         </div>
       </motion.div>
 
