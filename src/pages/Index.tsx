@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import InterestsSection from "@/components/InterestsSection";
 import ProjectsSection from "@/components/ProjectsSection";
@@ -6,8 +6,11 @@ import SkillsSection from "@/components/SkillsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import CursorGlow from "@/components/CursorGlow";
 import MarqueeText from "@/components/MarqueeText";
+import GamingSection from "@/components/GamingSection";
+import FavouritesSection from "@/components/FavouritesSection";
+import RunningProjectsSection from "@/components/RunningProjectsSection";
+import InstagramFeed from "@/components/InstagramFeed";
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -23,9 +26,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background grain">
-      {/* Custom cursor glow effect */}
-      <CursorGlow />
-      
       {/* Navigation */}
       <Navbar />
       
@@ -34,7 +34,7 @@ const Index = () => {
       
       {/* Scrolling marquee divider */}
       <div className="py-8 border-y border-border/30 overflow-hidden">
-        <MarqueeText text="DEVELOPER • CREATOR • ANDROID • KOTLIN • INNOVATOR" />
+        <MarqueeText text="SAHIL DEV • ANDROID • KOTLIN • CREATOR • INNOVATOR • GAMER" />
       </div>
       
       <InterestsSection />
@@ -46,6 +46,10 @@ const Index = () => {
       </div>
       
       <SkillsSection />
+      <GamingSection />
+      <FavouritesSection />
+      <RunningProjectsSection />
+      <InstagramFeed />
       <ContactSection />
       <Footer />
     </div>

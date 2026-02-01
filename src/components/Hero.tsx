@@ -1,8 +1,9 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Github, Linkedin, Youtube, Play, Sparkles } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Youtube, Play, Sparkles, Instagram, Twitter } from "lucide-react";
 import { useRef } from "react";
 import Scene3D from "./Scene3D";
+import sahilHero from "@/assets/sahil-hero.png";
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -14,11 +15,26 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const scale = useTransform(scrollY, [0, 500], [1, 0.8]);
 
+  const socialLinks = [
+    { icon: Github, href: "https://github.com/Sahil-dev7", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/sahil-w712", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/__sahil_.27", label: "Instagram" },
+    { icon: Twitter, href: "https://x.com/Sahil_701", label: "Twitter" },
+  ];
+
+  const scrollToProjects = () => {
+    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section 
       ref={containerRef}
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero pt-20"
     >
       {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-glow opacity-50" />
@@ -75,10 +91,10 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-strong mb-8 border border-primary/30"
             >
               <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-              <span className="text-sm text-muted-foreground font-body">Available for opportunities</span>
+              <span className="text-sm text-foreground font-body font-medium">Available for opportunities</span>
             </motion.div>
 
             {/* Intro text */}
@@ -86,21 +102,20 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-primary font-display text-lg italic mb-2"
+              className="text-primary font-display text-xl font-semibold mb-2"
             >
-              Hi I'm
+              Hi, I'm
             </motion.p>
 
-            {/* Main heading */}
+            {/* Main heading - Fixed overlap */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4"
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 leading-tight"
             >
-              <span className="text-foreground">Sahil </span>
-              <span className="text-gradient">Wadhwani</span>
-              <span className="text-foreground">,</span>
+              <span className="text-foreground block">Sahil Dev</span>
+              <span className="text-gradient block mt-1">(Wadhwani)</span>
             </motion.h1>
 
             {/* Role */}
@@ -108,7 +123,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-display text-xl md:text-2xl text-primary italic font-semibold mb-6"
+              className="font-display text-xl md:text-2xl text-primary font-semibold mb-6"
             >
               Software Developer
             </motion.p>
@@ -118,7 +133,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="font-body text-lg text-muted-foreground max-w-xl mb-8"
+              className="font-body text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed"
             >
               Turning ideas into reality through clean code, scalable systems, and sleek UIs — one project at a time.
             </motion.p>
@@ -133,6 +148,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 transition-transform group"
+                onClick={scrollToProjects}
               >
                 <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                 View My Work
@@ -140,7 +156,8 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="font-display font-semibold px-8 glass border-primary/30 hover:bg-primary/10 transition-all"
+                className="font-display font-semibold px-8 glass-strong border-primary/50 hover:bg-primary/20 transition-all text-foreground"
+                onClick={scrollToContact}
               >
                 Get In Touch
               </Button>
@@ -153,16 +170,14 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex items-center gap-4"
             >
-              {[
-                { icon: Github, href: "#", label: "GitHub" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Youtube, href: "#", label: "YouTube" },
-              ].map((social) => (
+              {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, y: -3 }}
-                  className="p-3 rounded-full glass text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+                  className="p-3 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/50 transition-colors border border-border/50"
                   aria-label={social.label}
                 >
                   <social.icon className="w-5 h-5" />
@@ -171,55 +186,52 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right content - Glass card with code snippet */}
+          {/* Right content - Hero Image with Glass overlay */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="hidden lg:block relative"
           >
-            <div className="glass-card rounded-2xl p-6 relative overflow-hidden">
-              {/* Decorative glow */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/30 rounded-full blur-3xl" />
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary/20 rounded-full blur-2xl" />
+            {/* Hero image */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-br from-primary/30 via-transparent to-secondary/20 rounded-3xl blur-2xl" />
+              <img 
+                src={sahilHero} 
+                alt="Sahil Dev - Software Developer" 
+                className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl"
+              />
               
-              {/* Code block */}
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-primary/80" />
-                  <div className="w-3 h-3 rounded-full bg-secondary/80" />
-                  <div className="w-3 h-3 rounded-full bg-muted-foreground/50" />
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute -top-4 -right-4 glass-strong rounded-xl px-4 py-2 border border-primary/30 z-20"
+              >
+                <span className="text-sm font-display font-bold text-gradient">
+                  🔥 Open to Work
+                </span>
+              </motion.div>
+
+              {/* Bottom glass card with code */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="absolute -bottom-6 -left-6 glass-strong rounded-xl p-4 border border-primary/20 z-20 max-w-xs"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                  <div className="w-2 h-2 rounded-full bg-secondary" />
+                  <div className="w-2 h-2 rounded-full bg-muted-foreground/50" />
                 </div>
-                
-                <pre className="font-mono text-sm leading-relaxed">
+                <pre className="font-mono text-xs text-muted-foreground">
                   <code>
-                    <span className="text-muted-foreground">{"// About me"}</span>
-                    {"\n"}
-                    <span className="text-primary">I've been programming</span> for the last{" "}
-                    <span className="text-secondary">6 years</span>.{"\n"}
-                    I started off <span className="text-primary">playing around</span>{"\n"}
-                    in Scratch, but since then I have{"\n"}
-                    worked on a number of{" "}
-                    <span className="text-primary">programming projects</span>,{"\n\n"}
-                    Interested in <span className="text-secondary">AI, ML</span>{"\n"}
-                    <span className="text-secondary">Cloud Computing</span> and{"\n"}
-                    <span className="text-secondary">App Development</span>.{"\n\n"}
-                    <span className="text-muted-foreground">// Renaissance University</span>
+                    <span className="text-primary">const</span> passion = <span className="text-secondary">"Android"</span>;
                   </code>
                 </pre>
-              </div>
+              </motion.div>
             </div>
-            
-            {/* Floating badge */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -top-4 -right-4 glass-strong rounded-xl px-4 py-2"
-            >
-              <span className="text-sm font-display font-bold text-gradient">
-                🔥 Open to Work
-              </span>
-            </motion.div>
           </motion.div>
         </div>
 
