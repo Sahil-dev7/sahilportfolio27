@@ -1,9 +1,32 @@
 import { motion } from "framer-motion";
 import { Instagram, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 const InstagramFeed = () => {
   const instagramUrl = "https://www.instagram.com/__sahil_.27";
+  
+  // Instagram post IDs or shortcodes (you can update these with actual post IDs)
+  const postShortcodes = [
+    "C1234567", // Replace with actual shortcodes
+    "C2345678",
+    "C3456789",
+    "C4567890",
+    "C5678901",
+    "C6789012",
+  ];
+
+  useEffect(() => {
+    // Load Instagram embed script
+    const script = document.createElement('script');
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   
   return (
     <section id="instagram" className="py-24 relative overflow-hidden">
@@ -63,7 +86,7 @@ const InstagramFeed = () => {
                 </div>
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white font-display font-semibold hover:scale-105 transition-transform"
+                  className="bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white font-display font-semibold hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
                 >
                   <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
                     <Instagram className="w-4 h-4 mr-2" />
@@ -72,35 +95,17 @@ const InstagramFeed = () => {
                 </Button>
               </div>
 
-              {/* Grid placeholder for posts */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5, 6].map((index) => (
-                  <motion.a
-                    key={index}
-                    href={instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="group relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-muted/50 to-muted/30 border border-border/50"
-                  >
-                    {/* Placeholder content */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <Instagram className="w-8 h-8 text-muted-foreground/50 mx-auto mb-2" />
-                        <span className="text-xs text-muted-foreground/50 font-body">View Post</span>
-                      </div>
-                    </div>
-                    
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
-                      <ExternalLink className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </motion.a>
-                ))}
+              {/* Embedded Instagram Profile */}
+              <div className="rounded-2xl overflow-hidden bg-background/50 p-4">
+                <div className="aspect-video w-full flex items-center justify-center">
+                  <iframe
+                    src="https://www.instagram.com/__sahil_.27/embed"
+                    className="w-full h-[500px] border-0 rounded-xl"
+                    allowTransparency={true}
+                    allow="encrypted-media"
+                    loading="lazy"
+                  />
+                </div>
               </div>
 
               {/* View all link */}

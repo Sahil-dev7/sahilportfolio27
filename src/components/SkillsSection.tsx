@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { Code2, Cpu, Database, Layers, Palette, Smartphone, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import { Code2, Cpu, Database, Layers, Palette, Smartphone, Zap, Keyboard } from "lucide-react";
 
 const skills = [
   { name: "Kotlin", level: 95, icon: Code2 },
@@ -8,6 +8,7 @@ const skills = [
   { name: "Firebase", level: 80, icon: Database },
   { name: "REST APIs", level: 85, icon: Zap },
   { name: "Git & GitHub", level: 90, icon: Code2 },
+  { name: "Typing Speed", level: 80, icon: Keyboard, suffix: "80 WPM" },
 ];
 
 const tools = [
@@ -60,7 +61,9 @@ const SkillsSection = () => {
                     <div className="flex-1">
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-display font-semibold text-foreground">{skill.name}</span>
-                        <span className="font-body text-sm text-primary font-semibold">{skill.level}%</span>
+                        <span className="font-body text-sm text-primary font-semibold">
+                          {skill.suffix || `${skill.level}%`}
+                        </span>
                       </div>
                       <div className="h-2 bg-muted/50 rounded-full overflow-hidden">
                         <motion.div

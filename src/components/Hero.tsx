@@ -53,18 +53,6 @@ const Hero = () => {
       {/* 3D Scene */}
       <Scene3D className="opacity-70" />
       
-      {/* Animated lines/grid */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          style={{ y: y2 }}
-          className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"
-        />
-        <motion.div
-          style={{ y: y2 }}
-          className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent"
-        />
-      </div>
-      
       {/* Floating decorative elements */}
       <motion.div 
         style={{ y: y1 }}
@@ -114,8 +102,7 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 leading-tight"
             >
-              <span className="text-foreground block">Sahil Dev</span>
-              <span className="text-gradient block mt-1">(Wadhwani)</span>
+              <span className="text-gradient block">Sahil Wadhwani</span>
             </motion.h1>
 
             {/* Role */}
@@ -127,6 +114,25 @@ const Hero = () => {
             >
               Software Developer
             </motion.p>
+
+            {/* Passion badge - Moved up */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.22 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass-strong border border-primary/20 mb-6"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary" />
+                <div className="w-2 h-2 rounded-full bg-secondary" />
+                <div className="w-2 h-2 rounded-full bg-muted-foreground/50" />
+              </div>
+              <pre className="font-mono text-xs text-muted-foreground">
+                <code>
+                  <span className="text-primary">const</span> passion = <span className="text-secondary">"Android"</span>;
+                </code>
+              </pre>
+            </motion.div>
 
             {/* Subtitle */}
             <motion.p
@@ -147,7 +153,7 @@ const Hero = () => {
             >
               <Button 
                 size="lg" 
-                className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 transition-transform group"
+                className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
                 onClick={scrollToProjects}
               >
                 <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
@@ -156,7 +162,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="font-display font-semibold px-8 glass-strong border-primary/50 hover:bg-primary/20 transition-all text-foreground"
+                className="font-display font-semibold px-8 glass-strong border-primary/50 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all duration-200 text-foreground btn-bounce"
                 onClick={scrollToContact}
               >
                 Get In Touch
@@ -186,20 +192,24 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right content - Hero Image with Glass overlay */}
+          {/* Right content - Hero Image */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="hidden lg:block relative"
           >
-            {/* Hero image */}
+            {/* Hero image - clean without 3D effect */}
             <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-primary/30 via-transparent to-secondary/20 rounded-3xl blur-2xl" />
+              <div className="absolute -inset-8 bg-gradient-to-br from-primary/20 via-transparent to-secondary/10 rounded-full blur-3xl" />
               <img 
                 src={sahilHero} 
-                alt="Sahil Dev - Software Developer" 
-                className="relative z-10 w-full max-w-md mx-auto rounded-2xl shadow-2xl"
+                alt="Sahil Wadhwani - Software Developer" 
+                className="relative z-10 w-full max-w-lg mx-auto"
+                style={{
+                  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)"
+                }}
               />
               
               {/* Floating badge */}
@@ -211,25 +221,6 @@ const Hero = () => {
                 <span className="text-sm font-display font-bold text-gradient">
                   🔥 Open to Work
                 </span>
-              </motion.div>
-
-              {/* Bottom glass card with code */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="absolute -bottom-6 -left-6 glass-strong rounded-xl p-4 border border-primary/20 z-20 max-w-xs"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
-                  <div className="w-2 h-2 rounded-full bg-secondary" />
-                  <div className="w-2 h-2 rounded-full bg-muted-foreground/50" />
-                </div>
-                <pre className="font-mono text-xs text-muted-foreground">
-                  <code>
-                    <span className="text-primary">const</span> passion = <span className="text-secondary">"Android"</span>;
-                  </code>
-                </pre>
               </motion.div>
             </div>
           </motion.div>

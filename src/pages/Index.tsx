@@ -10,6 +10,8 @@ import GamingSection from "@/components/GamingSection";
 import FavouritesSection from "@/components/FavouritesSection";
 import RunningProjectsSection from "@/components/RunningProjectsSection";
 import InstagramFeed from "@/components/InstagramFeed";
+import SpotifySection from "@/components/SpotifySection";
+import YouTubeSection from "@/components/YouTubeSection";
 
 const Index = () => {
 
@@ -38,6 +40,8 @@ const Index = () => {
       <GamingSection />
       <FavouritesSection />
       <RunningProjectsSection />
+      <SpotifySection />
+      <YouTubeSection />
       <InstagramFeed />
       <ContactSection />
       <Footer />
