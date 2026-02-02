@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Code, Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Heart, Github, Linkedin, Twitter, Instagram, Youtube, ArrowUpRight, Sparkles } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
@@ -7,48 +7,115 @@ const Footer = () => {
     { icon: Linkedin, href: "https://www.linkedin.com/in/sahil-w712", label: "LinkedIn" },
     { icon: Instagram, href: "https://www.instagram.com/__sahil_.27", label: "Instagram" },
     { icon: Twitter, href: "https://x.com/Sahil_701", label: "Twitter" },
+    { icon: Youtube, href: "https://youtube.com/@SahilDev", label: "YouTube" },
   ];
 
+  const quickLinks = [
+    { label: "Home", href: "#hero" },
+    { label: "About", href: "#about" },
+    { label: "Projects", href: "#projects" },
+    { label: "Gaming", href: "#gaming" },
+    { label: "Contact", href: "#contact" },
+  ];
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <footer className="py-12 border-t border-border/50 relative overflow-hidden">
-      {/* Subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent" />
+    <footer className="relative overflow-hidden border-t border-border/30">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center gap-6"
-        >
-          {/* Logo */}
-          <motion.a
-            href="#hero"
-            className="font-display text-2xl font-bold text-gradient"
-            whileHover={{ scale: 1.05 }}
-          >
-            SAHIL DEV
-          </motion.a>
-
-          {/* Social links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.15, y: -3 }}
-                className="p-2 rounded-full glass text-foreground/70 hover:text-primary transition-colors"
-                aria-label={social.label}
-              >
-                <social.icon className="w-4 h-4" />
-              </motion.a>
-            ))}
+        {/* Main footer content */}
+        <div className="py-16 grid md:grid-cols-3 gap-12">
+          {/* Brand column */}
+          <div className="space-y-6">
+            <motion.a
+              href="#hero"
+              onClick={(e) => { e.preventDefault(); scrollToSection('#hero'); }}
+              className="inline-block"
+              whileHover={{ scale: 1.05 }}
+            >
+              <span className="font-display text-3xl font-bold text-gradient">SAHIL DEV</span>
+            </motion.a>
+            <p className="font-body text-muted-foreground text-sm leading-relaxed max-w-xs">
+              Android Developer passionate about creating beautiful, functional apps. 
+              Building the future, one app at a time.
+            </p>
+            
+            {/* Social links */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.15, y: -3 }}
+                  className="p-2.5 rounded-xl glass text-foreground/70 hover:text-primary hover:border-primary/30 transition-all border border-border/50"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-4 h-4" />
+                </motion.a>
+              ))}
+            </div>
           </div>
 
-          {/* Copyright */}
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center">
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h3 className="font-display text-lg font-semibold text-foreground">Quick Links</h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <button
+                    onClick={() => scrollToSection(link.href)}
+                    className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                  >
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact/Status */}
+          <div className="space-y-6">
+            <h3 className="font-display text-lg font-semibold text-foreground">Let's Connect</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl glass border border-primary/20">
+                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="font-body text-sm text-foreground">Available for freelance</span>
+              </div>
+              <a
+                href="mailto:sahil.dev@example.com"
+                className="block font-body text-muted-foreground hover:text-primary transition-colors"
+              >
+                sahilwadhwani49@gmail.com
+              </a>
+              <a
+                href="https://sahildev.odoo.com/gallery"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-body text-primary hover:text-primary/80 transition-colors"
+              >
+                <Sparkles className="w-4 h-4" />
+                View Gallery
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="py-6 border-t border-border/30">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <motion.p 
               className="font-body text-sm text-muted-foreground flex items-center gap-2"
               whileHover={{ scale: 1.02 }}
@@ -57,17 +124,16 @@ const Footer = () => {
               <Heart className="w-4 h-4 text-primary animate-pulse" />{" "}
               and lots of ☕
             </motion.p>
+            
+            <motion.p 
+              className="font-body text-xs text-muted-foreground/60 flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
+            >
+              Made with{" "}
+              <span className="text-gradient font-semibold">Android</span> energy 🤖
+            </motion.p>
           </div>
-          
-          <motion.p 
-            className="font-body text-xs text-muted-foreground/60 flex items-center gap-2"
-            whileHover={{ scale: 1.02 }}
-          >
-            Made with{" "}
-            <Code className="w-3 h-3 text-primary" />{" "}
-            <span className="text-gradient font-semibold">Kotlin</span> energy
-          </motion.p>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

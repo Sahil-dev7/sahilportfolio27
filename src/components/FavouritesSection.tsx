@@ -1,24 +1,26 @@
 import { motion } from "framer-motion";
-import { Heart, Car, Music, ExternalLink } from "lucide-react";
+import { Heart, Car, Music, ExternalLink, Play } from "lucide-react";
 
 const favourites = [
   {
     category: "Dream Car",
     name: "Aston Martin Valkyrie",
     emoji: "🏎️",
+    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop",
     description: "The ultimate hypercar — a Formula 1 car for the road. Pure engineering perfection.",
     url: "https://www.astonmartin.com/en/models/valkyrie",
     icon: Car,
-    gradient: "from-primary/20 to-secondary/10",
+    gradient: "from-primary/30 via-primary/10 to-transparent",
   },
   {
     category: "Favourite Song",
     name: "Udd Ja Parindey",
     emoji: "🎵",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop",
     description: "A melody that speaks to the soul. Freedom, dreams, and the open sky.",
     url: "https://youtu.be/x0rphRfOWeU",
     icon: Music,
-    gradient: "from-secondary/20 to-primary/10",
+    gradient: "from-secondary/30 via-secondary/10 to-transparent",
   },
 ];
 
@@ -51,8 +53,8 @@ const FavouritesSection = () => {
           </p>
         </motion.div>
 
-        {/* Favourites grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Favourites cards grid */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {favourites.map((item, index) => (
             <motion.a
               key={item.name}
@@ -63,36 +65,52 @@ const FavouritesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              whileHover={{ y: -10, scale: 1.02 }}
+              whileHover={{ y: -10 }}
               className="group relative block"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              <div className="relative glass-card rounded-3xl p-8 h-full hover:border-primary/40 transition-all duration-300">
-                {/* Category badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-display font-semibold mb-4">
-                  <item.icon className="w-3 h-3" />
-                  {item.category}
+              {/* Card */}
+              <div className="relative glass-card rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-500">
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${item.gradient}`} />
+                  
+                  {/* Play button overlay for song */}
+                  {item.category === "Favourite Song" && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="p-4 rounded-full bg-primary/80 text-primary-foreground">
+                        <Play className="w-8 h-8" />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Content */}
-                <div className="flex items-start gap-4">
-                  <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
-                    {item.emoji}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
-                      {item.name}
-                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </h3>
-                    <p className="font-body text-muted-foreground text-sm leading-relaxed">
-                      {item.description}
-                    </p>
+                <div className="p-6">
+                  {/* Category badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-display font-semibold mb-3">
+                    <item.icon className="w-3 h-3" />
+                    {item.category}
                   </div>
+                  
+                  {/* Title */}
+                  <h3 className="font-display text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
+                    <span className="text-3xl">{item.emoji}</span>
+                    {item.name}
+                    <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  
+                  <p className="font-body text-muted-foreground text-sm leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
                 
-                {/* Decorative border */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-primary/0 group-hover:border-primary/20 transition-colors duration-300" />
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 rounded-3xl border-2 border-primary/0 group-hover:border-primary/30 transition-colors duration-300 pointer-events-none" />
               </div>
             </motion.a>
           ))}

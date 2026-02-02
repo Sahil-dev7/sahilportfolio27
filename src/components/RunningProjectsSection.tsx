@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
-import { Rocket, CheckCircle2, Clock, ExternalLink, ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Rocket, CheckCircle2, Clock, ExternalLink, ArrowRight, Code2, Palette, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 
 const projects = [
   {
@@ -8,28 +9,32 @@ const projects = [
     status: "current",
     description: "AI-powered spiritual assistant for personalized aarti experiences",
     url: "https://tinyurl.com/Sentientaiaarti",
-    icon: "🤖",
+    icon: Zap,
+    color: "from-violet-500 to-purple-600",
   },
   {
     name: "Portfolio Website",
     status: "completed",
     description: "This very site you're browsing right now!",
     url: "#",
-    icon: "🌐",
+    icon: Palette,
+    color: "from-primary to-red-600",
   },
   {
     name: "Aureo Media Player",
     status: "upcoming",
     description: "Next-gen media player with AI-driven recommendations",
     url: "#",
-    icon: "🎵",
+    icon: Code2,
+    color: "from-amber-500 to-orange-600",
   },
   {
     name: "PC Connect App",
     status: "upcoming",
     description: "Seamlessly bridge your phone and computer",
     url: "#",
-    icon: "💻",
+    icon: Rocket,
+    color: "from-cyan-500 to-blue-600",
   },
 ];
 
@@ -39,25 +44,25 @@ const statusConfig = {
     icon: Rocket,
     color: "text-primary",
     bg: "bg-primary/20",
-    border: "border-primary/40",
   },
   completed: {
     label: "Completed",
     icon: CheckCircle2,
     color: "text-green-400",
     bg: "bg-green-400/20",
-    border: "border-green-400/40",
   },
   upcoming: {
     label: "Upcoming",
     icon: Clock,
     color: "text-secondary",
     bg: "bg-secondary/20",
-    border: "border-secondary/40",
   },
 };
 
 const RunningProjectsSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollXProgress } = useScroll({ container: containerRef });
+
   return (
     <section id="running-projects" className="py-24 relative overflow-hidden">
       {/* Background */}
@@ -72,7 +77,7 @@ const RunningProjectsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <span className="text-primary font-display text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
             <Rocket className="w-4 h-4" />
@@ -87,46 +92,51 @@ const RunningProjectsSection = () => {
           </p>
         </motion.div>
 
-        {/* Projects timeline */}
-        <div className="max-w-3xl mx-auto space-y-6">
+        {/* Horizontal scroll container */}
+        <div 
+          ref={containerRef}
+          className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
+          style={{ scrollBehavior: 'smooth' }}
+        >
           {projects.map((project, index) => {
             const config = statusConfig[project.status as keyof typeof statusConfig];
             const StatusIcon = config.icon;
+            const ProjectIcon = project.icon;
             
             return (
               <motion.div
                 key={project.name}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                className="group relative"
+                className="flex-shrink-0 w-80 snap-start"
               >
-                <div className={`absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                
-                <div className={`relative glass-card rounded-2xl p-6 hover:${config.border} transition-all duration-300`}>
-                  <div className="flex items-start gap-4">
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group relative h-full"
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`} />
+                  
+                  <div className="relative glass-card rounded-2xl p-6 h-full hover:border-primary/40 transition-all duration-300">
                     {/* Icon */}
-                    <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
-                      {project.icon}
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center mb-4`}>
+                      <ProjectIcon className="w-7 h-7 text-white" />
+                    </div>
+                    
+                    {/* Status badge */}
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${config.bg} ${config.color} text-xs font-display font-semibold mb-3`}>
+                      <StatusIcon className="w-3 h-3" />
+                      {config.label}
                     </span>
                     
                     {/* Content */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2 flex-wrap">
-                        <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {project.name}
-                        </h3>
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${config.bg} ${config.color} text-xs font-display font-semibold`}>
-                          <StatusIcon className="w-3 h-3" />
-                          {config.label}
-                        </span>
-                      </div>
-                      <p className="font-body text-muted-foreground text-sm">
-                        {project.description}
-                      </p>
-                    </div>
+                    <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors mb-2">
+                      {project.name}
+                    </h3>
+                    <p className="font-body text-muted-foreground text-sm mb-4">
+                      {project.description}
+                    </p>
                     
                     {/* Link */}
                     {project.url !== "#" && (
@@ -134,16 +144,22 @@ const RunningProjectsSection = () => {
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-full glass opacity-0 group-hover:opacity-100 transition-all hover:bg-primary/20"
+                        className="inline-flex items-center gap-2 text-primary text-sm font-display font-semibold hover:text-primary/80 transition-colors"
                       >
-                        <ExternalLink className="w-4 h-4 text-primary" />
+                        View Project
+                        <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Scroll hint */}
+        <div className="flex items-center justify-center gap-2 mt-4 text-muted-foreground/60">
+          <span className="text-xs font-body">← Scroll →</span>
         </div>
 
         {/* CTA */}
@@ -156,7 +172,7 @@ const RunningProjectsSection = () => {
         >
           <Button
             size="lg"
-            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 transition-transform group"
+            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Got an idea? Let's build together

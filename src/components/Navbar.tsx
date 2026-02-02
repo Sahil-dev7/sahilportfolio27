@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, Gamepad2 } from "lucide-react";
+import { Menu, X, Gamepad2, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const navItems = [
   { label: "Home", href: "#hero" },
@@ -10,6 +11,10 @@ const navItems = [
   { label: "Gaming", href: "#gaming" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
+];
+
+const externalLinks = [
+  { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true },
 ];
 
 const Navbar = () => {
@@ -56,7 +61,7 @@ const Navbar = () => {
             </motion.a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               {navItems.map((item) => (
                 <motion.button
                   key={item.label}
@@ -68,12 +73,28 @@ const Navbar = () => {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                 </motion.button>
               ))}
+              
+              {/* External links */}
+              {externalLinks.map((item) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group flex items-center gap-1"
+                  whileHover={{ y: -2 }}
+                >
+                  <Image className="w-3 h-3" />
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                </motion.a>
+              ))}
             </div>
 
             {/* CTA Button */}
             <div className="hidden md:block">
               <Button
-                className="bg-gradient-primary text-primary-foreground font-display font-semibold shadow-glow hover:scale-105 transition-transform"
+                className="bg-gradient-primary text-primary-foreground font-display font-semibold shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
                 asChild
               >
                 <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
@@ -114,6 +135,19 @@ const Navbar = () => {
               {item.label}
             </motion.button>
           ))}
+          
+          {/* Gallery link */}
+          <motion.a
+            href="https://sahildev.odoo.com/gallery"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display text-2xl font-bold text-foreground flex items-center gap-2"
+            whileHover={{ scale: 1.1 }}
+          >
+            <Image className="w-5 h-5" />
+            Gallery
+          </motion.a>
+          
           <Button
             className="bg-gradient-primary text-primary-foreground font-display font-semibold mt-4"
             asChild

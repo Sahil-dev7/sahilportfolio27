@@ -1,18 +1,22 @@
 import { motion } from "framer-motion";
-import { Gamepad2, Dumbbell, Tv, Target } from "lucide-react";
+import { Gamepad2, Target, Tv, Box } from "lucide-react";
+import nunchucksImage from "@/assets/nunchucks.png";
 
 const interests = [
   {
-    icon: Gamepad2,
+    icon: Box,
     title: "Rubik's Cube",
     description: "Speed cubing enthusiast solving puzzles in seconds. The perfect blend of logic and muscle memory.",
     emoji: "🧩",
+    isRubiksCube: true,
   },
   {
-    icon: Dumbbell,
+    icon: Gamepad2,
     title: "Nunchucks",
     description: "Martial arts meets coordination. There's something meditative about the flow and rhythm.",
     emoji: "🥋",
+    hasImage: true,
+    image: nunchucksImage,
   },
   {
     icon: Target,
@@ -27,6 +31,80 @@ const interests = [
     emoji: "🎬",
   },
 ];
+
+// Rubik's Cube 3D CSS Component
+const RubiksCube3D = () => (
+  <div className="rubiks-cube-container">
+    <div className="rubiks-cube">
+      <div className="face front">
+        <div className="cube-piece" style={{ background: "#ff0000" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ff0000" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ff0000" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ff0000" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ff0000" }} />
+      </div>
+      <div className="face back">
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+        <div className="cube-piece" style={{ background: "#ffa500" }} />
+      </div>
+      <div className="face right">
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+        <div className="cube-piece" style={{ background: "#00ff00" }} />
+      </div>
+      <div className="face left">
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+        <div className="cube-piece" style={{ background: "#0000ff" }} />
+      </div>
+      <div className="face top">
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+        <div className="cube-piece" style={{ background: "#ffff00" }} />
+      </div>
+      <div className="face bottom">
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+        <div className="cube-piece" style={{ background: "#ffffff" }} />
+      </div>
+    </div>
+  </div>
+);
 
 const InterestsSection = () => {
   return (
@@ -70,11 +148,21 @@ const InterestsSection = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="relative glass-card rounded-2xl p-6 h-full hover:border-primary/30 transition-all duration-300">
-                {/* Emoji with glow */}
-                <div className="relative mb-4">
-                  <span className="text-4xl block group-hover:scale-110 transition-transform duration-300">
-                    {interest.emoji}
-                  </span>
+                {/* Visual element */}
+                <div className="relative mb-4 h-16 flex items-center justify-center">
+                  {interest.isRubiksCube ? (
+                    <RubiksCube3D />
+                  ) : interest.hasImage ? (
+                    <img 
+                      src={interest.image} 
+                      alt={interest.title}
+                      className="h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {interest.emoji}
+                    </span>
+                  )}
                   <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
