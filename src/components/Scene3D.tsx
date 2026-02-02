@@ -3,25 +3,24 @@ import { Float, MeshDistortMaterial, Sphere, Torus, Box, Icosahedron } from "@re
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 
-const AnimatedSphere = ({ scrollY }: { scrollY: number }) => {
+const AnimatedSphere = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2 + scrollY * 0.001;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.3 - scrollY * 0.002;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.15;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2;
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <Sphere ref={meshRef} args={[1.5, 64, 64]} position={[2.5, 0, 0]}>
+    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.8}>
+      <Sphere ref={meshRef} args={[1.5, 32, 32]} position={[2.5, 0, 0]}>
         <MeshDistortMaterial
           color="#dc2626"
           attach="material"
-          distort={0.4}
-          speed={2}
+          distort={0.3}
+          speed={1.5}
           roughness={0.2}
           metalness={0.8}
         />
@@ -30,20 +29,19 @@ const AnimatedSphere = ({ scrollY }: { scrollY: number }) => {
   );
 };
 
-const AnimatedTorus = ({ scrollY }: { scrollY: number }) => {
+const AnimatedTorus = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.4 + scrollY * 0.002;
-      meshRef.current.rotation.z = state.clock.elapsedTime * 0.2;
-      meshRef.current.position.x = -3 + Math.sin(state.clock.elapsedTime * 0.3) * 0.5;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3;
+      meshRef.current.rotation.z = state.clock.elapsedTime * 0.15;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
-      <Torus ref={meshRef} args={[0.8, 0.3, 32, 64]} position={[-3, 1, -1]}>
+    <Float speed={1} rotationIntensity={0.5} floatIntensity={0.4}>
+      <Torus ref={meshRef} args={[0.8, 0.3, 16, 32]} position={[-3, 1, -1]}>
         <meshStandardMaterial
           color="#991b1b"
           metalness={0.9}
@@ -56,19 +54,18 @@ const AnimatedTorus = ({ scrollY }: { scrollY: number }) => {
   );
 };
 
-const AnimatedIcosahedron = ({ scrollY }: { scrollY: number }) => {
+const AnimatedIcosahedron = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.5;
-      meshRef.current.rotation.x = scrollY * 0.003;
-      meshRef.current.position.y = -1.5 + Math.cos(state.clock.elapsedTime * 0.4) * 0.3;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.4;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
     }
   });
 
   return (
-    <Float speed={2.5} rotationIntensity={0.8} floatIntensity={0.8}>
+    <Float speed={2} rotationIntensity={0.6} floatIntensity={0.6}>
       <Icosahedron ref={meshRef} args={[0.6, 1]} position={[3.5, -1.5, -2]}>
         <meshStandardMaterial
           color="#f87171"
@@ -81,31 +78,22 @@ const AnimatedIcosahedron = ({ scrollY }: { scrollY: number }) => {
   );
 };
 
-const FloatingCubes = ({ scrollY }: { scrollY: number }) => {
-  const groupRef = useRef<THREE.Group>(null);
-  
+const FloatingCubes = () => {
   const cubes = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => ({
+    return Array.from({ length: 6 }, (_, i) => ({
       position: [
         (Math.random() - 0.5) * 10,
         (Math.random() - 0.5) * 6,
         (Math.random() - 0.5) * 4 - 3,
       ] as [number, number, number],
       scale: Math.random() * 0.3 + 0.1,
-      rotationSpeed: Math.random() * 0.5 + 0.2,
     }));
   }, []);
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = scrollY * 0.0005;
-    }
-  });
-
   return (
-    <group ref={groupRef}>
+    <group>
       {cubes.map((cube, i) => (
-        <Float key={i} speed={1 + i * 0.2} rotationIntensity={0.5}>
+        <Float key={i} speed={0.8 + i * 0.1} rotationIntensity={0.3}>
           <Box args={[cube.scale, cube.scale, cube.scale]} position={cube.position}>
             <meshStandardMaterial
               color="#7f1d1d"
@@ -122,17 +110,17 @@ const FloatingCubes = ({ scrollY }: { scrollY: number }) => {
 };
 
 interface Scene3DProps {
-  scrollY: number;
   className?: string;
 }
 
-const Scene3D = ({ scrollY, className = "" }: Scene3DProps) => {
+const Scene3D = ({ className = "" }: Scene3DProps) => {
   return (
-    <div className={`absolute inset-0 ${className}`}>
+    <div className={`absolute inset-0 ${className}`} style={{ willChange: 'transform' }}>
       <Canvas
         camera={{ position: [0, 0, 6], fov: 60 }}
-        gl={{ antialias: true, alpha: true }}
-        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        dpr={[1, 1.5]}
+        frameloop="demand"
       >
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#ff4444" />
@@ -143,13 +131,12 @@ const Scene3D = ({ scrollY, className = "" }: Scene3DProps) => {
           penumbra={1}
           intensity={2}
           color="#dc2626"
-          castShadow
         />
         
-        <AnimatedSphere scrollY={scrollY} />
-        <AnimatedTorus scrollY={scrollY} />
-        <AnimatedIcosahedron scrollY={scrollY} />
-        <FloatingCubes scrollY={scrollY} />
+        <AnimatedSphere />
+        <AnimatedTorus />
+        <AnimatedIcosahedron />
+        <FloatingCubes />
         
         <fog attach="fog" args={["#0a0a0a", 5, 15]} />
       </Canvas>

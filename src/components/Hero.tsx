@@ -51,7 +51,7 @@ const Hero = () => {
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
       
       {/* 3D Scene */}
-      <Scene3D scrollY={typeof window !== 'undefined' ? window.scrollY : 0} className="opacity-70" />
+      <Scene3D className="opacity-70" />
       
       {/* Animated lines/grid */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
