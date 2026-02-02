@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import InterestsSection from "@/components/InterestsSection";
 import ProjectsSection from "@/components/ProjectsSection";
@@ -13,16 +12,6 @@ import RunningProjectsSection from "@/components/RunningProjectsSection";
 import InstagramFeed from "@/components/InstagramFeed";
 
 const Index = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background grain">
