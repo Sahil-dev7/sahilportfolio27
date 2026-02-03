@@ -1,20 +1,15 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, Gamepad2, Image } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const navItems = [
   { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Gaming", href: "#gaming" },
   { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
-];
-
-const externalLinks = [
+  { label: "Gaming", href: "#gaming" },
   { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
@@ -46,15 +41,15 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "glass-strong py-3 border-b border-border/30" : "py-6"
+          isScrolled ? "glass-strong py-3 border-b border-border/30" : "py-4 sm:py-6"
         }`}
       >
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.a
               href="#"
-              className="font-display text-2xl font-bold text-gradient"
+              className="font-display text-xl sm:text-2xl font-bold text-gradient"
               whileHover={{ scale: 1.05 }}
             >
               SAHIL DEV
@@ -63,31 +58,29 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
               {navItems.map((item) => (
-                <motion.button
-                  key={item.label}
-                  onClick={() => scrollToSection(item.href)}
-                  className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
-                  whileHover={{ y: -2 }}
-                >
-                  {item.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </motion.button>
-              ))}
-              
-              {/* External links */}
-              {externalLinks.map((item) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group flex items-center gap-1"
-                  whileHover={{ y: -2 }}
-                >
-                  <Image className="w-3 h-3" />
-                  {item.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </motion.a>
+                item.external ? (
+                  <motion.a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
+                    whileHover={{ y: -2 }}
+                  >
+                    {item.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                  </motion.a>
+                ) : (
+                  <motion.button
+                    key={item.label}
+                    onClick={() => scrollToSection(item.href)}
+                    className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
+                    whileHover={{ y: -2 }}
+                  >
+                    {item.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                  </motion.button>
+                )
               ))}
             </div>
 
@@ -124,29 +117,31 @@ const Navbar = () => {
         transition={{ duration: 0.3 }}
         className="fixed inset-y-0 right-0 w-3/4 z-40 glass-strong border-l border-border/30 md:hidden"
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
+        <div className="flex flex-col items-center justify-center h-full gap-6">
           {navItems.map((item) => (
-            <motion.button
-              key={item.label}
-              onClick={() => scrollToSection(item.href)}
-              className="font-display text-2xl font-bold text-foreground"
-              whileHover={{ scale: 1.1 }}
-            >
-              {item.label}
-            </motion.button>
+            item.external ? (
+              <motion.a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-display text-xl font-bold text-foreground"
+                whileHover={{ scale: 1.1 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.label}
+              </motion.a>
+            ) : (
+              <motion.button
+                key={item.label}
+                onClick={() => scrollToSection(item.href)}
+                className="font-display text-xl font-bold text-foreground"
+                whileHover={{ scale: 1.1 }}
+              >
+                {item.label}
+              </motion.button>
+            )
           ))}
-          
-          {/* Gallery link */}
-          <motion.a
-            href="https://sahildev.odoo.com/gallery"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-display text-2xl font-bold text-foreground flex items-center gap-2"
-            whileHover={{ scale: 1.1 }}
-          >
-            <Image className="w-5 h-5" />
-            Gallery
-          </motion.a>
           
           <Button
             className="bg-gradient-primary text-primary-foreground font-display font-semibold mt-4"

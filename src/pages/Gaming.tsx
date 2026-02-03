@@ -29,7 +29,7 @@ const games = [
   },
   {
     name: "Getting Over It",
-    logo: "https://upload.wikimedia.org/wikipedia/en/1/1b/Getting_Over_It_with_Bennett_Foddy_cover_art.png",
+    logo: "https://cdn.cloudflare.steamstatic.com/steam/apps/240720/header.jpg",
     description: "A game I made for a certain kind of person. The ultimate test of patience and skill.",
     url: "https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/",
     playtime: "50+ hours",
@@ -40,19 +40,19 @@ const games = [
   },
   {
     name: "BGMI",
-    logo: "https://upload.wikimedia.org/wikipedia/en/9/94/PUBG_Mobile_logo.png",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Battlegrounds_Mobile_India_logo.png/220px-Battlegrounds_Mobile_India_logo.png",
     description: "Battle Royale at its finest. Where legends are born and chickens are earned.",
     url: "https://www.battlegroundsmobileindia.com/",
     playtime: "1000+ hours",
     rating: "9/10",
     genre: "Battle Royale",
-    highlights: ["Crown tier reached", "Squad wins: 200+", "K/D ratio: 4.5"],
+    highlights: ["Conqueror tier reached", "Squad wins: 200+", "K/D ratio: 4.5"],
     playerId: "5697409495",
     color: "from-yellow-500/30 to-yellow-600/10",
   },
   {
     name: "Need for Speed",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/1/17/Need_for_Speed_logo.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Need_for_Speed_2015.jpg/220px-Need_for_Speed_2015.jpg",
     description: "Speed is life. From Most Wanted to Heat, the thrill never ends.",
     url: "https://www.ea.com/games/need-for-speed",
     playtime: "400+ hours",
@@ -80,15 +80,15 @@ const GamingPage = () => {
       <Navbar />
       
       {/* Hero section */}
-      <section className="pt-32 pb-16 relative overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-secondary/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-60 sm:w-80 h-60 sm:h-80 bg-secondary/20 rounded-full blur-3xl" />
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <Link 
             to="/"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6 sm:mb-8 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
@@ -100,34 +100,34 @@ const GamingPage = () => {
             className="max-w-3xl"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-primary/20">
-                <Gamepad2 className="w-8 h-8 text-primary" />
+              <div className="p-2.5 sm:p-3 rounded-xl bg-primary/20">
+                <Gamepad2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
               </div>
-              <span className="font-display text-lg font-semibold text-primary">Player Profile</span>
+              <span className="font-display text-base sm:text-lg font-semibold text-primary">Player Profile</span>
             </div>
             
-            <h1 className="font-display text-4xl md:text-6xl font-bold mb-4">
-              <span className="text-foreground">Player Tag: </span>
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <span className="text-foreground">User name: </span>
               <span className="text-gradient">S A A H O</span>
             </h1>
             
-            <p className="font-body text-lg text-muted-foreground max-w-2xl mb-8">
+            <p className="font-body text-base sm:text-lg text-muted-foreground max-w-2xl mb-6 sm:mb-8">
               Games that defined my journey — from casual sessions to competitive grinds. 
               Each title has its own story, its own challenges, and its own victories.
             </p>
 
             {/* Stats */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               {[
                 { icon: Clock, label: "Total Playtime", value: "2500+ hrs" },
                 { icon: Trophy, label: "Games Completed", value: "50+" },
                 { icon: Star, label: "Avg Rating Given", value: "9/10" },
               ].map((stat) => (
-                <div key={stat.label} className="flex items-center gap-3 px-4 py-3 rounded-xl glass border border-border/50">
-                  <stat.icon className="w-5 h-5 text-primary" />
+                <div key={stat.label} className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl glass border border-border/50">
+                  <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   <div>
-                    <div className="font-display text-lg font-bold text-foreground">{stat.value}</div>
-                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+                    <div className="font-display text-sm sm:text-lg font-bold text-foreground">{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</div>
                   </div>
                 </div>
               ))}
@@ -137,9 +137,9 @@ const GamingPage = () => {
       </section>
 
       {/* Games grid */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-8">
+      <section className="py-12 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {games.map((game, index) => (
               <motion.a
                 key={game.name}
@@ -152,15 +152,15 @@ const GamingPage = () => {
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group block"
               >
-                <div className={`relative glass-card rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-500`}>
+                <div className={`relative glass-card rounded-2xl sm:rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-500`}>
                   {/* Background gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${game.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   
-                  <div className="relative p-6">
+                  <div className="relative p-5 sm:p-6">
                     {/* Header */}
-                    <div className="flex items-start gap-4 mb-4">
+                    <div className="flex items-start gap-3 sm:gap-4 mb-4">
                       {/* Game logo */}
-                      <div className="w-20 h-20 rounded-xl overflow-hidden bg-muted flex-shrink-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted flex-shrink-0">
                         <img
                           src={game.logo}
                           alt={game.name}
@@ -171,12 +171,12 @@ const GamingPage = () => {
                         />
                       </div>
                       
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-display text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                          <h3 className="font-display text-lg sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors truncate">
                             {game.name}
                           </h3>
-                          <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                          <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary flex-shrink-0" />
                         </div>
                         <span className="text-xs font-display text-muted-foreground px-2 py-0.5 rounded-full bg-muted">
                           {game.genre}
@@ -184,25 +184,25 @@ const GamingPage = () => {
                       </div>
                       
                       {/* Rating */}
-                      <div className="text-right">
+                      <div className="text-right flex-shrink-0">
                         <div className="flex items-center gap-1 text-yellow-500">
-                          <Star className="w-4 h-4 fill-current" />
-                          <span className="font-display font-bold">{game.rating}</span>
+                          <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                          <span className="font-display text-sm sm:text-base font-bold">{game.rating}</span>
                         </div>
-                        <div className="text-xs text-muted-foreground">{game.playtime}</div>
+                        <div className="text-[10px] sm:text-xs text-muted-foreground">{game.playtime}</div>
                       </div>
                     </div>
                     
                     {/* Description */}
-                    <p className="font-body text-sm text-muted-foreground mb-4">
+                    <p className="font-body text-xs sm:text-sm text-muted-foreground mb-4">
                       {game.description}
                     </p>
                     
                     {/* Highlights */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5 sm:space-y-2">
                       {game.highlights.map((highlight) => (
-                        <div key={highlight} className="flex items-center gap-2 text-sm">
-                          <Trophy className="w-3 h-3 text-primary" />
+                        <div key={highlight} className="flex items-center gap-2 text-xs sm:text-sm">
+                          <Trophy className="w-3 h-3 text-primary flex-shrink-0" />
                           <span className="text-foreground/80">{highlight}</span>
                         </div>
                       ))}
@@ -210,9 +210,9 @@ const GamingPage = () => {
                     
                     {/* Player ID for BGMI */}
                     {game.playerId && (
-                      <div className="mt-4 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 inline-flex items-center gap-2">
+                      <div className="mt-4 px-3 sm:px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 inline-flex items-center gap-2">
                         <Users className="w-4 h-4 text-primary" />
-                        <span className="font-mono text-sm text-primary font-bold">ID: {game.playerId}</span>
+                        <span className="font-mono text-xs sm:text-sm text-primary font-bold">ID: {game.playerId}</span>
                       </div>
                     )}
                   </div>
@@ -224,30 +224,30 @@ const GamingPage = () => {
       </section>
 
       {/* BGMI ID highlight */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
+      <section className="py-12 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-card rounded-3xl p-12 text-center relative overflow-hidden"
+            className="glass-card rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-transparent to-primary/10" />
             
             <div className="relative z-10">
-              <div className="text-6xl mb-4">🎯</div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              <div className="text-4xl sm:text-6xl mb-4">🎯</div>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
                 <span className="text-foreground">Let's </span>
                 <span className="text-gradient">Squad Up!</span>
               </h2>
-              <p className="font-body text-muted-foreground mb-6 max-w-xl mx-auto">
+              <p className="font-body text-sm sm:text-base text-muted-foreground mb-6 max-w-xl mx-auto">
                 Add me on BGMI and let's drop together. Winner winner chicken dinner! 🍗
               </p>
-              <div className="inline-flex items-center gap-4 px-8 py-4 glass-strong rounded-2xl border border-primary/30">
-                <span className="text-3xl">🎮</span>
+              <div className="inline-flex items-center gap-3 sm:gap-4 px-6 sm:px-8 py-3 sm:py-4 glass-strong rounded-xl sm:rounded-2xl border border-primary/30">
+                <span className="text-2xl sm:text-3xl">🎮</span>
                 <div>
-                  <div className="text-xs text-muted-foreground font-body">BGMI Player ID</div>
-                  <div className="font-display text-2xl font-bold text-gradient">5697409495</div>
+                  <div className="text-[10px] sm:text-xs text-muted-foreground font-body">BGMI Player ID</div>
+                  <div className="font-display text-lg sm:text-2xl font-bold text-gradient">5697409495</div>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Github, Linkedin, Twitter, Instagram, Youtube, ArrowUpRight, Sparkles } from "lucide-react";
+import { Heart, Github, Linkedin, Twitter, Instagram, Youtube, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
@@ -31,18 +31,18 @@ const Footer = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Main footer content */}
-        <div className="py-16 grid md:grid-cols-3 gap-12">
+        <div className="py-12 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
           {/* Brand column */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 sm:col-span-2 lg:col-span-1">
             <motion.a
               href="#hero"
               onClick={(e) => { e.preventDefault(); scrollToSection('#hero'); }}
               className="inline-block"
               whileHover={{ scale: 1.05 }}
             >
-              <span className="font-display text-3xl font-bold text-gradient">SAHIL DEV</span>
+              <span className="font-display text-2xl sm:text-3xl font-bold text-gradient">SAHIL DEV</span>
             </motion.a>
             <p className="font-body text-muted-foreground text-sm leading-relaxed max-w-xs">
               Android Developer passionate about creating beautiful, functional apps. 
@@ -50,7 +50,7 @@ const Footer = () => {
             </p>
             
             {/* Social links */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
@@ -58,7 +58,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, y: -3 }}
-                  className="p-2.5 rounded-xl glass text-foreground/70 hover:text-primary hover:border-primary/30 transition-all border border-border/50"
+                  className="p-2 sm:p-2.5 rounded-xl glass text-foreground/70 hover:text-primary hover:border-primary/30 transition-all border border-border/50"
                   aria-label={social.label}
                 >
                   <social.icon className="w-4 h-4" />
@@ -68,14 +68,14 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-6">
-            <h3 className="font-display text-lg font-semibold text-foreground">Quick Links</h3>
-            <ul className="space-y-3">
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="font-display text-base sm:text-lg font-semibold text-foreground">Quick Links</h3>
+            <ul className="space-y-2 sm:space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                    className="font-body text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
                   >
                     <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                     {link.label}
@@ -85,27 +85,40 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact/Status */}
-          <div className="space-y-6">
-            <h3 className="font-display text-lg font-semibold text-foreground">Let's Connect</h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 px-4 py-3 rounded-xl glass border border-primary/20">
+          {/* Contact Info */}
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="font-display text-base sm:text-lg font-semibold text-foreground">Contact</h3>
+            <ul className="space-y-3 sm:space-y-4">
+              <li>
+                <a
+                  href="mailto:sahilwadhwani49@gmail.com"
+                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-primary" />
+                  sahilwadhwani49@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                <MapPin className="w-4 h-4 text-primary" />
+                India
+              </li>
+            </ul>
+          </div>
+
+          {/* Status */}
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="font-display text-base sm:text-lg font-semibold text-foreground">Status</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl glass border border-primary/20">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="font-body text-sm text-foreground">Available for freelance</span>
+                <span className="font-body text-xs sm:text-sm text-foreground">Available for freelance</span>
               </div>
-              <a
-                href="mailto:sahil.dev@example.com"
-                className="block font-body text-muted-foreground hover:text-primary transition-colors"
-              >
-                sahilwadhwani49@gmail.com
-              </a>
               <a
                 href="https://sahildev.odoo.com/gallery"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-body text-primary hover:text-primary/80 transition-colors"
+                className="inline-flex items-center gap-2 font-body text-sm text-primary hover:text-primary/80 transition-colors"
               >
-                <Sparkles className="w-4 h-4" />
                 View Gallery
                 <ArrowUpRight className="w-3 h-3" />
               </a>
@@ -114,23 +127,22 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="py-6 border-t border-border/30">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div className="py-4 sm:py-6 border-t border-border/30">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
             <motion.p 
-              className="font-body text-sm text-muted-foreground flex items-center gap-2"
+              className="font-body text-xs sm:text-sm text-muted-foreground flex items-center gap-2"
               whileHover={{ scale: 1.02 }}
             >
-              © 2025 Sahil Wadhwani — Designed & Built with{" "}
-              <Heart className="w-4 h-4 text-primary animate-pulse" />{" "}
-              and lots of ☕
+              © 2025 Sahil Wadhwani — Built with{" "}
+              <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-primary animate-pulse" />{" "}
+              and ☕
             </motion.p>
             
             <motion.p 
-              className="font-body text-xs text-muted-foreground/60 flex items-center gap-2"
+              className="font-body text-xs text-muted-foreground/60"
               whileHover={{ scale: 1.02 }}
             >
-              Made with{" "}
-              <span className="text-gradient font-semibold">Android</span> energy 🤖
+              Made with <span className="text-gradient font-semibold">React + Tailwind</span> 
             </motion.p>
           </div>
         </div>

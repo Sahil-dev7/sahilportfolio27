@@ -5,6 +5,9 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {
@@ -302,7 +305,7 @@ html {
   display: none;
 }
 
-/* Rubik's Cube 3D */
+/* Rubik's Cube 3D - Small version */
 .rubiks-cube-container {
   perspective: 200px;
   width: 50px;
@@ -341,6 +344,62 @@ html {
 .rubiks-cube .left { transform: rotateY(-90deg) translateZ(25px); }
 .rubiks-cube .top { transform: rotateX(90deg) translateZ(25px); }
 .rubiks-cube .bottom { transform: rotateX(-90deg) translateZ(25px); }
+
+/* Rubik's Cube 3D - Large version for interests section */
+.rubiks-cube-container-large {
+  perspective: 400px;
+  width: 100px;
+  height: 100px;
+}
+
+@media (min-width: 640px) {
+  .rubiks-cube-container-large {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.rubiks-cube-large {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rubiks-rotate 10s ease-in-out infinite;
+}
+
+.rubiks-cube-large .face-large {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  padding: 4px;
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+.rubiks-cube-large .cube-piece-large {
+  border-radius: 4px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+}
+
+.rubiks-cube-large .front-large { transform: translateZ(50px); }
+.rubiks-cube-large .back-large { transform: rotateY(180deg) translateZ(50px); }
+.rubiks-cube-large .right-large { transform: rotateY(90deg) translateZ(50px); }
+.rubiks-cube-large .left-large { transform: rotateY(-90deg) translateZ(50px); }
+.rubiks-cube-large .top-large { transform: rotateX(90deg) translateZ(50px); }
+.rubiks-cube-large .bottom-large { transform: rotateX(-90deg) translateZ(50px); }
+
+@media (min-width: 640px) {
+  .rubiks-cube-large .front-large { transform: translateZ(60px); }
+  .rubiks-cube-large .back-large { transform: rotateY(180deg) translateZ(60px); }
+  .rubiks-cube-large .right-large { transform: rotateY(90deg) translateZ(60px); }
+  .rubiks-cube-large .left-large { transform: rotateY(-90deg) translateZ(60px); }
+  .rubiks-cube-large .top-large { transform: rotateX(90deg) translateZ(60px); }
+  .rubiks-cube-large .bottom-large { transform: rotateX(-90deg) translateZ(60px); }
+}
 
 @keyframes rubiks-rotate {
   0%, 100% { transform: rotateX(-20deg) rotateY(-20deg); }

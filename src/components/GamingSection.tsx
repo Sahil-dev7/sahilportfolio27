@@ -20,22 +20,22 @@ const games = [
   },
   {
     name: "Getting Over It",
-    logo: "https://upload.wikimedia.org/wikipedia/en/1/1b/Getting_Over_It_with_Bennett_Foddy_cover_art.png",
+    logo: "https://cdn.cloudflare.steamstatic.com/steam/apps/240720/header.jpg",
     description: "A game I made for a certain kind of person",
     url: "https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/",
     color: "from-orange-500/20 to-orange-600/10",
   },
   {
     name: "BGMI",
-    logo: "https://upload.wikimedia.org/wikipedia/en/9/94/PUBG_Mobile_logo.png",
-    description: "Battle Royale - ID: 5697409495",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Battlegrounds_Mobile_India_logo.png/220px-Battlegrounds_Mobile_India_logo.png",
+    description: "Battle Royale - Conqueror Rank",
     url: "https://www.battlegroundsmobileindia.com/",
     color: "from-yellow-500/20 to-yellow-600/10",
   },
   {
     name: "Need for Speed",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/1/17/Need_for_Speed_logo.svg",
-    description: "Highest Rank achieved - Speed is life",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Need_for_Speed_2015.jpg/220px-Need_for_Speed_2015.jpg",
+    description: "Speed is life - Racing enthusiast",
     url: "https://www.ea.com/games/need-for-speed",
     color: "from-blue-500/20 to-blue-600/10",
   },
@@ -50,37 +50,37 @@ const games = [
 
 const GamingSection = () => {
   return (
-    <section id="gaming" className="py-24 relative overflow-hidden">
+    <section id="gaming" className="py-16 sm:py-24 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="text-primary font-display text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
             <Gamepad2 className="w-4 h-4" />
             Gaming World
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-2">
-            <span className="text-foreground">Player Tag: </span>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
+            <span className="text-foreground">User name: </span>
             <span className="text-gradient">S A A H O</span>
           </h2>
-          <p className="text-muted-foreground font-body text-lg max-w-2xl mx-auto mt-4">
+          <p className="text-muted-foreground font-body text-base sm:text-lg max-w-2xl mx-auto mt-4">
             Games that defined my journey — from casual to competitive. 
             Each title has its own story, its own grind, and its own glory.
           </p>
         </motion.div>
 
         {/* Games grid with real logos */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {games.map((game, index) => (
             <motion.a
               key={game.name}
@@ -96,9 +96,9 @@ const GamingSection = () => {
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${game.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               
-              <div className="relative glass-card rounded-2xl p-6 h-full hover:border-primary/40 transition-all duration-300 flex flex-col">
+              <div className="relative glass-card rounded-2xl p-5 sm:p-6 h-full hover:border-primary/40 transition-all duration-300 flex flex-col">
                 {/* Game logo */}
-                <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted mb-4 flex-shrink-0">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted mb-4 flex-shrink-0">
                   <img
                     src={game.logo}
                     alt={game.name}
@@ -110,11 +110,11 @@ const GamingSection = () => {
                 </div>
                 
                 {/* Game info */}
-                <h3 className="font-display text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
                   {game.name}
                   <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </h3>
-                <p className="font-body text-sm text-muted-foreground flex-1">
+                <p className="font-body text-xs sm:text-sm text-muted-foreground flex-1">
                   {game.description}
                 </p>
                 
@@ -131,11 +131,11 @@ const GamingSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6"
+          className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 glass-strong rounded-full border border-primary/30">
-            <span className="text-2xl">🎯</span>
-            <span className="font-display text-foreground">
+          <div className="inline-flex items-center gap-3 px-4 sm:px-6 py-2 sm:py-3 glass-strong rounded-full border border-primary/30">
+            <span className="text-xl sm:text-2xl">🎯</span>
+            <span className="font-display text-sm sm:text-base text-foreground">
               BGMI ID: <span className="text-primary font-bold">5697409495</span>
             </span>
           </div>
@@ -143,7 +143,7 @@ const GamingSection = () => {
           <Button
             asChild
             size="lg"
-            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
+            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-6 sm:px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
           >
             <Link to="/gaming">
               View Full Gaming Profile
