@@ -1,7 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Rocket, CheckCircle2, Clock, ExternalLink, ArrowRight, Code2, Palette, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
 
 const projects = [
   {
@@ -60,17 +59,14 @@ const statusConfig = {
 };
 
 const RunningProjectsSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollXProgress } = useScroll({ container: containerRef });
-
   return (
-    <section id="running-projects" className="py-24 relative overflow-hidden">
+    <section id="running-projects" className="py-16 sm:py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/3 to-background" />
       <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -83,19 +79,18 @@ const RunningProjectsSection = () => {
             <Rocket className="w-4 h-4" />
             Current Focus
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-2">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
             <span className="text-foreground">Running </span>
             <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-muted-foreground font-body text-lg max-w-2xl mx-auto mt-4">
+          <p className="text-muted-foreground font-body text-base sm:text-lg max-w-2xl mx-auto mt-4">
             What I'm building right now, what's done, and what's coming next.
           </p>
         </motion.div>
 
         {/* Horizontal scroll container */}
         <div 
-          ref={containerRef}
-          className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
+          className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0"
           style={{ scrollBehavior: 'smooth' }}
         >
           {projects.map((project, index) => {
@@ -110,7 +105,7 @@ const RunningProjectsSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex-shrink-0 w-80 snap-start"
+                className="flex-shrink-0 w-72 sm:w-80 snap-start"
               >
                 <motion.div
                   whileHover={{ y: -8, scale: 1.02 }}
@@ -118,10 +113,10 @@ const RunningProjectsSection = () => {
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${project.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`} />
                   
-                  <div className="relative glass-card rounded-2xl p-6 h-full hover:border-primary/40 transition-all duration-300">
+                  <div className="relative glass-card rounded-2xl p-5 sm:p-6 h-full hover:border-primary/40 transition-all duration-300">
                     {/* Icon */}
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center mb-4`}>
-                      <ProjectIcon className="w-7 h-7 text-white" />
+                    <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center mb-4`}>
+                      <ProjectIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                     </div>
                     
                     {/* Status badge */}
@@ -131,10 +126,10 @@ const RunningProjectsSection = () => {
                     </span>
                     
                     {/* Content */}
-                    <h3 className="font-display text-xl font-bold text-foreground group-hover:text-primary transition-colors mb-2">
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-foreground group-hover:text-primary transition-colors mb-2">
                       {project.name}
                     </h3>
-                    <p className="font-body text-muted-foreground text-sm mb-4">
+                    <p className="font-body text-muted-foreground text-xs sm:text-sm mb-4">
                       {project.description}
                     </p>
                     
@@ -168,11 +163,11 @@ const RunningProjectsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="text-center mt-12"
+          className="text-center mt-10 sm:mt-12"
         >
           <Button
             size="lg"
-            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
+            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-6 sm:px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Got an idea? Let's build together

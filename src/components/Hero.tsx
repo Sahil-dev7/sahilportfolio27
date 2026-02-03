@@ -69,17 +69,17 @@ const Hero = () => {
       
       <motion.div 
         style={{ opacity, scale }}
-        className="container mx-auto px-6 relative z-10"
+        className="container mx-auto px-4 sm:px-6 relative z-10"
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left content */}
-          <div className="max-w-2xl">
+          <div className="max-w-2xl order-2 lg:order-1">
             {/* Intro badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-strong mb-8 border border-primary/30"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-strong mb-6 border border-primary/30"
             >
               <Sparkles className="w-4 h-4 text-primary animate-pulse" />
               <span className="text-sm text-foreground font-body font-medium">Available for opportunities</span>
@@ -90,17 +90,17 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-primary font-display text-xl font-semibold mb-2"
+              className="text-primary font-display text-lg sm:text-xl font-semibold mb-2"
             >
               Hi, I'm
             </motion.p>
 
-            {/* Main heading - Fixed overlap */}
+            {/* Main heading */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 leading-tight"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-3 leading-tight"
             >
               <span className="text-gradient block">Sahil Wadhwani</span>
             </motion.h1>
@@ -110,24 +110,24 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-display text-xl md:text-2xl text-primary font-semibold mb-6"
+              className="font-display text-lg sm:text-xl md:text-2xl text-primary font-semibold mb-4"
             >
               Software Developer
             </motion.p>
 
-            {/* Passion badge - Moved up */}
+            {/* Passion badge - Code snippet style */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.22 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass-strong border border-primary/20 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass-strong border border-primary/20 mb-4"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-primary" />
                 <div className="w-2 h-2 rounded-full bg-secondary" />
                 <div className="w-2 h-2 rounded-full bg-muted-foreground/50" />
               </div>
-              <pre className="font-mono text-xs text-muted-foreground">
+              <pre className="font-mono text-xs sm:text-sm text-muted-foreground">
                 <code>
                   <span className="text-primary">const</span> passion = <span className="text-secondary">"Android"</span>;
                 </code>
@@ -139,7 +139,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="font-body text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed"
+              className="font-body text-base sm:text-lg text-muted-foreground max-w-xl mb-6 leading-relaxed"
             >
               Turning ideas into reality through clean code, scalable systems, and sleek UIs — one project at a time.
             </motion.p>
@@ -149,11 +149,11 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4 mb-10"
+              className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8"
             >
               <Button 
                 size="lg" 
-                className="bg-gradient-primary text-primary-foreground font-display font-semibold px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
+                className="bg-gradient-primary text-primary-foreground font-display font-semibold px-6 sm:px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 group btn-bounce"
                 onClick={scrollToProjects}
               >
                 <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
@@ -162,7 +162,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="font-display font-semibold px-8 glass-strong border-primary/50 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all duration-200 text-foreground btn-bounce"
+                className="font-display font-semibold px-6 sm:px-8 glass-strong border-primary/50 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all duration-200 text-foreground btn-bounce"
                 onClick={scrollToContact}
               >
                 Get In Touch
@@ -174,7 +174,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center gap-4"
+              className="flex items-center gap-3"
             >
               {socialLinks.map((social) => (
                 <motion.a
@@ -183,10 +183,10 @@ const Hero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, y: -3 }}
-                  className="p-3 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/50 transition-colors border border-border/50"
+                  className="p-2.5 sm:p-3 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/50 transition-colors border border-border/50"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               ))}
             </motion.div>
@@ -197,18 +197,18 @@ const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block relative"
+            className="relative order-1 lg:order-2 flex justify-center lg:block"
           >
-            {/* Hero image - clean without 3D effect */}
+            {/* Hero image - larger and blended */}
             <div className="relative">
-              <div className="absolute -inset-8 bg-gradient-to-br from-primary/20 via-transparent to-secondary/10 rounded-full blur-3xl" />
+              <div className="absolute -inset-12 bg-gradient-to-br from-primary/30 via-transparent to-secondary/20 rounded-full blur-3xl" />
               <img 
                 src={sahilHero} 
                 alt="Sahil Wadhwani - Software Developer" 
-                className="relative z-10 w-full max-w-lg mx-auto"
+                className="relative z-10 w-64 sm:w-80 md:w-96 lg:w-[450px] xl:w-[500px] h-auto mx-auto object-contain"
                 style={{
-                  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)"
+                  maskImage: "linear-gradient(to bottom, black 70%, transparent 98%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 98%)"
                 }}
               />
               
@@ -216,9 +216,9 @@ const Hero = () => {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -top-4 -right-4 glass-strong rounded-xl px-4 py-2 border border-primary/30 z-20"
+                className="absolute top-0 right-0 sm:-top-4 sm:-right-4 glass-strong rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 border border-primary/30 z-20"
               >
-                <span className="text-sm font-display font-bold text-gradient">
+                <span className="text-xs sm:text-sm font-display font-bold text-gradient">
                   🔥 Open to Work
                 </span>
               </motion.div>
@@ -231,7 +231,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:block"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}

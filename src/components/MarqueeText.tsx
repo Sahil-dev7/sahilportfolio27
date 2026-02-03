@@ -17,7 +17,7 @@ const MarqueeText = ({ text, className = "" }: MarqueeTextProps) => {
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: 20,
+            duration: 40, // Slower speed
             ease: "linear",
           },
         }}
@@ -25,7 +25,7 @@ const MarqueeText = ({ text, className = "" }: MarqueeTextProps) => {
         {items.map((item, index) => (
           <span
             key={index}
-            className="mx-8 font-display text-6xl md:text-8xl font-bold text-transparent"
+            className="mx-6 sm:mx-8 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent"
             style={{
               WebkitTextStroke: "1px hsl(0 85% 55% / 0.3)",
             }}
@@ -36,7 +36,7 @@ const MarqueeText = ({ text, className = "" }: MarqueeTextProps) => {
         {items.map((item, index) => (
           <span
             key={`duplicate-${index}`}
-            className="mx-8 font-display text-6xl md:text-8xl font-bold text-transparent"
+            className="mx-6 sm:mx-8 font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent"
             style={{
               WebkitTextStroke: "1px hsl(0 85% 55% / 0.3)",
             }}
