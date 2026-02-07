@@ -8,7 +8,6 @@ import Navbar from "@/components/Navbar";
 import MarqueeText from "@/components/MarqueeText";
 import GamingSection from "@/components/GamingSection";
 import FavouritesSection from "@/components/FavouritesSection";
-import RunningProjectsSection from "@/components/RunningProjectsSection";
 import InstagramFeed from "@/components/InstagramFeed";
 import SpotifySection from "@/components/SpotifySection";
 import YouTubeSection from "@/components/YouTubeSection";
@@ -16,7 +15,7 @@ import YouTubeSection from "@/components/YouTubeSection";
 const Index = () => {
 
   return (
-    <div className="min-h-screen bg-background grain">
+    <div className="min-h-screen bg-background grain overflow-x-hidden">
       {/* Navigation */}
       <Navbar />
       
@@ -24,7 +23,7 @@ const Index = () => {
       <Hero />
       
       {/* Scrolling marquee divider */}
-      <div className="py-8 border-y border-border/30 overflow-hidden">
+      <div className="py-6 sm:py-8 border-y border-border/30 overflow-hidden">
         <MarqueeText text="SAHIL DEV • ANDROID • KOTLIN • CREATOR • INNOVATOR • GAMER" />
       </div>
       
@@ -32,14 +31,13 @@ const Index = () => {
       <ProjectsSection />
       
       {/* Another marquee */}
-      <div className="py-6 overflow-hidden">
+      <div className="py-4 sm:py-6 overflow-hidden">
         <MarqueeText text="FIREBASE • JETPACK COMPOSE • MATERIAL DESIGN • MVVM • CLEAN CODE" />
       </div>
       
       <SkillsSection />
       <GamingSection />
       <FavouritesSection />
-      <RunningProjectsSection />
       <SpotifySection />
       <YouTubeSection />
       <InstagramFeed />
