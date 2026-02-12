@@ -27,14 +27,14 @@ const games = [
   },
   {
     name: "BGMI",
-    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Battlegrounds_Mobile_India_logo.png/220px-Battlegrounds_Mobile_India_logo.png",
+    logo: "https://www.seekpng.com/png/detail/889-8897281_pubg-logo-png.png",
     description: "Battle Royale - Conqueror Rank",
     url: "https://www.battlegroundsmobileindia.com/",
     color: "from-yellow-500/20 to-yellow-600/10",
   },
   {
     name: "Need for Speed",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Need_for_Speed_2015.jpg/220px-Need_for_Speed_2015.jpg",
+    logo: "https://wallpapers.com/images/featured-full/iphone-xs-max-need-for-speed-heat-background-3whzpe7dasppzbv0.jpg",
     description: "Speed is life - Racing enthusiast",
     url: "https://www.ea.com/games/need-for-speed",
     color: "from-blue-500/20 to-blue-600/10",
@@ -51,36 +51,32 @@ const games = [
 const GamingSection = () => {
   return (
     <section id="gaming" className="py-16 sm:py-24 relative overflow-hidden">
-      {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
+      <div className="absolute inset-0 gradient-blinds opacity-15" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-8 sm:mb-12"
         >
-          <span className="text-primary font-display text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
-            <Gamepad2 className="w-4 h-4" />
+          <span className="text-primary font-display text-xs sm:text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
+            <Gamepad2 className="w-3 h-3 sm:w-4 sm:h-4" />
             Gaming World
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-2">
             <span className="text-foreground">User name: </span>
             <span className="text-gradient">S A A H O</span>
           </h2>
-          <p className="text-muted-foreground font-body text-base sm:text-lg max-w-2xl mx-auto mt-4">
-            Games that defined my journey — from casual to competitive. 
-            Each title has its own story, its own grind, and its own glory.
+          <p className="text-muted-foreground font-body text-xs sm:text-sm md:text-base max-w-2xl mx-auto mt-3">
+            Games that defined my journey — from casual to competitive.
           </p>
         </motion.div>
 
-        {/* Games grid with real logos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Games grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
           {games.map((game, index) => (
             <motion.a
               key={game.name}
@@ -90,64 +86,63 @@ const GamingSection = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ y: -8, scale: 1.02 }}
               className="group relative block"
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${game.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               
-              <div className="relative glass-card rounded-2xl p-5 sm:p-6 h-full hover:border-primary/40 transition-all duration-300 flex flex-col">
-                {/* Game logo */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted mb-4 flex-shrink-0">
+              <div className="relative glass-card rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-300">
+                {/* Full card background image */}
+                <div className="relative h-32 sm:h-40 md:h-48 overflow-hidden">
                   <img
                     src={game.logo}
                     alt={game.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="80">🎮</text></svg>';
                     }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                    <h3 className="font-display text-xs sm:text-sm md:text-base font-bold text-white mb-0.5 flex items-center gap-1.5">
+                      {game.name}
+                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </h3>
+                    <p className="font-body text-[10px] sm:text-xs text-white/70 line-clamp-1">
+                      {game.description}
+                    </p>
+                  </div>
                 </div>
-                
-                {/* Game info */}
-                <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
-                  {game.name}
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <p className="font-body text-xs sm:text-sm text-muted-foreground flex-1">
-                  {game.description}
-                </p>
-                
-                {/* Hover glow border */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-primary/0 group-hover:border-primary/30 transition-colors duration-300" />
               </div>
             </motion.a>
           ))}
         </div>
 
-        {/* BGMI ID highlight + View all */}
+        {/* BGMI ID + CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+          className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5"
         >
-          <div className="inline-flex items-center gap-3 px-4 sm:px-6 py-2 sm:py-3 glass-strong rounded-full border border-primary/30">
-            <span className="text-xl sm:text-2xl">🎯</span>
-            <span className="font-display text-sm sm:text-base text-foreground">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-5 py-2 glass-strong rounded-full border border-primary/30">
+            <span className="text-lg sm:text-xl">🎯</span>
+            <span className="font-display text-xs sm:text-sm text-foreground">
               BGMI ID: <span className="text-primary font-bold">5697409495</span>
             </span>
           </div>
           
           <Button
             asChild
-            size="lg"
-            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-6 sm:px-8 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
+            size="sm"
+            className="bg-gradient-primary text-primary-foreground font-display font-semibold px-4 sm:px-6 shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce text-xs sm:text-sm"
           >
             <Link to="/gaming">
               View Full Gaming Profile
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1.5" />
             </Link>
           </Button>
         </motion.div>

@@ -16,35 +16,32 @@ const ContactSection = () => {
   const mocktaleUrl = "https://www.moctale.in/u/MenOfCulture_2";
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
-      {/* Background effects */}
+    <section id="contact" className="py-16 sm:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-glow opacity-40" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
+          className="max-w-2xl mx-auto text-center"
         >
-          {/* Section header */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-strong border border-primary/30 mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-strong border border-primary/30 mb-4 sm:mb-6"
           >
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-sm text-foreground font-body font-medium">Let's Connect</span>
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary animate-pulse" />
+            <span className="text-xs sm:text-sm text-foreground font-body font-medium">Let's Connect</span>
           </motion.div>
           
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
             <span className="text-foreground">Got an Idea? </span>
             <span className="text-gradient">Let's Talk!</span>
           </h2>
-          <p className="text-muted-foreground font-body text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-muted-foreground font-body text-xs sm:text-sm md:text-base mb-6 sm:mb-8 max-w-xl mx-auto">
             Whether it's about a project, collaboration, or just want to say hi — my inbox is always open.
           </p>
 
@@ -54,31 +51,28 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap items-center justify-center gap-4 mb-10"
+            className="flex flex-wrap items-center justify-center gap-3 mb-6 sm:mb-8"
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/50 rounded-full blur-xl animate-pulse" />
-              <Button 
-                size="lg" 
-                className="relative bg-gradient-primary text-primary-foreground font-display font-semibold px-10 py-6 text-lg shadow-glow hover:scale-105 transition-transform group"
-                asChild
-              >
-                <a href="mailto:sahilwadhwani7@gmail.com">
-                  <Send className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
-                  Say Hello
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
-            </div>
+            <Button 
+              size="lg" 
+              className="bg-gradient-primary text-primary-foreground font-display font-semibold px-6 sm:px-8 text-sm sm:text-base shadow-glow hover:scale-105 transition-transform group h-10 sm:h-12"
+              asChild
+            >
+              <a href="mailto:sahilwadhwani712@gmail.com">
+                <Send className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+                Say Hello
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </Button>
             
             <Button 
               size="lg" 
               variant="outline"
-              className="font-display font-semibold px-8 py-6 text-lg glass-strong border-primary/50 hover:bg-primary/20 text-foreground"
+              className="font-display font-semibold px-6 sm:px-8 text-sm sm:text-base glass-strong border-primary/50 hover:bg-primary/20 text-foreground h-10 sm:h-12"
               asChild
             >
               <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                <FileText className="mr-2 h-5 w-5" />
+                <FileText className="mr-2 h-4 w-4" />
                 Resume/CV
               </a>
             </Button>
@@ -90,7 +84,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-4 flex-wrap"
+            className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
           >
             {socials.map((social, index) => (
               <motion.a
@@ -101,12 +95,12 @@ const ContactSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.4 + index * 0.1 }}
+                transition={{ delay: 0.4 + index * 0.08 }}
                 whileHover={{ scale: 1.15, y: -5 }}
-                className="p-3 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/30 transition-all border border-border/50"
+                className="p-2 sm:p-2.5 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/30 transition-all border border-border/50"
                 aria-label={social.label}
               >
-                <social.icon className="w-5 h-5" />
+                <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.a>
             ))}
           </motion.div>
@@ -116,32 +110,31 @@ const ContactSection = () => {
             href={mocktaleUrl}
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="inline-flex items-center gap-2 mt-6 text-muted-foreground hover:text-primary transition-colors font-body"
+            className="inline-flex items-center gap-2 mt-4 sm:mt-6 text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors font-body"
           >
-            <span>Also on</span>
-            <span className="font-semibold text-foreground">Mocktale</span>
-            <ArrowRight className="w-4 h-4" />
+            Also on <span className="font-semibold text-foreground">Mocktale</span>
+            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
           </motion.a>
 
-          {/* Availability badge */}
+          {/* Availability */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-12"
+            className="mt-6 sm:mt-8"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-strong border border-border/50 text-sm">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-strong border border-border/50 text-[10px] sm:text-xs">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
               <span className="font-body text-foreground">
-                Open to <span className="text-primary font-semibold">freelance</span> & <span className="text-primary font-semibold">full-time</span> opportunities
+                Open to <span className="text-primary font-semibold">freelance</span> & <span className="text-primary font-semibold">full-time</span>
               </span>
             </span>
           </motion.div>
