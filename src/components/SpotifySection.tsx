@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Music, Headphones } from "lucide-react";
+import { Headphones } from "lucide-react";
 import { useRef } from "react";
 
 const SpotifySection = () => {
@@ -9,38 +9,33 @@ const SpotifySection = () => {
     offset: ["start end", "end start"]
   });
 
-  // Smooth width animation based on scroll
-  const width = useTransform(scrollYProgress, [0, 0.5, 1], ["40%", "80%", "40%"]);
+  const width = useTransform(scrollYProgress, [0, 0.5, 1], ["50%", "90%", "50%"]);
 
   return (
-    <section ref={sectionRef} id="spotify" className="py-24 relative overflow-hidden">
-      {/* Background */}
+    <section ref={sectionRef} id="spotify" className="py-16 sm:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-green-500/5 to-background" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section header */}
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <span className="text-green-500 font-display text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
-            <Headphones className="w-4 h-4" />
+          <span className="text-green-500 font-display text-xs sm:text-sm font-semibold uppercase tracking-widest flex items-center justify-center gap-2">
+            <Headphones className="w-3 h-3 sm:w-4 sm:h-4" />
             Currently Vibing
           </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-2">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-2">
             <span className="text-foreground">My </span>
             <span className="text-gradient">Playlist</span>
           </h2>
-          <p className="text-muted-foreground font-body text-lg max-w-2xl mx-auto mt-4">
+          <p className="text-muted-foreground font-body text-xs sm:text-sm md:text-base max-w-2xl mx-auto mt-3">
             Music that fuels my coding sessions and creative flow.
           </p>
         </motion.div>
 
-        {/* Spotify embed with dynamic width */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -50,7 +45,7 @@ const SpotifySection = () => {
         >
           <motion.div
             style={{ width }}
-            className="glass-card rounded-2xl p-4 transition-all duration-700 ease-out min-w-[300px] max-w-4xl"
+            className="glass-card rounded-2xl p-3 sm:p-4 transition-all duration-700 ease-out min-w-[280px] max-w-4xl"
           >
             <iframe 
               style={{ borderRadius: "12px" }}
@@ -65,22 +60,6 @@ const SpotifySection = () => {
             />
           </motion.div>
         </motion.div>
-
-        {/* Music note decorations */}
-        <div className="flex justify-center gap-4 mt-8">
-          {["🎵", "🎶", "🎧", "🎸", "🎹"].map((emoji, index) => (
-            <motion.span
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="text-2xl"
-            >
-              {emoji}
-            </motion.span>
-          ))}
-        </div>
       </div>
     </section>
   );
