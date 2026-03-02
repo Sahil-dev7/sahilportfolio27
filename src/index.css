@@ -225,6 +225,35 @@ html {
     transition: width 0s, height 0s, opacity 0s;
   }
   
+  /* Resume button left-to-right color slide */
+  .resume-btn-slide {
+    background: transparent;
+    border: 1px solid hsl(0 85% 55% / 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  
+  .resume-btn-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+  
+  .resume-btn-slide:hover::before {
+    left: 0;
+  }
+  
+  .resume-btn-slide:hover {
+    border-color: hsl(0 85% 55% / 0.6);
+  }
+  
   /* Pulse badge animation */
   .pulse-badge {
     animation: pulse-border 2s ease-in-out infinite;

@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { Code2, Cpu, Database, Layers, Palette, Smartphone, Zap, Keyboard, Flame, GitBranch, Box, Server, Binary, Braces } from "lucide-react";
+import { Code2, Smartphone, Layers, Flame, GitBranch, Server, Binary, Braces, Keyboard } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 
 const skills = [
@@ -50,12 +50,12 @@ const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: strin
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-16 sm:py-24 relative overflow-hidden">
+    <section id="skills" className="py-12 sm:py-20 relative overflow-hidden">
       <div className="absolute inset-0 gradient-blinds opacity-20" />
-      <div className="absolute top-1/4 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 right-0 w-40 sm:w-80 h-40 sm:h-80 bg-primary/10 rounded-full blur-3xl" />
       
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-16">
+        <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-14">
           {/* Skills */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -64,43 +64,38 @@ const SkillsSection = () => {
             transition={{ duration: 0.5 }}
           >
             <span className="text-primary font-display text-xs sm:text-sm font-semibold uppercase tracking-widest">Expertise</span>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-4 sm:mb-6">
+            <h2 className="font-display text-xl sm:text-3xl md:text-4xl font-bold mt-1.5 mb-3 sm:mb-5">
               <span className="text-foreground">Technical </span>
               <span className="text-gradient">Skills</span>
             </h2>
             
-            <div className="space-y-2 sm:space-y-3">
+            <div className="space-y-1.5 sm:space-y-2.5">
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.06 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  className="glass-card rounded-xl p-2.5 sm:p-3 hover:border-primary/30 transition-all group cursor-default bounce-card"
+                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  className="glass-card rounded-lg p-2 sm:p-3 hover:border-primary/30 transition-all group cursor-default"
                 >
-                  <div className="flex items-center gap-2.5 sm:gap-3">
-                    <motion.div 
-                      className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${skill.color} text-white group-hover:scale-110 transition-transform`}
-                      whileHover={{ rotate: [0, -10, 10, 0] }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <skill.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </motion.div>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`p-1 sm:p-1.5 rounded-md bg-gradient-to-br ${skill.color} text-white flex-shrink-0`}>
+                      <skill.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-display font-semibold text-foreground text-xs sm:text-sm">{skill.name}</span>
-                        <span className="font-body text-[10px] sm:text-xs text-primary font-bold">
+                      <div className="flex justify-between items-center mb-0.5">
+                        <span className="font-display font-semibold text-foreground text-[11px] sm:text-sm">{skill.name}</span>
+                        <span className="font-body text-[9px] sm:text-xs text-primary font-bold">
                           {skill.suffix || `${skill.level}%`}
                         </span>
                       </div>
-                      <div className="h-1.5 sm:h-2 bg-muted/50 rounded-full overflow-hidden">
+                      <div className="h-1 sm:h-1.5 bg-muted/50 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.level}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1.2, delay: 0.2 + index * 0.06, ease: "easeOut" }}
+                          transition={{ duration: 1, delay: 0.1 + index * 0.04, ease: "easeOut" }}
                           className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative overflow-hidden`}
                         >
                           <motion.div 
@@ -125,30 +120,30 @@ const SkillsSection = () => {
             transition={{ duration: 0.5 }}
           >
             <span className="text-secondary font-display text-xs sm:text-sm font-semibold uppercase tracking-widest">Toolkit</span>
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mt-2 mb-4 sm:mb-6">
+            <h2 className="font-display text-xl sm:text-3xl md:text-4xl font-bold mt-1.5 mb-3 sm:mb-5">
               <span className="text-foreground">Tools I </span>
               <span className="text-gradient">Use</span>
             </h2>
             
-            <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <div className="grid grid-cols-2 gap-1.5 sm:gap-2.5">
               {tools.map((tool, index) => (
                 <motion.div
                   key={tool.name}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -4 }}
-                  className="glass-card rounded-xl p-2.5 sm:p-3 flex items-center gap-2 cursor-default hover:border-primary/30 transition-all group bounce-card"
+                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  whileHover={{ scale: 1.03, y: -3 }}
+                  className="glass-card rounded-lg p-2 sm:p-3 flex items-center gap-2 cursor-default hover:border-primary/30 transition-all group bounce-card"
                 >
-                  <span className="text-lg sm:text-xl group-hover:scale-110 transition-transform">{tool.icon}</span>
-                  <span className="font-display font-medium text-foreground text-[11px] sm:text-xs">{tool.name}</span>
+                  <span className="text-base sm:text-lg group-hover:scale-110 transition-transform">{tool.icon}</span>
+                  <span className="font-display font-medium text-foreground text-[10px] sm:text-xs">{tool.name}</span>
                 </motion.div>
               ))}
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-6">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 mt-3 sm:mt-5">
               {[
                 { value: 6, label: "Years Coding", suffix: "+" },
                 { value: 15, label: "Projects Built", suffix: "+" },
@@ -159,14 +154,13 @@ const SkillsSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-2.5 sm:p-3 glass-card rounded-xl hover:border-primary/30 transition-all bounce-card"
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
+                  className="text-center p-2 sm:p-3 glass-card rounded-lg hover:border-primary/30 transition-all"
                 >
-                  <div className="text-lg sm:text-2xl md:text-3xl font-display font-bold text-gradient">
+                  <div className="text-base sm:text-2xl md:text-3xl font-display font-bold text-gradient">
                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-[9px] sm:text-[10px] font-body text-muted-foreground mt-0.5">{stat.label}</div>
+                  <div className="text-[8px] sm:text-[10px] font-body text-muted-foreground mt-0.5">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
