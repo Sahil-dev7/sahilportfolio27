@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Gaming", href: "#gaming" },
   { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true },
@@ -27,11 +28,14 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
     setIsMobileMenuOpen(false);
+    // Small delay so mobile menu closes first
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (
@@ -41,22 +45,21 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "glass-strong py-3 border-b border-border/30" : "py-4 sm:py-6"
+          isScrolled ? "glass-strong py-2 sm:py-3 border-b border-border/30" : "py-3 sm:py-5"
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <motion.a
-              href="#"
-              className="font-display text-xl sm:text-2xl font-bold text-gradient"
+            <motion.button
+              onClick={() => scrollToSection('#hero')}
+              className="font-display text-lg sm:text-2xl font-bold text-gradient"
               whileHover={{ scale: 1.05 }}
             >
               SAHIL DEV
-            </motion.a>
+            </motion.button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-5">
               {navItems.map((item) => (
                 item.external ? (
                   <motion.a
@@ -84,14 +87,17 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
+            {/* Resume CTA with slide animation */}
             <div className="hidden md:block">
               <Button
-                className="bg-gradient-primary text-primary-foreground font-display font-semibold shadow-glow hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce"
+                className="resume-btn-slide font-display font-semibold border-primary/30 relative overflow-hidden group"
+                variant="outline"
                 asChild
               >
                 <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                  Resume/CV
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">
+                    Resume/CV
+                  </span>
                 </a>
               </Button>
             </div>
@@ -101,7 +107,7 @@ const Navbar = () => {
               className="md:hidden p-2 text-foreground"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -117,7 +123,7 @@ const Navbar = () => {
         transition={{ duration: 0.3 }}
         className="fixed inset-y-0 right-0 w-3/4 z-40 glass-strong border-l border-border/30 md:hidden"
       >
-        <div className="flex flex-col items-center justify-center h-full gap-6">
+        <div className="flex flex-col items-center justify-center h-full gap-5">
           {navItems.map((item) => (
             item.external ? (
               <motion.a
@@ -125,7 +131,7 @@ const Navbar = () => {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-display text-xl font-bold text-foreground"
+                className="font-display text-lg font-bold text-foreground"
                 whileHover={{ scale: 1.1 }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -135,7 +141,7 @@ const Navbar = () => {
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className="font-display text-xl font-bold text-foreground"
+                className="font-display text-lg font-bold text-foreground"
                 whileHover={{ scale: 1.1 }}
               >
                 {item.label}
@@ -144,11 +150,14 @@ const Navbar = () => {
           ))}
           
           <Button
-            className="bg-gradient-primary text-primary-foreground font-display font-semibold mt-4"
+            className="resume-btn-slide font-display font-semibold mt-3 relative overflow-hidden group"
+            variant="outline"
             asChild
           >
             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-              Resume/CV
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">
+                Resume/CV
+              </span>
             </a>
           </Button>
         </div>
