@@ -15,14 +15,14 @@ const skills = [
 ];
 
 const tools = [
-  { name: "Android Studio", icon: "🤖" },
-  { name: "VS Code", icon: "💻" },
-  { name: "Figma", icon: "🎨" },
-  { name: "Postman", icon: "📬" },
-  { name: "Firebase Console", icon: "🔥" },
-  { name: "Play Console", icon: "▶️" },
-  { name: "Git", icon: "🌿" },
-  { name: "Gradle", icon: "🐘" },
+  { name: "Android Studio", icon: "androidstudio" },
+  { name: "VS Code", icon: "vscode" },
+  { name: "Figma", icon: "figma" },
+  { name: "Postman", icon: "postman" },
+  { name: "Firebase", icon: "firebase" },
+  { name: "Google Play", icon: "gcp" },
+  { name: "Git", icon: "git" },
+  { name: "Gradle", icon: "gradle" },
 ];
 
 const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
@@ -96,14 +96,8 @@ const SkillsSection = () => {
                           whileInView={{ width: `${skill.level}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, delay: 0.1 + index * 0.04, ease: "easeOut" }}
-                          className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative overflow-hidden`}
-                        >
-                          <motion.div 
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                            animate={{ x: ["-100%", "100%"] }}
-                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                          />
-                        </motion.div>
+                          className={`h-full bg-gradient-to-r ${skill.color} rounded-full`}
+                        />
                       </div>
                     </div>
                   </div>
@@ -136,7 +130,12 @@ const SkillsSection = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   className="glass-card rounded-lg p-2 sm:p-3 flex items-center gap-2 cursor-default hover:border-primary/30 transition-all group bounce-card"
                 >
-                  <span className="text-base sm:text-lg group-hover:scale-110 transition-transform">{tool.icon}</span>
+                  <img 
+                    src={`https://skillicons.dev/icons?i=${tool.icon}&theme=dark`}
+                    alt={tool.name}
+                    className="w-5 h-5 sm:w-7 sm:h-7 group-hover:scale-110 transition-transform"
+                    loading="lazy"
+                  />
                   <span className="font-display font-medium text-foreground text-[10px] sm:text-xs">{tool.name}</span>
                 </motion.div>
               ))}

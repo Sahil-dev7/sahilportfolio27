@@ -8,23 +8,23 @@ const interests = [
   { title: "Gaming", description: "Competitive gamer — battle royale & racing.", isGaming: true },
 ];
 
-// Checkerboard Rubik's Cube with all colors
+// Solved Rubik's Cube - each face is a single solid color
 const RubiksCube3D = () => {
-  const faceColors: Record<string, string[]> = {
-    front:  ["#ff0000", "#ffffff", "#ff0000", "#ffffff", "#ff0000", "#ffffff", "#ff0000", "#ffffff", "#ff0000"],
-    back:   ["#ff8c00", "#ffffff", "#ff8c00", "#ffffff", "#ff8c00", "#ffffff", "#ff8c00", "#ffffff", "#ff8c00"],
-    right:  ["#0000ff", "#ffffff", "#0000ff", "#ffffff", "#0000ff", "#ffffff", "#0000ff", "#ffffff", "#0000ff"],
-    left:   ["#00cc00", "#ffffff", "#00cc00", "#ffffff", "#00cc00", "#ffffff", "#00cc00", "#ffffff", "#00cc00"],
-    top:    ["#ffff00", "#ffffff", "#ffff00", "#ffffff", "#ffff00", "#ffffff", "#ffff00", "#ffffff", "#ffff00"],
-    bottom: ["#ffffff", "#ff0000", "#ffffff", "#ff0000", "#ffffff", "#ff0000", "#ffffff", "#ff0000", "#ffffff"],
+  const faceColors: Record<string, string> = {
+    front: "#ff0000",   // Red
+    back: "#ff8c00",    // Orange
+    right: "#0000ff",   // Blue
+    left: "#00cc00",    // Green
+    top: "#ffff00",     // Yellow
+    bottom: "#ffffff",  // White
   };
   
   return (
     <div className="rubiks-cube-container-large mx-auto">
       <div className="rubiks-cube-large">
-        {Object.entries(faceColors).map(([face, colors]) => (
+        {Object.entries(faceColors).map(([face, color]) => (
           <div key={face} className={`face-large ${face}-large`}>
-            {colors.map((color, i) => (
+            {Array.from({ length: 9 }).map((_, i) => (
               <div key={i} className="cube-piece-large" style={{ background: color }} />
             ))}
           </div>
@@ -34,64 +34,120 @@ const RubiksCube3D = () => {
   );
 };
 
-// 3D YouTube Play Button
+// Classic 3D YouTube Logo - levitating and rotating
 const YouTube3D = () => (
-  <div className="perspective-[300px] w-20 h-20 sm:w-28 sm:h-28 mx-auto">
+  <div className="perspective-[400px] w-24 h-24 sm:w-32 sm:h-32 mx-auto">
     <motion.div
       className="w-full h-full relative"
       style={{ transformStyle: "preserve-3d" }}
-      animate={{ rotateY: [0, 360] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      animate={{ 
+        rotateY: [0, 360],
+        y: [0, -8, 0],
+      }}
+      transition={{ 
+        rotateY: { duration: 6, repeat: Infinity, ease: "linear" },
+        y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+      }}
     >
-      {/* Front */}
-      <div className="absolute inset-0 bg-red-600 rounded-2xl flex items-center justify-center shadow-lg" style={{ transform: "translateZ(20px)" }}>
-        <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-1" />
+      {/* Front face - YouTube red with play button */}
+      <div className="absolute inset-0 rounded-2xl flex items-center justify-center shadow-lg" 
+        style={{ 
+          transform: "translateZ(16px)", 
+          background: "linear-gradient(135deg, #FF0000 0%, #CC0000 100%)",
+          boxShadow: "0 0 30px rgba(255,0,0,0.4)",
+        }}
+      >
+        <div className="w-0 h-0 border-t-[14px] border-t-transparent border-l-[24px] border-l-white border-b-[14px] border-b-transparent ml-1.5 drop-shadow-lg" />
       </div>
-      {/* Back */}
-      <div className="absolute inset-0 bg-red-700 rounded-2xl flex items-center justify-center" style={{ transform: "rotateY(180deg) translateZ(20px)" }}>
-        <span className="text-white font-bold text-[10px] sm:text-xs">YT</span>
+      {/* Back face */}
+      <div className="absolute inset-0 rounded-2xl flex items-center justify-center" 
+        style={{ 
+          transform: "rotateY(180deg) translateZ(16px)",
+          background: "linear-gradient(135deg, #CC0000 0%, #990000 100%)",
+        }}
+      >
+        <span className="text-white font-bold text-sm tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>YT</span>
       </div>
       {/* Left */}
-      <div className="absolute top-0 bottom-0 left-0 w-[40px] bg-red-800 rounded-l-lg" style={{ transform: "rotateY(-90deg) translateZ(0px)", transformOrigin: "left center" }} />
+      <div className="absolute top-0 bottom-0 left-0 w-[32px]" 
+        style={{ transform: "rotateY(-90deg) translateZ(0px)", transformOrigin: "left center", background: "#B30000", borderRadius: "8px 0 0 8px" }} 
+      />
       {/* Right */}
-      <div className="absolute top-0 bottom-0 right-0 w-[40px] bg-red-500 rounded-r-lg" style={{ transform: "rotateY(90deg) translateZ(0px)", transformOrigin: "right center" }} />
+      <div className="absolute top-0 bottom-0 right-0 w-[32px]" 
+        style={{ transform: "rotateY(90deg) translateZ(0px)", transformOrigin: "right center", background: "#FF3333", borderRadius: "0 8px 8px 0" }} 
+      />
+      {/* Top */}
+      <div className="absolute top-0 left-0 right-0 h-[32px]" 
+        style={{ transform: "rotateX(90deg) translateZ(0px)", transformOrigin: "top center", background: "#FF1A1A", borderRadius: "8px 8px 0 0" }} 
+      />
+      {/* Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-[32px]" 
+        style={{ transform: "rotateX(-90deg) translateZ(0px)", transformOrigin: "bottom center", background: "#AA0000", borderRadius: "0 0 8px 8px" }} 
+      />
     </motion.div>
   </div>
 );
 
-// 3D Game Controller
+// PS5 Controller with Spider-Man skin
 const GameController3D = () => (
-  <div className="perspective-[300px] w-20 h-20 sm:w-28 sm:h-28 mx-auto">
+  <div className="perspective-[400px] w-24 h-20 sm:w-32 sm:h-28 mx-auto">
     <motion.div
       className="w-full h-full relative"
       style={{ transformStyle: "preserve-3d" }}
-      animate={{ rotateY: [-15, 15, -15], rotateX: [-5, 5, -5] }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ 
+        rotateY: [-15, 15, -15], 
+        rotateX: [-5, 5, -5],
+        y: [0, -6, 0],
+      }}
+      transition={{ 
+        rotateY: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+        rotateX: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+        y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+      }}
     >
-      {/* Controller body */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg" style={{ transform: "translateZ(15px)" }}>
+      {/* Controller body - Spider-Man red/blue theme */}
+      <div className="absolute inset-0 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden" 
+        style={{ 
+          transform: "translateZ(12px)",
+          background: "linear-gradient(135deg, #CC0000 0%, #FF1A1A 35%, #0044CC 65%, #001A99 100%)",
+          boxShadow: "0 0 25px rgba(200,0,0,0.3), 0 0 25px rgba(0,68,204,0.3)",
+        }}
+      >
+        {/* Spider web pattern */}
+        <div className="absolute inset-0 opacity-20" 
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 30% 40%, transparent 0%, transparent 20%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0.15) 21%, transparent 21%),
+              radial-gradient(circle at 30% 40%, transparent 0%, transparent 35%, rgba(255,255,255,0.1) 35%, rgba(255,255,255,0.1) 36%, transparent 36%),
+              radial-gradient(circle at 30% 40%, transparent 0%, transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.08) 51%, transparent 51%)
+            `,
+          }}
+        />
+        {/* Spider logo center */}
+        <div className="text-white/90 text-lg sm:text-2xl font-bold drop-shadow-lg">🕷️</div>
+        
+        {/* PS5 face buttons */}
+        <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 grid grid-cols-2 gap-0.5 sm:gap-1">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-pink-400/80 shadow-inner" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-400/80 shadow-inner" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-300/80 shadow-inner" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-300/80 shadow-inner" />
+        </div>
         {/* D-pad */}
         <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2">
-          <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white/30 rounded-sm relative">
-            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1 h-1.5 bg-white/30 rounded-sm" />
-            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1.5 bg-white/30 rounded-sm" />
-            <div className="absolute top-1/2 -translate-y-1/2 -left-1.5 w-1.5 h-1 bg-white/30 rounded-sm" />
-            <div className="absolute top-1/2 -translate-y-1/2 -right-1.5 w-1.5 h-1 bg-white/30 rounded-sm" />
+          <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white/20 rounded-sm relative">
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/20 rounded-sm" />
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/20 rounded-sm" />
+            <div className="absolute top-1/2 -translate-y-1/2 -left-1 w-1 h-1 bg-white/20 rounded-sm" />
+            <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-1 h-1 bg-white/20 rounded-sm" />
           </div>
         </div>
-        {/* Buttons */}
-        <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 grid grid-cols-2 gap-0.5">
-          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-400" />
-          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-400" />
-          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-400" />
-          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-yellow-400" />
-        </div>
         {/* Joysticks */}
-        <div className="absolute bottom-2 left-1/3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gray-800 border border-white/20" />
-        <div className="absolute bottom-2 right-1/3 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gray-800 border border-white/20" />
+        <div className="absolute bottom-1.5 left-1/3 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-black/60 border border-white/20" />
+        <div className="absolute bottom-1.5 right-1/3 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-black/60 border border-white/20" />
       </div>
       {/* Back */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-blue-800 rounded-2xl" style={{ transform: "rotateY(180deg) translateZ(15px)" }} />
+      <div className="absolute inset-0 rounded-2xl" style={{ transform: "rotateY(180deg) translateZ(12px)", background: "linear-gradient(135deg, #990000 0%, #001466 100%)" }} />
     </motion.div>
   </div>
 );
