@@ -1,16 +1,16 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, User, FolderOpen, Wrench, Gamepad2, Image, Phone, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Gaming", href: "#gaming" },
-  { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#hero", icon: Home },
+  { label: "About", href: "#about", icon: User },
+  { label: "Projects", href: "#projects", icon: FolderOpen },
+  { label: "Skills", href: "#skills", icon: Wrench },
+  { label: "Gaming", href: "#gaming", icon: Gamepad2 },
+  { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true, icon: Image },
+  { label: "Contact", href: "#contact", icon: Phone },
 ];
 
 const Navbar = () => {
@@ -27,9 +27,18 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false);
-    // Small delay so mobile menu closes first
     setTimeout(() => {
       const element = document.querySelector(href);
       if (element) {
@@ -87,7 +96,7 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Resume CTA with slide animation */}
+            {/* Resume CTA */}
             <div className="hidden md:block">
               <Button
                 className="resume-btn-slide font-display font-semibold border-primary/30 relative overflow-hidden group"
@@ -103,76 +112,120 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 text-foreground"
+            <motion.button
+              className="md:hidden p-2 text-foreground z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileTap={{ scale: 0.9 }}
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+              <AnimatePresence mode="wait">
+                {isMobileMenuOpen ? (
+                  <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                    <X size={22} />
+                  </motion.div>
+                ) : (
+                  <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                    <Menu size={22} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
-      <motion.div
-        initial={false}
-        animate={{
-          x: isMobileMenuOpen ? 0 : "100%",
-          opacity: isMobileMenuOpen ? 1 : 0,
-        }}
-        transition={{ duration: 0.3 }}
-        className="fixed inset-y-0 right-0 w-3/4 z-40 glass-strong border-l border-border/30 md:hidden"
-      >
-        <div className="flex flex-col items-center justify-center h-full gap-5">
-          {navItems.map((item) => (
-            item.external ? (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-display text-lg font-bold text-foreground"
-                whileHover={{ scale: 1.1 }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </motion.a>
-            ) : (
-              <motion.button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className="font-display text-lg font-bold text-foreground"
-                whileHover={{ scale: 1.1 }}
-              >
-                {item.label}
-              </motion.button>
-            )
-          ))}
-          
-          <Button
-            className="resume-btn-slide font-display font-semibold mt-3 relative overflow-hidden group"
-            variant="outline"
-            asChild
-          >
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">
-                Resume/CV
-              </span>
-            </a>
-          </Button>
-        </div>
-      </motion.div>
+      {/* Premium Mobile Sidebar */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-background/90 backdrop-blur-md z-40 md:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
 
-      {/* Overlay */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-background/80 z-30 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
+            {/* Sidebar */}
+            <motion.div
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-[75%] max-w-[300px] z-40 md:hidden overflow-hidden"
+            >
+              {/* Background with gradient */}
+              <div className="absolute inset-0 bg-gradient-to-bl from-card via-background to-background border-l border-primary/20" />
+              
+              {/* Decorative glow */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-20 left-0 w-24 h-24 bg-secondary/10 rounded-full blur-3xl" />
+
+              <div className="relative h-full flex flex-col pt-20 pb-8 px-6">
+                {/* Brand */}
+                <div className="mb-8">
+                  <span className="font-display text-xl font-bold text-gradient">SAHIL DEV</span>
+                  <p className="text-[10px] text-muted-foreground font-body mt-1">Android Developer</p>
+                </div>
+
+                {/* Nav Items */}
+                <nav className="flex-1 space-y-1">
+                  {navItems.map((item, index) => (
+                    item.external ? (
+                      <motion.a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.05 + 0.1 }}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all group"
+                      >
+                        <item.icon className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
+                        <span className="font-display text-sm font-semibold">{item.label}</span>
+                      </motion.a>
+                    ) : (
+                      <motion.button
+                        key={item.label}
+                        onClick={() => scrollToSection(item.href)}
+                        initial={{ x: 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.05 + 0.1 }}
+                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all group"
+                      >
+                        <item.icon className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
+                        <span className="font-display text-sm font-semibold">{item.label}</span>
+                      </motion.button>
+                    )
+                  ))}
+                </nav>
+
+                {/* Resume Button */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Button
+                    className="w-full resume-btn-slide font-display font-semibold relative overflow-hidden group border-primary/30"
+                    variant="outline"
+                    asChild
+                  >
+                    <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+                      <span className="relative z-10 flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-primary-foreground">
+                        <FileText className="w-4 h-4" />
+                        Resume/CV
+                      </span>
+                    </a>
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };

@@ -11,7 +11,6 @@ const games = [
     description: "Open world action-adventure masterpiece",
     url: "https://www.rockstargames.com/gta-v",
     color: "from-green-500/20 to-green-600/10",
-    aspect: "aspect-[3/4]",
   },
   {
     name: "Red Dead Redemption 2",
@@ -19,7 +18,6 @@ const games = [
     description: "Epic tale of life in America's unforgiving heartland",
     url: "https://www.rockstargames.com/reddeadredemption2",
     color: "from-amber-500/20 to-amber-600/10",
-    aspect: "aspect-[3/4]",
   },
   {
     name: "Getting Over It",
@@ -27,7 +25,6 @@ const games = [
     description: "A game I made for a certain kind of person",
     url: "https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/",
     color: "from-orange-500/20 to-orange-600/10",
-    aspect: "aspect-video",
   },
   {
     name: "BGMI",
@@ -35,7 +32,6 @@ const games = [
     description: "Battle Royale - Conqueror Rank",
     url: "https://www.battlegroundsmobileindia.com/",
     color: "from-yellow-500/20 to-yellow-600/10",
-    aspect: "aspect-video",
   },
   {
     name: "Need for Speed",
@@ -43,7 +39,6 @@ const games = [
     description: "Speed is life - Racing enthusiast",
     url: "https://www.ea.com/games/need-for-speed",
     color: "from-blue-500/20 to-blue-600/10",
-    aspect: "aspect-video",
   },
   {
     name: "eFootball",
@@ -51,7 +46,6 @@ const games = [
     description: "The beautiful game, digitized",
     url: "https://www.konami.com/efootball/",
     color: "from-emerald-500/20 to-emerald-600/10",
-    aspect: "aspect-video",
   },
 ];
 
@@ -82,25 +76,25 @@ const GamingSection = () => {
           </p>
         </motion.div>
 
-        {/* Games grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4 md:gap-5">
+        {/* Compact grid: 3 cols on desktop, 2 on mobile, smaller cards */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-3xl mx-auto">
           {games.map((game, index) => (
             <motion.a
               key={game.name}
               href={game.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ duration: 0.4, delay: index * 0.06 }}
+              whileHover={{ y: -4, scale: 1.03 }}
               className="group relative block"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${game.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <div className={`absolute inset-0 bg-gradient-to-br ${game.color} rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               
-              <div className="relative glass-card rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-300">
-                <div className={`relative ${game.aspect} overflow-hidden`}>
+              <div className="relative glass-card rounded-xl overflow-hidden hover:border-primary/40 transition-all duration-300">
+                <div className="relative aspect-square overflow-hidden">
                   <img
                     src={game.logo}
                     alt={game.name}
@@ -110,16 +104,13 @@ const GamingSection = () => {
                       (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="80">🎮</text></svg>';
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
-                    <h3 className="font-display text-[11px] sm:text-sm md:text-base font-bold text-white mb-0.5 flex items-center gap-1">
+                  <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2.5">
+                    <h3 className="font-display text-[9px] sm:text-xs font-bold text-white flex items-center gap-0.5">
                       {game.name}
-                      <ExternalLink className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <ExternalLink className="w-2 h-2 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </h3>
-                    <p className="font-body text-[9px] sm:text-xs text-white/70 line-clamp-1">
-                      {game.description}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -133,7 +124,7 @@ const GamingSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4"
+          className="mt-5 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4"
         >
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 glass-strong rounded-full border border-primary/30">
             <span className="text-base sm:text-lg">🎯</span>

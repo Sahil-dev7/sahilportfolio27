@@ -1,27 +1,15 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Github, Linkedin, Youtube, Play, Instagram, Twitter, Briefcase, Code, FileText } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import sahilHero from "@/assets/sahil-hero.png";
 
 const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const scale = useTransform(scrollY, [0, 500], [1, 0.9]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/Sahil-dev7", label: "GitHub" },
@@ -46,56 +34,40 @@ const Hero = () => {
       id="hero"
       className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-gradient-hero pt-14 sm:pt-16"
     >
-      {/* Animated floating orbs */}
+      {/* Simple animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          className="absolute w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] rounded-full opacity-40"
+        <div 
+          className="absolute w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] rounded-full opacity-30"
           style={{
             background: "radial-gradient(ellipse, hsl(0 85% 25% / 0.5) 0%, transparent 70%)",
             filter: "blur(80px)",
-            left: "60%",
-            top: "40%",
+            right: "-5%",
+            top: "30%",
           }}
-          animate={{ 
-            x: [mousePosition.x * 0.5, mousePosition.x * 0.5],
-            y: [mousePosition.y * 0.5, mousePosition.y * 0.5],
-            scale: [1, 1.15, 1] 
-          }}
-          transition={{ scale: { duration: 5, repeat: Infinity, ease: "easeInOut" } }}
         />
-        <motion.div 
-          className="absolute w-24 h-24 sm:w-40 sm:h-40 rounded-full bg-primary/15 blur-3xl"
-          animate={{ x: [0, 40, 0], y: [0, -25, 0] }}
-          transition={{ duration: 8, repeat: Infinity }}
+        <div 
+          className="absolute w-24 h-24 sm:w-40 sm:h-40 rounded-full bg-primary/10 blur-3xl animate-float"
           style={{ left: "15%", top: "25%" }}
-        />
-        <motion.div 
-          className="absolute w-16 h-16 sm:w-28 sm:h-28 rounded-full bg-secondary/10 blur-2xl"
-          animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, delay: 2 }}
-          style={{ right: "10%", bottom: "30%" }}
         />
       </div>
       
-      {/* Subtle grid pattern */}
       <div className="absolute inset-0 gradient-blinds opacity-20" />
-      <div className="absolute inset-0 bg-background/20" />
       
       <motion.div 
         style={{ opacity, scale }}
         className="container mx-auto px-4 sm:px-6 relative z-10"
       >
-        <div className="grid lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-10 items-center">
-          {/* Left content */}
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-10 items-center">
+          {/* Left content - hidden below image on mobile first screen, visible on scroll */}
           <div className="max-w-2xl order-2 lg:order-1">
-            {/* Main heading */}
+            {/* Name - visible always */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1 leading-[1.1]"
+              className="font-display text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1 leading-[1.1]"
             >
-              <span className="text-foreground">Hi, I'm </span>
+              <span className="text-foreground block text-base sm:text-2xl md:text-3xl font-medium mb-0.5">Hi, I'm</span>
               <span className="text-gradient">Sahil Wadhwani</span>
             </motion.h1>
 
@@ -104,22 +76,22 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.18 }}
-              className="font-display text-sm sm:text-lg md:text-xl text-primary font-semibold mb-2 sm:mb-3"
+              className="font-display text-xs sm:text-lg md:text-xl text-primary font-semibold mb-2 sm:mb-3"
             >
               Software Developer
             </motion.p>
 
-            {/* Subtitle */}
+            {/* Subtitle - hidden on mobile first screen */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.22 }}
-              className="font-body text-[11px] sm:text-sm md:text-base text-muted-foreground max-w-xl mb-2.5 sm:mb-4 leading-relaxed font-medium"
+              className="font-body text-[11px] sm:text-sm md:text-base text-muted-foreground max-w-xl mb-2 sm:mb-4 leading-relaxed font-medium hidden sm:block"
             >
               Turning ideas into reality through clean code, scalable systems, and sleek UIs — one project at a time.
             </motion.p>
 
-            {/* Next Action chips */}
+            {/* Chips */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -136,7 +108,7 @@ const Hero = () => {
               </span>
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - all 3 with same resume-btn-slide style for Resume */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -174,7 +146,7 @@ const Hero = () => {
               </Button>
             </motion.div>
 
-            {/* Social links */}
+            {/* Social links - pill style with labels */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -187,20 +159,18 @@ const Hero = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -3 }}
-                  className="group/social p-1.5 sm:p-2.5 rounded-full glass-strong text-foreground hover:text-primary hover:border-primary/50 transition-all border border-border/50 click-spark relative"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  className="group/social flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full glass-strong text-foreground/70 hover:text-primary hover:border-primary/50 transition-all border border-border/50 click-spark"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[8px] sm:text-[10px] font-body text-primary opacity-0 group-hover/social:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                    {social.label}
-                  </span>
+                  <social.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span className="text-[9px] sm:text-[11px] font-display font-medium hidden sm:inline">{social.label}</span>
                 </motion.a>
               ))}
             </motion.div>
           </div>
 
-          {/* Right content - Hero Image */}
+          {/* Right content - Hero Image, takes priority on mobile */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -208,22 +178,20 @@ const Hero = () => {
             className="relative order-1 lg:order-2 flex justify-center lg:block"
           >
             <div className="relative">
-              {/* Warm glow behind image */}
-              <motion.div 
+              {/* Warm glow */}
+              <div 
                 className="absolute -inset-4 sm:-inset-8 md:-inset-12 rounded-full"
                 style={{
-                  background: "radial-gradient(ellipse at center, hsl(0 85% 30% / 0.35) 0%, hsl(15 60% 20% / 0.15) 40%, transparent 70%)",
+                  background: "radial-gradient(ellipse at center, hsl(0 85% 30% / 0.3) 0%, hsl(15 60% 20% / 0.1) 40%, transparent 70%)",
                   filter: "blur(40px)",
                 }}
-                animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.7, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
               
-              {/* Hero image - compact on mobile */}
+              {/* Hero image - smaller on mobile so content fits */}
               <motion.img 
                 src={sahilHero} 
                 alt="Sahil Wadhwani - Software Developer" 
-                className="relative z-10 w-36 sm:w-56 md:w-72 lg:w-[380px] xl:w-[440px] h-auto mx-auto object-contain"
+                className="relative z-10 w-32 sm:w-56 md:w-72 lg:w-[380px] xl:w-[440px] h-auto mx-auto object-contain"
                 style={{
                   maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
                   WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
@@ -233,13 +201,13 @@ const Hero = () => {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               />
               
-              {/* const passion = "Android" badge */}
+              {/* const passion badge */}
               <motion.div
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="absolute bottom-6 sm:bottom-10 -left-1 sm:left-0 glass-strong rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-primary/30 z-20"
+                className="absolute bottom-4 sm:bottom-10 -left-1 sm:left-0 glass-strong rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-primary/30 z-20"
               >
-                <pre className="font-mono text-[8px] sm:text-xs text-muted-foreground">
+                <pre className="font-mono text-[7px] sm:text-xs text-muted-foreground">
                   <code>
                     <span className="text-primary">const</span> passion = <span className="text-secondary">"Android"</span>;
                   </code>
@@ -252,7 +220,7 @@ const Hero = () => {
                 transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
                 className="absolute -top-1 -right-1 sm:top-2 sm:right-2 glass-strong rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-primary/30 z-20"
               >
-                <span className="text-[8px] sm:text-xs font-display font-bold text-gradient">
+                <span className="text-[7px] sm:text-xs font-display font-bold text-gradient">
                   🔥 Open to Work
                 </span>
               </motion.div>
