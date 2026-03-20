@@ -271,11 +271,11 @@ const Hero = () => {
                   className="group/social flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 backdrop-blur-md text-white/70 hover:text-primary hover:bg-white/20 transition-all border border-white/10 hover:border-primary/40 click-spark"
                   aria-label={social.label}
                 >
-                  {typeof social.icon === 'function' ? (
-                    <social.icon />
-                  ) : (
+                  {'customIcon' in social && social.customIcon ? (
+                    social.customIcon
+                  ) : social.icon ? (
                     <social.icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                  )}
+                  ) : null}
                 </motion.a>
               ))}
             </motion.div>
