@@ -45,19 +45,7 @@ const InstagramFeed = () => {
               />
             </div>
 
-            <div className="text-center mt-4 sm:mt-6">
-              <Button
-                asChild
-                size="sm"
-                className="bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white font-display font-semibold hover:scale-105 active:scale-95 transition-all duration-200 btn-bounce text-xs sm:text-sm"
-              >
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-                  <Instagram className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5" />
-                  Follow @__sahil_.27
-                  <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 ml-1.5" />
-                </a>
-              </Button>
-            </div>
+            {/* Follow button removed */}
           </div>
         </motion.div>
       </div>
