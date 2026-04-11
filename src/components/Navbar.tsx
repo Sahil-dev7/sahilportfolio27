@@ -13,39 +13,47 @@ const navItems = [
   { label: "Contact", href: "#contact", icon: Phone },
 ];
 
+const resumeUrl = "https://raw.githubusercontent.com/Sahil-dev7/Sahil-dev7/main/Resume.pdf";
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const resumeUrl = "https://raw.githubusercontent.com/Sahil-dev7/Sahil-dev7/main/Resume.pdf";
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // Track active section
+      const sections = navItems
+        .filter((n) => !n.external)
+        .map((n) => n.href.replace("#", ""));
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.getBoundingClientRect().top <= 120) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isMobileMenuOpen]);
 
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false);
     setTimeout(() => {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
+
+  const isActive = (href: string) => `#${activeSection}` === href;
 
   return (
     <>
@@ -60,7 +68,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             <motion.button
-              onClick={() => scrollToSection('#hero')}
+              onClick={() => scrollToSection("#hero")}
               className="font-display text-lg sm:text-2xl font-bold text-gradient"
               whileHover={{ scale: 1.05 }}
             >
@@ -68,32 +76,39 @@ const Navbar = () => {
             </motion.button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-5">
-              {navItems.map((item) => (
+            <div className="hidden md:flex items-center gap-1">
+              {navItems.map((item) =>
                 item.external ? (
-                  <motion.a
+                  <a
                     key={item.label}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
-                    whileHover={{ y: -2 }}
+                    className="relative px-3 py-1.5 font-body text-sm text-foreground/60 hover:text-foreground transition-colors rounded-md hover:bg-primary/5"
                   >
                     {item.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                  </motion.a>
+                  </a>
                 ) : (
-                  <motion.button
+                  <button
                     key={item.label}
                     onClick={() => scrollToSection(item.href)}
-                    className="font-body text-sm text-foreground/80 hover:text-foreground transition-colors relative group"
-                    whileHover={{ y: -2 }}
+                    className={`relative px-3 py-1.5 font-body text-sm rounded-md transition-all duration-200 ${
+                      isActive(item.href)
+                        ? "text-primary font-medium"
+                        : "text-foreground/60 hover:text-foreground hover:bg-primary/5"
+                    }`}
                   >
                     {item.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                  </motion.button>
+                    {isActive(item.href) && (
+                      <motion.div
+                        layoutId="nav-indicator"
+                        className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary rounded-full"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </button>
                 )
-              ))}
+              )}
             </div>
 
             {/* Resume CTA */}
@@ -133,11 +148,10 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Premium Mobile Sidebar */}
+      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -145,32 +159,21 @@ const Navbar = () => {
               className="fixed inset-0 bg-background/90 backdrop-blur-md z-40 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-
-            {/* Sidebar */}
             <motion.div
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-[75%] max-w-[300px] z-40 md:hidden overflow-hidden"
+              className="fixed top-0 right-0 bottom-0 w-[75%] max-w-[300px] z-40 md:hidden"
             >
-              {/* Background with gradient */}
               <div className="absolute inset-0 bg-gradient-to-bl from-card via-background to-background border-l border-primary/20" />
-              
-              {/* Decorative glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-20 left-0 w-24 h-24 bg-secondary/10 rounded-full blur-3xl" />
-
               <div className="relative h-full flex flex-col pt-20 pb-8 px-6">
-                {/* Brand */}
                 <div className="mb-8">
                   <span className="font-display text-xl font-bold text-gradient">SAHIL DEV</span>
                   <p className="text-[10px] text-muted-foreground font-body mt-1">Android Developer</p>
                 </div>
-
-                {/* Nav Items */}
                 <nav className="flex-1 space-y-1">
-                  {navItems.map((item, index) => (
+                  {navItems.map((item, index) =>
                     item.external ? (
                       <motion.a
                         key={item.label}
@@ -181,9 +184,9 @@ const Navbar = () => {
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.05 + 0.1 }}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all group"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all"
                       >
-                        <item.icon className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
+                        <item.icon className="w-4 h-4 text-primary/60" />
                         <span className="font-display text-sm font-semibold">{item.label}</span>
                       </motion.a>
                     ) : (
@@ -193,21 +196,19 @@ const Navbar = () => {
                         initial={{ x: 50, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.05 + 0.1 }}
-                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all group"
+                        className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl transition-all ${
+                          isActive(item.href)
+                            ? "text-primary bg-primary/10"
+                            : "text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                        }`}
                       >
-                        <item.icon className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
+                        <item.icon className={`w-4 h-4 ${isActive(item.href) ? "text-primary" : "text-primary/60"}`} />
                         <span className="font-display text-sm font-semibold">{item.label}</span>
                       </motion.button>
                     )
-                  ))}
+                  )}
                 </nav>
-
-                {/* Resume Button */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
+                <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
                   <Button
                     className="w-full resume-btn-slide font-display font-semibold relative overflow-hidden group border-primary/30"
                     variant="outline"
