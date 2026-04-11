@@ -31,9 +31,20 @@ const Hero = () => {
 
   return (
     <section id="hero" className="relative min-h-[100svh] w-full overflow-hidden bg-background flex items-end sm:items-center">
-      {/* Subtle background glow — just one, minimal */}
+      {/* Cinematic background image */}
+      <div className="absolute inset-0">
+        <img
+          src="https://i.postimg.cc/FKcPcjG9/photo-1610563166150-b34df4f3bcd6.avif"
+          alt=""
+          className="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+      </div>
+      {/* Subtle accent glow */}
       <div
-        className="absolute top-1/2 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none opacity-30 blur-[120px]"
+        className="absolute top-1/2 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none opacity-20 blur-[120px]"
         style={{ background: "hsl(0 70% 30%)" }}
       />
 
