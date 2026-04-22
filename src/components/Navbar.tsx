@@ -1,16 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, Home, User, FolderOpen, Wrench, Gamepad2, Image, Phone, FileText } from "lucide-react";
+import { Menu, X, Home, Code2, Heart, Gamepad2, Image, Phone, FileText } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { label: "Home", href: "#hero", icon: Home },
-  { label: "About", href: "#about", icon: User },
-  { label: "Projects", href: "#projects", icon: FolderOpen },
-  { label: "Skills", href: "#skills", icon: Wrench },
-  { label: "Gaming", href: "#gaming", icon: Gamepad2 },
+  { label: "Home", to: "/", icon: Home },
+  { label: "Developer", to: "/developer", icon: Code2 },
+  { label: "Friend", to: "/friend", icon: Heart },
+  { label: "Gamer", to: "/gamer", icon: Gamepad2 },
   { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true, icon: Image },
-  { label: "Contact", href: "#contact", icon: Phone },
+  { label: "Contact", to: "/friend#contact", icon: Phone },
 ];
 
 const resumeUrl = "https://raw.githubusercontent.com/Sahil-dev7/Sahil-dev7/main/Resume.pdf";
@@ -18,24 +18,12 @@ const resumeUrl = "https://raw.githubusercontent.com/Sahil-dev7/Sahil-dev7/main/
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      // Track active section
-      const sections = navItems
-        .filter((n) => !n.external)
-        .map((n) => n.href.replace("#", ""));
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top <= 120) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -46,14 +34,26 @@ const Navbar = () => {
     return () => { document.body.style.overflow = ""; };
   }, [isMobileMenuOpen]);
 
-  const scrollToSection = (href: string) => {
+  const handleNavigate = (to: string) => {
     setIsMobileMenuOpen(false);
     setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+      const [path, hash] = to.split("#");
+      navigate(path);
+      if (hash) {
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 200);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, 80);
   };
 
-  const isActive = (href: string) => `#${activeSection}` === href;
+  const isActive = (to: string) => {
+    const path = to.split("#")[0];
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <>
