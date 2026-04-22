@@ -68,7 +68,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             <motion.button
-              onClick={() => scrollToSection("#hero")}
+              onClick={() => handleNavigate("/")}
               className="font-display text-lg sm:text-2xl font-bold text-gradient"
               whileHover={{ scale: 1.05 }}
             >
@@ -91,15 +91,15 @@ const Navbar = () => {
                 ) : (
                   <button
                     key={item.label}
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => handleNavigate(item.to!)}
                     className={`relative px-3 py-1.5 font-body text-sm rounded-md transition-all duration-200 ${
-                      isActive(item.href)
+                      isActive(item.to!)
                         ? "text-primary font-medium"
                         : "text-foreground/60 hover:text-foreground hover:bg-primary/5"
                     }`}
                   >
                     {item.label}
-                    {isActive(item.href) && (
+                    {isActive(item.to!) && (
                       <motion.div
                         layoutId="nav-indicator"
                         className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary rounded-full"
@@ -192,17 +192,17 @@ const Navbar = () => {
                     ) : (
                       <motion.button
                         key={item.label}
-                        onClick={() => scrollToSection(item.href)}
+                        onClick={() => handleNavigate(item.to!)}
                         initial={{ x: 50, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.05 + 0.1 }}
                         className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl transition-all ${
-                          isActive(item.href)
+                          isActive(item.to!)
                             ? "text-primary bg-primary/10"
                             : "text-foreground/80 hover:text-foreground hover:bg-primary/10"
                         }`}
                       >
-                        <item.icon className={`w-4 h-4 ${isActive(item.href) ? "text-primary" : "text-primary/60"}`} />
+                        <item.icon className={`w-4 h-4 ${isActive(item.to!) ? "text-primary" : "text-primary/60"}`} />
                         <span className="font-display text-sm font-semibold">{item.label}</span>
                       </motion.button>
                     )
