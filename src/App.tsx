@@ -8,6 +8,9 @@ import NotFound from "./pages/NotFound";
 import YouTubePage from "./pages/YouTube";
 import GamingPage from "./pages/Gaming";
 import SkillsPage from "./pages/Skills";
+import Developer from "./pages/Developer";
+import Friend from "./pages/Friend";
+import Gamer from "./pages/Gamer";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +22,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/developer" element={<Developer />} />
+          <Route path="/friend" element={<Friend />} />
+          <Route path="/gamer" element={<Gamer />} />
           <Route path="/youtube" element={<YouTubePage />} />
           <Route path="/gaming" element={<GamingPage />} />
           <Route path="/skills" element={<SkillsPage />} />
