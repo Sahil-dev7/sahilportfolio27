@@ -27,6 +27,36 @@ export type Persona = {
 
 const SWAP_MS = 7000;
 
+/* Live clock — IST */
+const useClock = () => {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return now;
+};
+
+/* Animated SVG underline that re-draws under the title on persona swap */
+const TitleUnderline = ({ accent, id }: { accent: string; id: string }) => (
+  <svg
+    viewBox="0 0 600 24"
+    className="absolute -bottom-2 left-0 w-[60%] max-w-[420px] pointer-events-none"
+    fill="none"
+  >
+    <motion.path
+      key={id}
+      d="M2 14 C 120 4, 260 22, 400 10 S 580 16, 598 8"
+      stroke={accent}
+      strokeWidth="3"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: 1 }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+    />
+  </svg>
+);
+
 /* Letter-by-letter kinetic title that re-animates on persona change */
 const KineticTitle = ({ text, accent }: { text: string; accent: string }) => {
   const letters = Array.from(text);
