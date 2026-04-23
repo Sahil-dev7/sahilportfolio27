@@ -334,6 +334,29 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
 
       {/* ─────────── Content grid ─────────── */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-24 sm:pt-24 sm:pb-20 flex items-center">
+        {/* Meta-strip — top right (clock + persona id + sparkle) */}
+        <div className="hidden md:flex absolute top-20 right-8 lg:right-12 z-20 items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-foreground/50 uppercase">
+          <Sparkles
+            className="w-3 h-3"
+            style={{ color: persona.accent }}
+          />
+          <span>IST</span>
+          <span className="tabular-nums text-foreground/80">{timeStr}</span>
+          <span className="w-8 h-px bg-foreground/20" />
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`mid-${persona.id}`}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.4 }}
+              style={{ color: persona.accent }}
+            >
+              MODE/{persona.label}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-4 items-center w-full">
           {/* LEFT — animated copy */}
           <div className="order-2 md:order-1 md:col-span-7 lg:col-span-6 relative">
