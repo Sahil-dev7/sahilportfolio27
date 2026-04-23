@@ -640,6 +640,58 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               }}
             />
 
+            {/* Animated SVG progress ring (sweeps on persona swap) */}
+            <svg
+              aria-hidden
+              viewBox="0 0 200 200"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] pointer-events-none hidden md:block -rotate-90"
+            >
+              <circle
+                cx="100"
+                cy="100"
+                r="96"
+                stroke={`${persona.accent}22`}
+                strokeWidth="0.6"
+                fill="none"
+              />
+              <motion.circle
+                key={`ring-${persona.id}`}
+                cx="100"
+                cy="100"
+                r="96"
+                stroke={persona.accent}
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                fill="none"
+                pathLength={1}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 0.9 }}
+                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                style={{ filter: `drop-shadow(0 0 6px ${persona.accent})` }}
+              />
+              {/* tick marks */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                const angle = (i / 60) * Math.PI * 2;
+                const r1 = 88;
+                const r2 = i % 5 === 0 ? 80 : 84;
+                const x1 = 100 + Math.cos(angle) * r1;
+                const y1 = 100 + Math.sin(angle) * r1;
+                const x2 = 100 + Math.cos(angle) * r2;
+                const y2 = 100 + Math.sin(angle) * r2;
+                return (
+                  <line
+                    key={i}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={`${persona.accent}${i % 5 === 0 ? "55" : "22"}`}
+                    strokeWidth="0.5"
+                  />
+                );
+              })}
+            </svg>
+
             {/* Character with parallax + crossfade */}
             <motion.div
               style={{ x: px, y: py }}
