@@ -4,6 +4,7 @@ import {
   useMotionValue,
   useSpring,
   useReducedMotion,
+  useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -224,6 +225,16 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const my = useMotionValue(0);
   const px = useSpring(mx, { stiffness: 60, damping: 18 });
   const py = useSpring(my, { stiffness: 60, damping: 18 });
+  /* Cursor spotlight (raw px coords inside stage) */
+  const cursorX = useMotionValue(-1000);
+  const cursorY = useMotionValue(-1000);
+  const sCursorX = useSpring(cursorX, { stiffness: 120, damping: 22 });
+  const sCursorY = useSpring(cursorY, { stiffness: 120, damping: 22 });
+  const spotlight = useTransform(
+    [sCursorX, sCursorY],
+    ([x, y]) =>
+      `radial-gradient(420px circle at ${x}px ${y}px, ${persona.accent}26, transparent 70%)`
+  );
   const stageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (reduce) return;
@@ -233,10 +244,14 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       const r = el.getBoundingClientRect();
       mx.set(((e.clientX - (r.left + r.width / 2)) / r.width) * 30);
       my.set(((e.clientY - (r.top + r.height / 2)) / r.height) * 22);
+      cursorX.set(e.clientX - r.left);
+      cursorY.set(e.clientY - r.top);
     };
     const onLeave = () => {
       mx.set(0);
       my.set(0);
+      cursorX.set(-1000);
+      cursorY.set(-1000);
     };
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
@@ -244,7 +259,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
     };
-  }, [mx, my, reduce]);
+  }, [mx, my, cursorX, cursorY, reduce]);
 
   return (
     <section
@@ -309,6 +324,67 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         }}
       />
 
+      {/* ─────────── Subtle animated grid lines ─────────── */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-screen"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(0 0% 100% / 1) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 1) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+        }}
+      />
+
+      {/* ─────────── Cursor spotlight (follows mouse) ─────────── */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none hidden md:block z-[5]"
+        style={{ background: spotlight as unknown as string }}
+      />
+
+      {/* ─────────── Drifting accent particles ─────────── */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 14 }).map((_, i) => {
+          const left = (i * 73) % 100;
+          const delay = (i % 7) * 0.7;
+          const dur = 9 + (i % 5) * 2;
+          const size = 2 + (i % 3);
+          return (
+            <motion.span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${left}%`,
+                bottom: "-10px",
+                width: size,
+                height: size,
+                background: persona.accent,
+                boxShadow: `0 0 8px ${persona.accent}`,
+              }}
+              animate={
+                reduce
+                  ? {}
+                  : {
+                      y: ["0vh", "-105vh"],
+                      opacity: [0, 0.7, 0],
+                      x: [0, i % 2 === 0 ? 30 : -30, 0],
+                    }
+              }
+              transition={{
+                duration: dur,
+                delay,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          );
+        })}
+      </div>
+
       {/* ─────────── Giant scrolling watermark (morphs) ─────────── */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <AnimatePresence mode="wait">
@@ -334,6 +410,31 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
 
       {/* ─────────── Content grid ─────────── */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-24 sm:pt-24 sm:pb-20 flex items-center">
+        {/* Vertical persona rail — left edge */}
+        <div className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
+          <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
+            SAHIL · WADHWANI
+          </span>
+          <span className="block w-px h-16 bg-foreground/15" />
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`rail-${persona.id}`}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.5 }}
+              className="font-display font-bold text-xs tracking-[0.5em] [writing-mode:vertical-rl] rotate-180"
+              style={{ color: persona.accent }}
+            >
+              {persona.title}
+            </motion.span>
+          </AnimatePresence>
+          <span className="block w-px h-16 bg-foreground/15" />
+          <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40">
+            ◆
+          </span>
+        </div>
+
         {/* Meta-strip — top right (clock + persona id + sparkle) */}
         <div className="hidden md:flex absolute top-20 right-8 lg:right-12 z-20 items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-foreground/50 uppercase">
           <Sparkles
@@ -538,6 +639,58 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 rotate: { duration: 60, repeat: Infinity, ease: "linear" },
               }}
             />
+
+            {/* Animated SVG progress ring (sweeps on persona swap) */}
+            <svg
+              aria-hidden
+              viewBox="0 0 200 200"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] pointer-events-none hidden md:block -rotate-90"
+            >
+              <circle
+                cx="100"
+                cy="100"
+                r="96"
+                stroke={`${persona.accent}22`}
+                strokeWidth="0.6"
+                fill="none"
+              />
+              <motion.circle
+                key={`ring-${persona.id}`}
+                cx="100"
+                cy="100"
+                r="96"
+                stroke={persona.accent}
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                fill="none"
+                pathLength={1}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 0.9 }}
+                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                style={{ filter: `drop-shadow(0 0 6px ${persona.accent})` }}
+              />
+              {/* tick marks */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                const angle = (i / 60) * Math.PI * 2;
+                const r1 = 88;
+                const r2 = i % 5 === 0 ? 80 : 84;
+                const x1 = 100 + Math.cos(angle) * r1;
+                const y1 = 100 + Math.sin(angle) * r1;
+                const x2 = 100 + Math.cos(angle) * r2;
+                const y2 = 100 + Math.sin(angle) * r2;
+                return (
+                  <line
+                    key={i}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={`${persona.accent}${i % 5 === 0 ? "55" : "22"}`}
+                    strokeWidth="0.5"
+                  />
+                );
+              })}
+            </svg>
 
             {/* Character with parallax + crossfade */}
             <motion.div
