@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -18,55 +18,26 @@ export type Persona = {
   description: string;
   bg: string;
   png: string;
-  accent: string;        // hsl(...) string
-  accentSoft: string;    // softer companion
+  accent: string;
+  accentSoft: string;
   ctaLabel: string;
   ctaTo: string;
   stats: { label: string; value: string }[];
   marquee: string[];
 };
 
-const SWAP_MS = 7000;
-
-/* Live clock — IST */
-const useClock = () => {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return now;
-};
-
-/* Animated SVG underline that re-draws under the title on persona swap */
-const TitleUnderline = ({ accent, id }: { accent: string; id: string }) => (
-  <svg
-    viewBox="0 0 600 24"
-    className="absolute -bottom-2 left-0 w-[60%] max-w-[420px] pointer-events-none"
-    fill="none"
-  >
-    <motion.path
-      key={id}
-      d="M2 14 C 120 4, 260 22, 400 10 S 580 16, 598 8"
-      stroke={accent}
-      strokeWidth="3"
-      strokeLinecap="round"
-      initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-    />
-  </svg>
-);
-
-/* Letter-by-letter kinetic title that re-animates on persona change */
-const KineticTitle = ({ text, accent }: { text: string; accent: string }) => {
+/* Cursive name title — viral, hand-written feel */
+const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
   const letters = Array.from(text);
   return (
     <h1
-      className="font-display font-black tracking-tight leading-[0.85] text-foreground"
+      className="leading-[0.9] text-foreground"
       style={{
-        fontSize: "clamp(2.75rem, 11vw, 9.5rem)",
-        textShadow: `0 8px 40px ${accent}55`,
+        fontFamily: "'Caveat', cursive",
+        fontWeight: 700,
+        fontSize: "clamp(3.5rem, 13vw, 11rem)",
+        textShadow: `0 10px 50px ${accent}55, 0 2px 0 ${accent}22`,
+        letterSpacing: "-0.01em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -75,12 +46,12 @@ const KineticTitle = ({ text, accent }: { text: string; accent: string }) => {
           <motion.span
             key={i}
             className="inline-block"
-            initial={{ y: "115%", opacity: 0, rotateX: -60 }}
-            animate={{ y: "0%", opacity: 1, rotateX: 0 }}
-            exit={{ y: "-115%", opacity: 0, rotateX: 60 }}
+            initial={{ y: "60%", opacity: 0, rotate: -8, filter: "blur(6px)" }}
+            animate={{ y: "0%", opacity: 1, rotate: 0, filter: "blur(0px)" }}
+            exit={{ y: "-30%", opacity: 0, filter: "blur(6px)" }}
             transition={{
               duration: 0.7,
-              delay: 0.15 + i * 0.045,
+              delay: 0.1 + i * 0.04,
               ease: [0.22, 1, 0.36, 1],
             }}
             style={{ transformOrigin: "50% 100%" }}
@@ -93,8 +64,8 @@ const KineticTitle = ({ text, accent }: { text: string; accent: string }) => {
   );
 };
 
-/* Magnetic shared CTA — does NOT remount between personas, only color morphs */
-const MagneticCTA = ({
+/* Redesigned, simple "Enter Dev Mode" pill — minimal, animated arrow */
+const EnterPill = ({
   to,
   label,
   accent,
@@ -103,129 +74,124 @@ const MagneticCTA = ({
   label: string;
   accent: string;
 }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 18 });
-  const sy = useSpring(y, { stiffness: 220, damping: 18 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    x.set((e.clientX - (r.left + r.width / 2)) * 0.25);
-    y.set((e.clientY - (r.top + r.height / 2)) * 0.35);
-  };
-  const onLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
   return (
-    <motion.div
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      style={{ x: sx, y: sy }}
-      className="inline-block"
-      layout
-    >
-      <motion.div
-        animate={{
-          background: accent,
-          boxShadow: `0 18px 50px -10px ${accent}, 0 0 0 1px hsl(0 0% 100% / 0.12) inset`,
+    <motion.div layout className="inline-block">
+      <Link
+        to={to}
+        className="group relative inline-flex items-center gap-4 pl-6 pr-3 py-3 rounded-full font-display font-medium text-sm uppercase tracking-[0.22em] text-foreground overflow-hidden"
+        style={{
+          background: "hsl(0 0% 100% / 0.06)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
         }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-full"
       >
-        <Link
-          ref={ref}
-          to={to}
-          className="group relative inline-flex items-center gap-3 pl-7 pr-2 py-2 rounded-full font-display font-semibold text-sm text-white overflow-hidden"
+        {/* animated border */}
+        <motion.span
+          aria-hidden
+          className="absolute inset-0 rounded-full pointer-events-none"
+          animate={{
+            boxShadow: `0 0 0 1px ${accent}55, 0 12px 40px -10px ${accent}88`,
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+        {/* fill on hover */}
+        <span
+          aria-hidden
+          className="absolute inset-0 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"
+          style={{ background: accent }}
+        />
+        <span className="relative z-10 transition-colors group-hover:text-white">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={label}
+              initial={{ y: 14, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -14, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-block"
+            >
+              {label}
+            </motion.span>
+          </AnimatePresence>
+        </span>
+        <span
+          className="relative z-10 inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors group-hover:bg-white/20"
+          style={{ background: `${accent}` }}
         >
-          <span
-            aria-hidden
-            className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-            style={{
-              background:
-                "linear-gradient(120deg, transparent 30%, hsl(0 0% 100% / 0.4) 50%, transparent 70%)",
-            }}
-          />
-          <span className="relative z-10 tracking-[0.18em] uppercase">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={label}
-                initial={{ y: 16, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -16, opacity: 0 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block"
-              >
-                {label}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-          <span className="relative z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/15 group-hover:bg-white/25 transition-colors overflow-hidden">
-            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-5" />
-            <ArrowRight className="w-4 h-4 absolute -translate-x-5 transition-transform duration-300 group-hover:translate-x-0" />
-          </span>
-        </Link>
-      </motion.div>
+          <ArrowUpRight className="w-4 h-4 text-white transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </span>
+      </Link>
     </motion.div>
   );
 };
 
+const SCROLL_COOLDOWN = 900;
+
 const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
-  const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
   const persona = personas[index];
-  const now = useClock();
-  const timeStr = now.toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Kolkata",
-  });
+  const lastSwapRef = useRef(0);
 
-  /* Auto-rotate */
-  useEffect(() => {
-    if (paused || reduce) return;
-    const t = setTimeout(() => {
-      setDir(1);
-      setIndex((i) => (i + 1) % personas.length);
-    }, SWAP_MS);
-    return () => clearTimeout(t);
-  }, [index, paused, personas.length, reduce]);
-
-  const go = (n: number) => {
-    setDir(n > index || (index === personas.length - 1 && n === 0) ? 1 : -1);
+  const go = (n: number, direction: number) => {
+    setDir(direction);
     setIndex(n);
   };
-  const next = () => go((index + 1) % personas.length);
-  const prev = () => go((index - 1 + personas.length) % personas.length);
 
-  /* Keyboard nav */
+  /* Wheel / touch scroll → change persona */
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === " ") {
-        e.preventDefault();
-        setPaused((p) => !p);
+    const tryAdvance = (delta: number) => {
+      const now = Date.now();
+      if (now - lastSwapRef.current < SCROLL_COOLDOWN) return;
+      if (Math.abs(delta) < 8) return;
+      lastSwapRef.current = now;
+      if (delta > 0) {
+        const n = (index + 1) % personas.length;
+        go(n, 1);
+      } else {
+        const n = (index - 1 + personas.length) % personas.length;
+        go(n, -1);
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
 
-  /* Mouse parallax for character */
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      tryAdvance(e.deltaY);
+    };
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const dy = touchStartY - e.touches[0].clientY;
+      if (Math.abs(dy) > 40) {
+        tryAdvance(dy);
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") tryAdvance(1);
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") tryAdvance(-1);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [index, personas.length]);
+
+  /* Mouse parallax */
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const px = useSpring(mx, { stiffness: 60, damping: 18 });
   const py = useSpring(my, { stiffness: 60, damping: 18 });
-  /* Cursor spotlight (raw px coords inside stage) */
   const cursorX = useMotionValue(-1000);
   const cursorY = useMotionValue(-1000);
   const sCursorX = useSpring(cursorX, { stiffness: 120, damping: 22 });
@@ -242,8 +208,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
     if (!el) return;
     const onMove = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();
-      mx.set(((e.clientX - (r.left + r.width / 2)) / r.width) * 30);
-      my.set(((e.clientY - (r.top + r.height / 2)) / r.height) * 22);
+      mx.set(((e.clientX - (r.left + r.width / 2)) / r.width) * 24);
+      my.set(((e.clientY - (r.top + r.height / 2)) / r.height) * 18);
       cursorX.set(e.clientX - r.left);
       cursorY.set(e.clientY - r.top);
     };
@@ -267,7 +233,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       className="relative w-full h-screen overflow-hidden bg-background"
       aria-label="Persona showcase"
     >
-      {/* ─────────── Animated gradient backdrop (color morphs) ─────────── */}
+      {/* Animated gradient backdrop */}
       <motion.div
         aria-hidden
         className="absolute inset-0"
@@ -277,7 +243,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         transition={{ duration: 1.2, ease: "easeInOut" }}
       />
 
-      {/* ─────────── Crossfading background image ─────────── */}
+      {/* Crossfading background image */}
       <AnimatePresence mode="sync">
         <motion.div
           key={`bg-${persona.id}`}
@@ -294,7 +260,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             loading={index === 0 ? "eager" : "lazy"}
             draggable={false}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20" />
+          {/* On mobile, lighter overlay so PNG dominates 65% of screen */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-background/10 md:to-background/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
           <div
             className="absolute inset-0 pointer-events-none"
@@ -306,7 +273,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* ─────────── Floating accent orbs ─────────── */}
+      {/* Floating accent orb */}
       <motion.div
         aria-hidden
         className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full blur-[150px] pointer-events-none"
@@ -324,7 +291,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         }}
       />
 
-      {/* ─────────── Subtle animated grid lines ─────────── */}
+      {/* Subtle grid */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-screen"
@@ -339,14 +306,14 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         }}
       />
 
-      {/* ─────────── Cursor spotlight (follows mouse) ─────────── */}
+      {/* Cursor spotlight */}
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none hidden md:block z-[5]"
         style={{ background: spotlight as unknown as string }}
       />
 
-      {/* ─────────── Drifting accent particles ─────────── */}
+      {/* Drifting particles */}
       <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
         {Array.from({ length: 14 }).map((_, i) => {
           const left = (i * 73) % 100;
@@ -385,7 +352,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         })}
       </div>
 
-      {/* ─────────── Giant scrolling watermark (morphs) ─────────── */}
+      {/* Giant scrolling watermark */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.span
@@ -408,9 +375,9 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </AnimatePresence>
       </div>
 
-      {/* ─────────── Content grid ─────────── */}
-      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-24 sm:pt-24 sm:pb-20 flex items-center">
-        {/* Vertical persona rail — left edge */}
+      {/* Content grid */}
+      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-20 sm:pt-24 flex items-end md:items-center">
+        {/* Vertical persona rail */}
         <div className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
           <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
             SAHIL · WADHWANI
@@ -426,7 +393,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               className="font-display font-bold text-xs tracking-[0.5em] [writing-mode:vertical-rl] rotate-180"
               style={{ color: persona.accent }}
             >
-              {persona.title}
+              {persona.label}
             </motion.span>
           </AnimatePresence>
           <span className="block w-px h-16 bg-foreground/15" />
@@ -435,132 +402,76 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </span>
         </div>
 
-        {/* Meta-strip — top right (clock + persona id + sparkle) */}
-        <div className="hidden md:flex absolute top-20 right-8 lg:right-12 z-20 items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-foreground/50 uppercase">
-          <Sparkles
-            className="w-3 h-3"
-            style={{ color: persona.accent }}
-          />
-          <span>IST</span>
-          <span className="tabular-nums text-foreground/80">{timeStr}</span>
-          <span className="w-8 h-px bg-foreground/20" />
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={`mid-${persona.id}`}
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.4 }}
-              style={{ color: persona.accent }}
-            >
-              MODE/{persona.label}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-4 items-center w-full">
-          {/* LEFT — animated copy */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end md:items-center w-full">
+          {/* LEFT — copy (on mobile sits at bottom, smaller, since PNG dominates) */}
           <div className="order-2 md:order-1 md:col-span-7 lg:col-span-6 relative">
-            {/* Persona chip + counter (changes) */}
+            {/* Subtitle ABOVE name */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={`chip-${persona.id}`}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 30 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-3 mb-5"
+                key={`sub-${persona.id}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+                className="mb-2 sm:mb-3 flex items-center gap-3"
               >
                 <span
-                  className="relative px-3 py-1 font-display font-bold text-[10px] sm:text-xs tracking-[0.3em] text-white overflow-hidden rounded-sm"
+                  className="block h-px w-8 sm:w-12"
                   style={{ background: persona.accent }}
+                />
+                <span
+                  className="font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase"
+                  style={{ color: persona.accent }}
                 >
-                  {persona.label}
-                  <motion.span
-                    aria-hidden
-                    className="absolute inset-0 bg-white/30"
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{
-                      duration: 1.6,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                      ease: "easeInOut",
-                    }}
-                  />
+                  {persona.subtitle}
                 </span>
-                <span className="text-[10px] sm:text-xs font-mono text-muted-foreground tracking-[0.3em]">
-                  0{index + 1} / 0{personas.length}
-                </span>
-                <span className="hidden sm:inline-block w-12 h-px bg-foreground/20" />
               </motion.div>
             </AnimatePresence>
 
-            {/* Title — kinetic, re-animates */}
-            <div className="relative mb-4 min-h-[3em]">
+            {/* Cursive name title */}
+            <div className="relative mb-4 min-h-[1.2em]">
               <AnimatePresence mode="wait">
-                <KineticTitle
+                <CursiveName
                   key={`title-${persona.id}`}
                   text={persona.title}
                   accent={persona.accent}
                 />
               </AnimatePresence>
-              <TitleUnderline accent={persona.accent} id={persona.id} />
             </div>
 
-            {/* Accent rule (color morphs, doesn't remount) */}
+            {/* Accent rule */}
             <motion.div
               animate={{ background: persona.accent }}
               transition={{ duration: 0.8 }}
-              className="h-[2px] w-24 mb-5 rounded-full origin-left"
+              className="h-[2px] w-20 mb-4 rounded-full origin-left hidden sm:block"
             />
 
-            {/* Subtitle + description */}
-            <div className="min-h-[5.5rem] mb-6">
+            {/* Description */}
+            <div className="mb-6 hidden sm:block">
               <AnimatePresence mode="wait">
-                <motion.div
-                  key={`copy-${persona.id}`}
-                  initial={{ opacity: 0, y: 20 }}
+                <motion.p
+                  key={`desc-${persona.id}`}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  exit={{ opacity: 0, y: -14 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
+                  className="font-body text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed"
                 >
-                  <p className="font-display text-base sm:text-xl font-semibold text-foreground/95 mb-2">
-                    {persona.subtitle}
-                  </p>
-                  <p className="font-body text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed">
-                    {persona.description}
-                  </p>
-                </motion.div>
+                  {persona.description}
+                </motion.p>
               </AnimatePresence>
             </div>
 
-            {/* Shared CTA + secondary link (button persists, label/color morph) */}
-            <div className="flex items-center gap-5 mb-7">
-              <MagneticCTA
+            {/* Single Enter pill (redesigned, persists, label morphs) */}
+            <div className="flex items-center gap-4">
+              <EnterPill
                 to={persona.ctaTo}
                 label={persona.ctaLabel}
                 accent={persona.accent}
               />
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`learn-${persona.id}`}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <Link
-                    to={persona.ctaTo}
-                    className="font-display text-xs sm:text-sm text-foreground/60 hover:text-foreground transition-colors story-link"
-                  >
-                    Learn more
-                  </Link>
-                </motion.div>
-              </AnimatePresence>
             </div>
 
-            {/* Stat tiles */}
+            {/* Stat tiles — desktop only to keep mobile clean for PNG */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`stats-${persona.id}`}
@@ -568,7 +479,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="flex flex-wrap gap-3"
+                className="hidden md:flex flex-wrap gap-3 mt-7"
               >
                 {persona.stats.map((s, i) => (
                   <motion.div
@@ -597,12 +508,12 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
           </div>
 
-          {/* RIGHT — character image */}
-          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[42svh] sm:h-[55svh] md:h-[78svh] flex justify-center md:justify-end items-end">
+          {/* RIGHT — character image (mobile: 65vh dominant) */}
+          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[65svh] md:h-[82svh] flex justify-center md:justify-end items-end">
             {/* Glow */}
             <motion.div
               aria-hidden
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75%] h-[75%] rounded-full blur-[100px] pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full blur-[100px] pointer-events-none"
               animate={{
                 background: persona.accent,
                 opacity: reduce ? 0.3 : [0.28, 0.45, 0.28],
@@ -614,10 +525,10 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
               }}
             />
-            {/* Concentric rings (color morph) */}
+            {/* Concentric rings */}
             <motion.div
               aria-hidden
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full border pointer-events-none hidden md:block"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] rounded-full border pointer-events-none hidden md:block"
               animate={{
                 borderColor: `${persona.accent}33`,
                 rotate: reduce ? 0 : 360,
@@ -629,7 +540,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             />
             <motion.div
               aria-hidden
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border-2 border-dashed pointer-events-none hidden md:block"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[330px] h-[330px] rounded-full border-2 border-dashed pointer-events-none hidden md:block"
               animate={{
                 borderColor: `${persona.accent}22`,
                 rotate: reduce ? 0 : -360,
@@ -640,11 +551,11 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               }}
             />
 
-            {/* Animated SVG progress ring (sweeps on persona swap) */}
+            {/* Animated SVG progress ring */}
             <svg
               aria-hidden
               viewBox="0 0 200 200"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] pointer-events-none hidden md:block -rotate-90"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none hidden md:block -rotate-90"
             >
               <circle
                 cx="100"
@@ -669,7 +580,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                 style={{ filter: `drop-shadow(0 0 6px ${persona.accent})` }}
               />
-              {/* tick marks */}
               {Array.from({ length: 60 }).map((_, i) => {
                 const angle = (i / 60) * Math.PI * 2;
                 const r1 = 88;
@@ -692,7 +602,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               })}
             </svg>
 
-            {/* Character with parallax + crossfade */}
+            {/* Character — BIGGER. Mobile: fills the 65svh container, scales >100% */}
             <motion.div
               style={{ x: px, y: py }}
               className="relative z-10 h-full w-full flex items-end justify-center md:justify-end"
@@ -702,16 +612,16 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   key={`png-${persona.id}`}
                   src={persona.png}
                   alt={persona.title}
-                  initial={{ opacity: 0, x: dir * 80, scale: 0.94, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -dir * 80, scale: 0.94, filter: "blur(8px)" }}
+                  initial={{ opacity: 0, x: dir * 80, scale: 1.0, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, x: 0, scale: 1.12, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: -dir * 80, scale: 1.0, filter: "blur(8px)" }}
                   transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute bottom-0 h-full w-auto object-contain object-bottom select-none pointer-events-none"
+                  className="absolute bottom-0 h-[115%] md:h-[110%] w-auto object-contain object-bottom select-none pointer-events-none"
                   style={{
                     maskImage:
-                      "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      "linear-gradient(to bottom, black 94%, transparent 100%)",
                     WebkitMaskImage:
-                      "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      "linear-gradient(to bottom, black 94%, transparent 100%)",
                     filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))",
                   }}
                   loading={index === 0 ? "eager" : "lazy"}
@@ -720,7 +630,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               </AnimatePresence>
             </motion.div>
 
-            {/* Floating keyword tags around portrait */}
+            {/* Floating keyword tags */}
             <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -733,10 +643,10 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 >
                   {persona.marquee.slice(0, 4).map((tag, i) => {
                     const positions = [
-                      { top: "12%", left: "4%" },
-                      { top: "32%", right: "2%" },
-                      { bottom: "28%", left: "0%" },
-                      { top: "58%", right: "6%" },
+                      { top: "10%", left: "2%" },
+                      { top: "30%", right: "0%" },
+                      { bottom: "30%", left: "-2%" },
+                      { top: "60%", right: "4%" },
                     ];
                     return (
                       <motion.span
@@ -771,172 +681,36 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 </motion.div>
               </AnimatePresence>
             </div>
-
-            {/* Status badge */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`status-${persona.id}`}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="hidden md:flex absolute bottom-[18%] right-2 lg:right-6 z-20 glass-strong rounded-2xl px-4 py-3 border items-center gap-3"
-                style={{ borderColor: `${persona.accent}55` }}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span
-                    className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
-                    style={{ background: persona.accent }}
-                  />
-                  <span
-                    className="relative inline-flex rounded-full h-2 w-2"
-                    style={{ background: persona.accent }}
-                  />
-                </span>
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
-                    Status
-                  </div>
-                  <div
-                    className="font-display text-xs font-bold"
-                    style={{ color: persona.accent }}
-                  >
-                    {index === 0
-                      ? "Available · Hire Me"
-                      : index === 1
-                      ? "Online · Say Hi"
-                      : "Squad Up · BGMI"}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
           </div>
         </div>
       </div>
 
-      {/* ─────────── Side arrow controls ─────────── */}
-      <button
-        onClick={prev}
-        aria-label="Previous persona"
-        className="hidden md:flex absolute left-3 lg:left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full glass-strong items-center justify-center text-foreground/80 hover:text-foreground hover:scale-110 transition-all"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      <button
-        onClick={next}
-        aria-label="Next persona"
-        className="hidden md:flex absolute right-3 lg:right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full glass-strong items-center justify-center text-foreground/80 hover:text-foreground hover:scale-110 transition-all"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
-
-      {/* ─────────── Bottom dock: dots + auto-progress + pause ─────────── */}
-      <div className="absolute bottom-0 left-0 right-0 z-30">
-        {/* Marquee strip */}
-        <div
-          className="border-t py-3 overflow-hidden backdrop-blur-md"
-          style={{
-            borderColor: `${persona.accent}33`,
-            background: "hsl(0 0% 0% / 0.4)",
-          }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`marq-${persona.id}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="flex gap-10 whitespace-nowrap"
-            >
-              <motion.div
-                className="flex gap-10 whitespace-nowrap"
-                animate={reduce ? {} : { x: ["0%", "-50%"] }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              >
-                {[...persona.marquee, ...persona.marquee, ...persona.marquee].map(
-                  (m, i) => (
-                    <span
-                      key={i}
-                      className="font-display font-bold text-xs sm:text-sm tracking-[0.3em] text-foreground/60 flex items-center gap-10"
-                    >
-                      {m}
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full"
-                        style={{ background: persona.accent }}
-                      />
-                    </span>
-                  )
-                )}
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
+      {/* Bottom: passive indicator dots + scroll hint (no buttons) */}
+      <div className="absolute bottom-4 sm:bottom-6 left-0 right-0 z-30 flex flex-col items-center gap-3 pointer-events-none">
+        <div className="flex items-center gap-2">
+          {personas.map((p, i) => {
+            const isActive = i === index;
+            return (
+              <motion.span
+                key={p.id}
+                aria-hidden
+                className="block h-[3px] rounded-full"
+                animate={{
+                  width: isActive ? 36 : 10,
+                  background: isActive ? p.accent : "hsl(0 0% 100% / 0.25)",
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              />
+            );
+          })}
         </div>
-
-        {/* Dock controls */}
-        <div
-          className="flex items-center justify-between gap-4 px-5 sm:px-10 py-4"
-          style={{ background: "hsl(0 0% 0% / 0.5)" }}
+        <motion.span
+          className="font-mono text-[9px] sm:text-[10px] tracking-[0.4em] text-foreground/40 uppercase"
+          animate={{ y: [0, 4, 0], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         >
-          {/* Persona dots */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {personas.map((p, i) => {
-              const isActive = i === index;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => go(i)}
-                  aria-label={`Go to ${p.label}`}
-                  className="group relative flex items-center gap-2 py-2"
-                >
-                  <span className="relative block h-[3px] w-10 sm:w-16 rounded-full bg-foreground/15 overflow-hidden">
-                    <motion.span
-                      key={`prog-${p.id}-${index}-${paused}`}
-                      className="absolute inset-y-0 left-0 rounded-full"
-                      style={{ background: p.accent }}
-                      initial={{ width: isActive ? "0%" : i < index ? "100%" : "0%" }}
-                      animate={{
-                        width: isActive
-                          ? paused || reduce
-                            ? "30%"
-                            : "100%"
-                          : i < index
-                          ? "100%"
-                          : "0%",
-                      }}
-                      transition={{
-                        duration: isActive && !paused && !reduce ? SWAP_MS / 1000 : 0.4,
-                        ease: "linear",
-                      }}
-                    />
-                  </span>
-                  <span
-                    className={`hidden sm:inline-block font-display text-[10px] tracking-[0.25em] uppercase transition-colors ${
-                      isActive ? "" : "text-foreground/40 group-hover:text-foreground/70"
-                    }`}
-                    style={{ color: isActive ? p.accent : undefined }}
-                  >
-                    {p.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Pause + hint */}
-          <div className="flex items-center gap-3">
-            <span className="hidden md:block font-mono text-[10px] tracking-[0.3em] text-foreground/40">
-              ← / → SWITCH
-            </span>
-            <button
-              onClick={() => setPaused((p) => !p)}
-              aria-label={paused ? "Resume" : "Pause"}
-              className="w-9 h-9 rounded-full glass-strong flex items-center justify-center text-foreground/80 hover:text-foreground transition-colors"
-            >
-              {paused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
-            </button>
-          </div>
-        </div>
+          Scroll to switch
+        </motion.span>
       </div>
     </section>
   );
