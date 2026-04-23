@@ -179,6 +179,13 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
   const persona = personas[index];
+  const now = useClock();
+  const timeStr = now.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Kolkata",
+  });
 
   /* Auto-rotate */
   useEffect(() => {
