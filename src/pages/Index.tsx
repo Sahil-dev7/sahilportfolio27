@@ -5,7 +5,7 @@ const personas: Persona[] = [
   {
     id: "developer",
     label: "DEVELOPER",
-    title: "SAHIL DEV",
+    title: "Sahil Wadhwani",
     subtitle: "Android Developer & Software Engineer",
     description:
       "Crafting clean, scalable mobile apps with Kotlin & Jetpack Compose. Six years of shipping products that just work.",
@@ -28,7 +28,7 @@ const personas: Persona[] = [
   {
     id: "friend",
     label: "CREATOR",
-    title: "THE FRIEND",
+    title: "Sahil Wadhwani",
     subtitle: "Content Creator · Storyteller · Human",
     description:
       "Off the keyboard — music I loop, films I rewatch, photographs I take, and the corners of the internet I call home.",
@@ -51,7 +51,7 @@ const personas: Persona[] = [
   {
     id: "gamer",
     label: "GAMER",
-    title: "S A A H O",
+    title: "Sahil Wadhwani",
     subtitle: "Competitive Gamer · BGMI Conqueror",
     description:
       "Where reflexes meet strategy. 2500+ hours across battle royales, RPGs and the unforgiving classics.",
