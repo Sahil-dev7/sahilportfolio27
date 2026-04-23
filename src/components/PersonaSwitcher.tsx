@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, Sparkles } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -26,6 +26,36 @@ export type Persona = {
 };
 
 const SWAP_MS = 7000;
+
+/* Live clock — IST */
+const useClock = () => {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return now;
+};
+
+/* Animated SVG underline that re-draws under the title on persona swap */
+const TitleUnderline = ({ accent, id }: { accent: string; id: string }) => (
+  <svg
+    viewBox="0 0 600 24"
+    className="absolute -bottom-2 left-0 w-[60%] max-w-[420px] pointer-events-none"
+    fill="none"
+  >
+    <motion.path
+      key={id}
+      d="M2 14 C 120 4, 260 22, 400 10 S 580 16, 598 8"
+      stroke={accent}
+      strokeWidth="3"
+      strokeLinecap="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: 1 }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+    />
+  </svg>
+);
 
 /* Letter-by-letter kinetic title that re-animates on persona change */
 const KineticTitle = ({ text, accent }: { text: string; accent: string }) => {
@@ -149,6 +179,13 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
   const persona = personas[index];
+  const now = useClock();
+  const timeStr = now.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Kolkata",
+  });
 
   /* Auto-rotate */
   useEffect(() => {
@@ -297,6 +334,29 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
 
       {/* ─────────── Content grid ─────────── */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-24 sm:pt-24 sm:pb-20 flex items-center">
+        {/* Meta-strip — top right (clock + persona id + sparkle) */}
+        <div className="hidden md:flex absolute top-20 right-8 lg:right-12 z-20 items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-foreground/50 uppercase">
+          <Sparkles
+            className="w-3 h-3"
+            style={{ color: persona.accent }}
+          />
+          <span>IST</span>
+          <span className="tabular-nums text-foreground/80">{timeStr}</span>
+          <span className="w-8 h-px bg-foreground/20" />
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`mid-${persona.id}`}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.4 }}
+              style={{ color: persona.accent }}
+            >
+              MODE/{persona.label}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-4 items-center w-full">
           {/* LEFT — animated copy */}
           <div className="order-2 md:order-1 md:col-span-7 lg:col-span-6 relative">
@@ -336,7 +396,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
 
             {/* Title — kinetic, re-animates */}
-            <div className="mb-4 min-h-[3em]">
+            <div className="relative mb-4 min-h-[3em]">
               <AnimatePresence mode="wait">
                 <KineticTitle
                   key={`title-${persona.id}`}
@@ -344,6 +404,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   accent={persona.accent}
                 />
               </AnimatePresence>
+              <TitleUnderline accent={persona.accent} id={persona.id} />
             </div>
 
             {/* Accent rule (color morphs, doesn't remount) */}
@@ -505,6 +566,58 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 />
               </AnimatePresence>
             </motion.div>
+
+            {/* Floating keyword tags around portrait */}
+            <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`tags-${persona.id}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0"
+                >
+                  {persona.marquee.slice(0, 4).map((tag, i) => {
+                    const positions = [
+                      { top: "12%", left: "4%" },
+                      { top: "32%", right: "2%" },
+                      { bottom: "28%", left: "0%" },
+                      { top: "58%", right: "6%" },
+                    ];
+                    return (
+                      <motion.span
+                        key={tag}
+                        initial={{ opacity: 0, y: 14, scale: 0.8 }}
+                        animate={{
+                          opacity: 1,
+                          y: [0, -8, 0],
+                          scale: 1,
+                        }}
+                        transition={{
+                          opacity: { delay: 0.4 + i * 0.12, duration: 0.5 },
+                          scale: { delay: 0.4 + i * 0.12, duration: 0.5 },
+                          y: {
+                            duration: 4 + i,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: i * 0.3,
+                          },
+                        }}
+                        className="absolute font-mono text-[10px] tracking-[0.25em] uppercase px-2.5 py-1 rounded-full glass-strong"
+                        style={{
+                          ...positions[i],
+                          color: persona.accent,
+                          borderColor: `${persona.accent}55`,
+                        }}
+                      >
+                        ◆ {tag}
+                      </motion.span>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             {/* Status badge */}
             <AnimatePresence mode="wait">
