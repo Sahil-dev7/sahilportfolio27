@@ -567,6 +567,58 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               </AnimatePresence>
             </motion.div>
 
+            {/* Floating keyword tags around portrait */}
+            <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`tags-${persona.id}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0"
+                >
+                  {persona.marquee.slice(0, 4).map((tag, i) => {
+                    const positions = [
+                      { top: "12%", left: "4%" },
+                      { top: "32%", right: "2%" },
+                      { bottom: "28%", left: "0%" },
+                      { top: "58%", right: "6%" },
+                    ];
+                    return (
+                      <motion.span
+                        key={tag}
+                        initial={{ opacity: 0, y: 14, scale: 0.8 }}
+                        animate={{
+                          opacity: 1,
+                          y: [0, -8, 0],
+                          scale: 1,
+                        }}
+                        transition={{
+                          opacity: { delay: 0.4 + i * 0.12, duration: 0.5 },
+                          scale: { delay: 0.4 + i * 0.12, duration: 0.5 },
+                          y: {
+                            duration: 4 + i,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: i * 0.3,
+                          },
+                        }}
+                        className="absolute font-mono text-[10px] tracking-[0.25em] uppercase px-2.5 py-1 rounded-full glass-strong"
+                        style={{
+                          ...positions[i],
+                          color: persona.accent,
+                          borderColor: `${persona.accent}55`,
+                        }}
+                      >
+                        ◆ {tag}
+                      </motion.span>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
             {/* Status badge */}
             <AnimatePresence mode="wait">
               <motion.div
