@@ -373,7 +373,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
 
             {/* Title — kinetic, re-animates */}
-            <div className="mb-4 min-h-[3em]">
+            <div className="relative mb-4 min-h-[3em]">
               <AnimatePresence mode="wait">
                 <KineticTitle
                   key={`title-${persona.id}`}
@@ -381,6 +381,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   accent={persona.accent}
                 />
               </AnimatePresence>
+              <TitleUnderline accent={persona.accent} id={persona.id} />
             </div>
 
             {/* Accent rule (color morphs, doesn't remount) */}
