@@ -225,6 +225,16 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const my = useMotionValue(0);
   const px = useSpring(mx, { stiffness: 60, damping: 18 });
   const py = useSpring(my, { stiffness: 60, damping: 18 });
+  /* Cursor spotlight (raw px coords inside stage) */
+  const cursorX = useMotionValue(-1000);
+  const cursorY = useMotionValue(-1000);
+  const sCursorX = useSpring(cursorX, { stiffness: 120, damping: 22 });
+  const sCursorY = useSpring(cursorY, { stiffness: 120, damping: 22 });
+  const spotlight = useTransform(
+    [sCursorX, sCursorY],
+    ([x, y]) =>
+      `radial-gradient(420px circle at ${x}px ${y}px, ${persona.accent}26, transparent 70%)`
+  );
   const stageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (reduce) return;
@@ -234,10 +244,14 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       const r = el.getBoundingClientRect();
       mx.set(((e.clientX - (r.left + r.width / 2)) / r.width) * 30);
       my.set(((e.clientY - (r.top + r.height / 2)) / r.height) * 22);
+      cursorX.set(e.clientX - r.left);
+      cursorY.set(e.clientY - r.top);
     };
     const onLeave = () => {
       mx.set(0);
       my.set(0);
+      cursorX.set(-1000);
+      cursorY.set(-1000);
     };
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
@@ -245,7 +259,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
     };
-  }, [mx, my, reduce]);
+  }, [mx, my, cursorX, cursorY, reduce]);
 
   return (
     <section
