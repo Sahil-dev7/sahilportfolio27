@@ -324,6 +324,67 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         }}
       />
 
+      {/* ─────────── Subtle animated grid lines ─────────── */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-screen"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(0 0% 100% / 1) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 1) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+        }}
+      />
+
+      {/* ─────────── Cursor spotlight (follows mouse) ─────────── */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none hidden md:block z-[5]"
+        style={{ background: spotlight as unknown as string }}
+      />
+
+      {/* ─────────── Drifting accent particles ─────────── */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 14 }).map((_, i) => {
+          const left = (i * 73) % 100;
+          const delay = (i % 7) * 0.7;
+          const dur = 9 + (i % 5) * 2;
+          const size = 2 + (i % 3);
+          return (
+            <motion.span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${left}%`,
+                bottom: "-10px",
+                width: size,
+                height: size,
+                background: persona.accent,
+                boxShadow: `0 0 8px ${persona.accent}`,
+              }}
+              animate={
+                reduce
+                  ? {}
+                  : {
+                      y: ["0vh", "-105vh"],
+                      opacity: [0, 0.7, 0],
+                      x: [0, i % 2 === 0 ? 30 : -30, 0],
+                    }
+              }
+              transition={{
+                duration: dur,
+                delay,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          );
+        })}
+      </div>
+
       {/* ─────────── Giant scrolling watermark (morphs) ─────────── */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <AnimatePresence mode="wait">
