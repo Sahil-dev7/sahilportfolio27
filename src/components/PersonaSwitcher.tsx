@@ -410,6 +410,31 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
 
       {/* ─────────── Content grid ─────────── */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-24 sm:pt-24 sm:pb-20 flex items-center">
+        {/* Vertical persona rail — left edge */}
+        <div className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
+          <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
+            SAHIL · WADHWANI
+          </span>
+          <span className="block w-px h-16 bg-foreground/15" />
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={`rail-${persona.id}`}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.5 }}
+              className="font-display font-bold text-xs tracking-[0.5em] [writing-mode:vertical-rl] rotate-180"
+              style={{ color: persona.accent }}
+            >
+              {persona.title}
+            </motion.span>
+          </AnimatePresence>
+          <span className="block w-px h-16 bg-foreground/15" />
+          <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40">
+            ◆
+          </span>
+        </div>
+
         {/* Meta-strip — top right (clock + persona id + sparkle) */}
         <div className="hidden md:flex absolute top-20 right-8 lg:right-12 z-20 items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-foreground/50 uppercase">
           <Sparkles
