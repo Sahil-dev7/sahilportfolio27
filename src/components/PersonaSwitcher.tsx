@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, MapPin, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -24,6 +24,13 @@ export type Persona = {
   ctaTo: string;
   stats: { label: string; value: string }[];
   marquee: string[];
+  coverLines?: {
+    leftTop?: { kicker: string; headline: string; sub?: string };
+    leftMid?: { kicker: string; headline: string; sub?: string };
+    rightTop?: { kicker: string; headline: string; sub?: string };
+    rightBottom?: { kicker: string; headline: string; sub?: string };
+    issueWord?: string; // e.g. "DEVELOPER" — small italic word under masthead
+  };
 };
 
 /* Cursive name title — viral, hand-written feel */
