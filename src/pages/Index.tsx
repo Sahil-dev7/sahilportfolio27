@@ -24,6 +24,26 @@ const personas: Persona[] = [
       "KOTLIN", "JETPACK COMPOSE", "FIREBASE", "MVVM",
       "ANDROID SDK", "DART", "REST APIs", "CLEAN ARCHITECTURE",
     ],
+    coverLines: {
+      leftTop: {
+        kicker: "EXCLUSIVE",
+        headline: "Six Years, Zero Shortcuts.",
+        sub: "Inside the mind of an Android engineer who codes like he means it.",
+      },
+      leftMid: {
+        kicker: "ON CRAFT",
+        headline: "Kotlin, clean architecture & quiet obsession.",
+      },
+      rightTop: {
+        kicker: "COVER STAR",
+        headline: "The Builder.",
+        sub: "Apps shipped, side projects scaled, deadlines respected.",
+      },
+      rightBottom: {
+        kicker: "INSIDE",
+        headline: "From Compose to Composer — the dev's playlist.",
+      },
+    },
   },
   {
     id: "friend",
@@ -47,6 +67,26 @@ const personas: Persona[] = [
       "YOUTUBE", "INSTAGRAM", "SPOTIFY", "MUSIC",
       "PHOTOGRAPHY", "FILMS", "CULTURE", "STORYTELLING",
     ],
+    coverLines: {
+      leftTop: {
+        kicker: "OFF SCREEN",
+        headline: "The Stories Between the Code.",
+        sub: "Films, frames and the playlists on infinite loop.",
+      },
+      leftMid: {
+        kicker: "AESTHETIC",
+        headline: "A camera roll, a curator's eye.",
+      },
+      rightTop: {
+        kicker: "COVER STAR",
+        headline: "The Friend.",
+        sub: "Soft-spoken on stage, loud in the group chat.",
+      },
+      rightBottom: {
+        kicker: "INSIDE",
+        headline: "Five favourites, one honest list.",
+      },
+    },
   },
   {
     id: "gamer",
@@ -70,6 +110,26 @@ const personas: Persona[] = [
       "BGMI", "GTA V", "RDR 2", "NFS",
       "EFOOTBALL", "CONQUEROR", "K/D 4.5", "SQUAD UP",
     ],
+    coverLines: {
+      leftTop: {
+        kicker: "GAME ON",
+        headline: "Where Reflex Meets Romance.",
+        sub: "2,500 hours, one obsession — playing like it's the final round.",
+      },
+      leftMid: {
+        kicker: "RANK",
+        headline: "Conqueror tier. Quiet hands. Loud headshots.",
+      },
+      rightTop: {
+        kicker: "COVER STAR",
+        headline: "The Player.",
+        sub: "From open worlds to ranked lobbies — built different.",
+      },
+      rightBottom: {
+        kicker: "INSIDE",
+        headline: "The library: every title, rated honestly.",
+      },
+    },
   },
 ];
 

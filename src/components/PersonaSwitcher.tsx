@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, MapPin, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -24,6 +24,13 @@ export type Persona = {
   ctaTo: string;
   stats: { label: string; value: string }[];
   marquee: string[];
+  coverLines?: {
+    leftTop?: { kicker: string; headline: string; sub?: string };
+    leftMid?: { kicker: string; headline: string; sub?: string };
+    rightTop?: { kicker: string; headline: string; sub?: string };
+    rightBottom?: { kicker: string; headline: string; sub?: string };
+    issueWord?: string; // e.g. "DEVELOPER" — small italic word under masthead
+  };
 };
 
 /* Cursive name title — viral, hand-written feel */
@@ -364,126 +371,191 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         })}
       </div>
 
-      {/* ============== POSTER / TITLE-CARD LAYOUT ============== */}
+      {/* ============== VOGUE COVER LAYOUT ============== */}
 
-      {/* TOP metadata bar */}
-      <div className="absolute top-16 sm:top-20 left-0 right-0 z-20 px-5 sm:px-10 pointer-events-none">
-        <div className="flex items-center justify-between gap-4 font-mono text-[9px] sm:text-[10px] tracking-[0.35em] text-foreground/55 uppercase">
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline">A FILM BY</span>
-            <span className="text-foreground/80">SAHIL · W</span>
+      {/* MASTHEAD — giant SAHIL wordmark, behind portrait */}
+      <div className="absolute top-12 sm:top-14 md:top-16 left-0 right-0 z-[6] flex flex-col items-center pointer-events-none px-4">
+        <h1
+          aria-hidden
+          className="leading-[0.78] text-foreground select-none text-center"
+          style={{
+            fontFamily: "'Bodoni Moda', 'Playfair Display', serif",
+            fontWeight: 900,
+            fontSize: "clamp(5rem, 19vw, 18rem)",
+            letterSpacing: "-0.04em",
+            textShadow: `0 8px 60px hsl(0 0% 0% / 0.6)`,
+          }}
+        >
+          SAHIL
+        </h1>
+        {/* italic chapter word + thin rule */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`mast-${persona.id}`}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.45 }}
+            className="mt-1 sm:mt-2 flex items-center gap-3"
+          >
+            <span className="block h-px w-8" style={{ background: persona.accent }} />
+            <span
+              className="italic"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 400,
+                fontStyle: "italic",
+                fontSize: "clamp(0.85rem, 1.6vw, 1.15rem)",
+                color: persona.accent,
+                letterSpacing: "0.05em",
+              }}
+            >
+              the {persona.label.toLowerCase()} issue
+            </span>
+            <span className="block h-px w-8" style={{ background: persona.accent }} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* TOP META — issue · price · date */}
+      <div className="absolute top-[58px] sm:top-[68px] left-0 right-0 z-[20] px-5 sm:px-10 pointer-events-none">
+        <div className="flex items-start justify-between gap-4 font-mono text-[9px] sm:text-[10px] tracking-[0.3em] text-foreground/55 uppercase">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-foreground/80">VOL · XXVII</span>
+            <span>NO. {String(index + 1).padStart(2, "0")}</span>
           </div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`meta-c-${persona.id}`}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center gap-2"
+          <div className="hidden sm:flex flex-col items-end gap-0.5">
+            <span className="text-foreground/80">APRIL · MMXXVI</span>
+            <span>₹ 0 · DIGITAL EDITION</span>
+          </div>
+        </div>
+      </div>
+
+      {/* COVER BLURBS — left side */}
+      <div className="hidden md:flex absolute left-5 lg:left-10 top-[26%] z-[20] flex-col gap-8 max-w-[230px] lg:max-w-[280px] pointer-events-none">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`blurb-lt-${persona.id}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div
+              className="font-mono text-[9px] tracking-[0.4em] uppercase mb-2"
               style={{ color: persona.accent }}
             >
-              <span className="block w-6 h-px" style={{ background: persona.accent }} />
-              <span>CHAPTER · {persona.label}</span>
-              <span className="block w-6 h-px" style={{ background: persona.accent }} />
-            </motion.div>
-          </AnimatePresence>
-          <div className="hidden sm:flex items-center gap-2">
-            <MapPin className="w-3 h-3" />
-            <span>INDIA · MMXXVI</span>
-          </div>
-        </div>
-      </div>
+              ◆ {persona.coverLines?.leftTop?.kicker ?? "EXCLUSIVE"}
+            </div>
+            <div
+              className="leading-[0.95] text-foreground"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "clamp(1.4rem, 2.2vw, 2rem)",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {persona.coverLines?.leftTop?.headline ?? persona.subtitle}
+            </div>
+            {persona.coverLines?.leftTop?.sub && (
+              <div className="font-body text-[11px] text-foreground/60 mt-2 leading-relaxed italic">
+                {persona.coverLines.leftTop.sub}
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
-      {/* LEFT vertical rail */}
-      <div className="hidden lg:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-5">
-        <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
-          SAHIL · WADHWANI · 27
-        </span>
-        <span className="block w-px h-14 bg-foreground/20" />
         <AnimatePresence mode="wait">
-          <motion.span
-            key={`rail-l-${persona.id}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.5 }}
-            className="font-display font-bold text-xs tracking-[0.5em] [writing-mode:vertical-rl] rotate-180"
-            style={{ color: persona.accent }}
+          <motion.div
+            key={`blurb-lm-${persona.id}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
-            ◆ {persona.subtitle.split("·")[0].trim().toUpperCase()}
-          </motion.span>
+            <div className="font-mono text-[9px] tracking-[0.4em] uppercase text-foreground/60 mb-2">
+              {persona.coverLines?.leftMid?.kicker ?? "FEATURE"}
+            </div>
+            <div
+              className="leading-[1] text-foreground/90 italic"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 400,
+                fontStyle: "italic",
+                fontSize: "clamp(1.05rem, 1.5vw, 1.35rem)",
+              }}
+            >
+              {persona.coverLines?.leftMid?.headline ?? "Behind the screen, all heart."}
+            </div>
+          </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* RIGHT vertical rail */}
-      <div className="hidden lg:flex absolute right-5 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-5">
+      {/* COVER BLURBS — right side */}
+      <div className="hidden md:flex absolute right-5 lg:right-10 top-[26%] z-[20] flex-col gap-8 max-w-[230px] lg:max-w-[280px] text-right pointer-events-none">
         <AnimatePresence mode="wait">
-          <motion.span
-            key={`rail-r-${persona.id}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.5 }}
-            className="font-mono text-[10px] tracking-[0.5em] [writing-mode:vertical-rl] uppercase"
-            style={{ color: persona.accent }}
+          <motion.div
+            key={`blurb-rt-${persona.id}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            {String(index + 1).padStart(2, "0")} / {String(personas.length).padStart(2, "0")}
-          </motion.span>
+            <div
+              className="font-mono text-[9px] tracking-[0.4em] uppercase mb-2"
+              style={{ color: persona.accent }}
+            >
+              {persona.coverLines?.rightTop?.kicker ?? "COVER STAR"} ◆
+            </div>
+            <div
+              className="leading-[0.95] text-foreground"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 900,
+                fontSize: "clamp(1.6rem, 2.6vw, 2.4rem)",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {persona.coverLines?.rightTop?.headline ?? persona.title}
+            </div>
+            {persona.coverLines?.rightTop?.sub && (
+              <div className="font-body text-[11px] text-foreground/60 mt-2 leading-relaxed italic">
+                {persona.coverLines.rightTop.sub}
+              </div>
+            )}
+          </motion.div>
         </AnimatePresence>
-        <span className="block w-px h-14 bg-foreground/20" />
-        <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl]">
-          REEL · 26 / 70MM · CINEMASCOPE
-        </span>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`blurb-rb-${persona.id}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="font-mono text-[9px] tracking-[0.4em] uppercase text-foreground/60 mb-2">
+              {persona.coverLines?.rightBottom?.kicker ?? "INSIDE"}
+            </div>
+            <div
+              className="leading-[1] text-foreground/90"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "clamp(1.05rem, 1.5vw, 1.35rem)",
+              }}
+            >
+              {persona.coverLines?.rightBottom?.headline ?? "A portrait of the maker."}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* === STAGE === */}
+      {/* === STAGE / PORTRAIT === */}
       <div className="relative z-10 h-full w-full flex flex-col items-center justify-end md:justify-center pt-20 pb-32 sm:pb-28 md:py-0 px-5 sm:px-10">
-        {/* Subtitle chip ABOVE title (centered) */}
-        <div className="hidden md:flex justify-center mb-3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`chip-${persona.id}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.45 }}
-              className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full glass-strong"
-              style={{ borderColor: `${persona.accent}55` }}
-            >
-              <Sparkles className="w-3.5 h-3.5" style={{ color: persona.accent }} />
-              <span
-                className="font-mono text-[10px] tracking-[0.35em] uppercase"
-                style={{ color: persona.accent }}
-              >
-                {persona.subtitle}
-              </span>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* TITLE LAYER — behind portrait */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[6] px-4">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`title-back-${persona.id}`}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.04 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="text-center"
-            >
-              <CursiveName
-                text={persona.title}
-                accent={persona.accent}
-                size="clamp(4rem, 16vw, 14rem)"
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* PORTRAIT LAYER — over title */}
-        <div className="relative w-full flex-1 md:flex-none md:h-[78svh] flex items-end md:items-center justify-center z-[8]">
+        {/* PORTRAIT LAYER */}
+        <div className="relative w-full flex-1 md:flex-none md:h-[80svh] flex items-end md:items-center justify-center z-[8]">
           <div className="relative h-[65svh] md:h-full w-full max-w-[820px] flex items-end justify-center">
             {/* Glow */}
             <motion.div
@@ -659,49 +731,69 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </div>
         </div>
 
-        {/* FOREGROUND title (small, in front, bottom) + CTA */}
-        <div className="absolute left-0 right-0 bottom-24 sm:bottom-28 md:bottom-16 z-[12] flex flex-col items-center gap-4 px-5 pointer-events-none">
+        {/* WADHWANI cursive overlay — bottom of portrait */}
+        <div className="absolute left-0 right-0 bottom-[120px] sm:bottom-[130px] md:bottom-[110px] z-[12] flex justify-center pointer-events-none px-4">
           <AnimatePresence mode="wait">
             <motion.div
-              key={`title-front-${persona.id}`}
-              initial={{ opacity: 0, y: 20 }}
+              key={`wad-${persona.id}`}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden md:block"
             >
-              <div
-                className="font-display font-black tracking-[0.4em] text-xs uppercase text-center"
-                style={{ color: persona.accent }}
-              >
-                — Presenting —
-              </div>
+              <CursiveName
+                text="Wadhwani"
+                accent={persona.accent}
+                size="clamp(2.4rem, 7vw, 5.5rem)"
+              />
             </motion.div>
           </AnimatePresence>
+        </div>
 
-          {/* Mobile compact title chip */}
-          <div className="md:hidden text-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`m-sub-${persona.id}`}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.4 }}
-                className="font-mono text-[10px] tracking-[0.3em] uppercase mb-1"
-                style={{ color: persona.accent }}
-              >
-                {persona.subtitle}
-              </motion.div>
-            </AnimatePresence>
+        {/* CTA + barcode strip — bottom */}
+        <div className="absolute left-0 right-0 bottom-10 sm:bottom-12 md:bottom-10 z-[14] px-5 sm:px-10 flex items-end justify-between gap-4 pointer-events-none">
+          {/* Barcode (left) */}
+          <div className="hidden sm:flex flex-col gap-1 pointer-events-auto">
+            <div className="flex items-end gap-[2px] h-9">
+              {Array.from({ length: 28 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="block bg-foreground/85"
+                  style={{
+                    width: i % 3 === 0 ? 2 : 1,
+                    height: `${60 + ((i * 37) % 40)}%`,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="font-mono text-[9px] tracking-[0.3em] text-foreground/55 uppercase">
+              SW · 27 · {persona.id.toUpperCase()}
+            </div>
           </div>
 
-          <div className="pointer-events-auto">
+          {/* CTA (center) */}
+          <div className="pointer-events-auto mx-auto sm:mx-0">
             <EnterPill
               to={persona.ctaTo}
               label={persona.ctaLabel}
               accent={persona.accent}
             />
+          </div>
+
+          {/* Price tag (right) */}
+          <div className="hidden sm:flex flex-col items-end gap-1 pointer-events-auto">
+            <div
+              className="font-display font-black text-2xl leading-none"
+              style={{
+                fontFamily: "'Bodoni Moda', serif",
+                color: persona.accent,
+              }}
+            >
+              {String(index + 1).padStart(2, "0")}/{String(personas.length).padStart(2, "0")}
+            </div>
+            <div className="font-mono text-[9px] tracking-[0.3em] text-foreground/55 uppercase">
+              chapter
+            </div>
           </div>
         </div>
       </div>
