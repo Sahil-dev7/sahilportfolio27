@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MapPin, Sparkles } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -27,17 +27,29 @@ export type Persona = {
 };
 
 /* Cursive name title — viral, hand-written feel */
-const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
+const CursiveName = ({
+  text,
+  accent,
+  size = "clamp(4rem, 14vw, 12rem)",
+  stroke = false,
+}: {
+  text: string;
+  accent: string;
+  size?: string;
+  stroke?: boolean;
+}) => {
   const letters = Array.from(text);
   return (
     <h1
-      className="leading-[0.9] text-foreground"
+      className="leading-[0.85]"
       style={{
         fontFamily: "'Caveat', cursive",
         fontWeight: 700,
-        fontSize: "clamp(3.5rem, 13vw, 11rem)",
-        textShadow: `0 10px 50px ${accent}55, 0 2px 0 ${accent}22`,
+        fontSize: size,
         letterSpacing: "-0.01em",
+        color: stroke ? "transparent" : "hsl(var(--foreground))",
+        WebkitTextStroke: stroke ? `1.5px ${accent}` : undefined,
+        textShadow: stroke ? "none" : `0 10px 50px ${accent}55, 0 2px 0 ${accent}22`,
       }}
     >
       <span className="sr-only">{text}</span>
