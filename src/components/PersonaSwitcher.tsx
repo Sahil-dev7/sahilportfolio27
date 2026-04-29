@@ -258,6 +258,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             src={persona.bg}
             alt=""
             className="w-full h-full object-cover"
+            style={{ filter: "blur(14px) saturate(1.1)", transform: "scale(1.08)" }}
             loading={index === 0 ? "eager" : "lazy"}
             draggable={false}
           />
@@ -274,107 +275,12 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Floating accent orb */}
-      <motion.div
-        aria-hidden
-        className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full blur-[150px] pointer-events-none"
-        animate={{
-          background: persona.accent,
-          opacity: 0.18,
-          x: reduce ? 0 : [0, 50, 0],
-          y: reduce ? 0 : [0, 30, 0],
-        }}
-        transition={{
-          background: { duration: 1 },
-          opacity: { duration: 1 },
-          x: { duration: 14, repeat: Infinity, ease: "easeInOut" },
-          y: { duration: 14, repeat: Infinity, ease: "easeInOut" },
-        }}
-      />
-
-      {/* Subtle grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-screen"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(0 0% 100% / 1) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 1) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          maskImage:
-            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
-        }}
-      />
-
       {/* Cursor spotlight */}
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none hidden md:block z-[5]"
         style={{ background: spotlight as unknown as string }}
       />
-
-      {/* Drifting particles */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 14 }).map((_, i) => {
-          const left = (i * 73) % 100;
-          const delay = (i % 7) * 0.7;
-          const dur = 9 + (i % 5) * 2;
-          const size = 2 + (i % 3);
-          return (
-            <motion.span
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${left}%`,
-                bottom: "-10px",
-                width: size,
-                height: size,
-                background: persona.accent,
-                boxShadow: `0 0 8px ${persona.accent}`,
-              }}
-              animate={
-                reduce
-                  ? {}
-                  : {
-                      y: ["0vh", "-105vh"],
-                      opacity: [0, 0.7, 0],
-                      x: [0, i % 2 === 0 ? 30 : -30, 0],
-                    }
-              }
-              transition={{
-                duration: dur,
-                delay,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Giant scrolling watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={`wm-${persona.id}`}
-            className="font-display font-black tracking-tighter select-none whitespace-nowrap"
-            style={{
-              fontSize: "clamp(160px, 30vw, 480px)",
-              color: persona.accent,
-              opacity: 0.07,
-              letterSpacing: "-0.07em",
-              WebkitTextStroke: `1px ${persona.accent}`,
-            }}
-            initial={{ x: "-15%", opacity: 0 }}
-            animate={{ x: "0%", opacity: 0.07 }}
-            exit={{ x: "12%", opacity: 0 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {persona.label}
-          </motion.span>
-        </AnimatePresence>
-      </div>
 
       {/* Content grid */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-20 sm:pt-24 flex items-end md:items-center">
