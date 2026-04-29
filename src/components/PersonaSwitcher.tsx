@@ -33,11 +33,12 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
     <h1
       className="leading-[0.9] text-foreground"
       style={{
-        fontFamily: "'Caveat', cursive",
-        fontWeight: 700,
-        fontSize: "clamp(3.5rem, 13vw, 11rem)",
-        textShadow: `0 10px 50px ${accent}55, 0 2px 0 ${accent}22`,
-        letterSpacing: "-0.01em",
+        fontFamily: "'Italianno', 'Caveat', cursive",
+        fontWeight: 400,
+        fontStyle: "italic",
+        fontSize: "clamp(4.5rem, 16vw, 14rem)",
+        textShadow: `0 14px 60px ${accent}66, 0 2px 0 ${accent}22`,
+        letterSpacing: "-0.02em",
       }}
     >
       <span className="sr-only">{text}</span>
