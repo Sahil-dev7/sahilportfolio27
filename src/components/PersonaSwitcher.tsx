@@ -33,11 +33,12 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
     <h1
       className="leading-[0.9] text-foreground"
       style={{
-        fontFamily: "'Caveat', cursive",
-        fontWeight: 700,
-        fontSize: "clamp(3.5rem, 13vw, 11rem)",
-        textShadow: `0 10px 50px ${accent}55, 0 2px 0 ${accent}22`,
-        letterSpacing: "-0.01em",
+        fontFamily: "'Italianno', 'Caveat', cursive",
+        fontWeight: 400,
+        fontStyle: "italic",
+        fontSize: "clamp(4.5rem, 16vw, 14rem)",
+        textShadow: `0 14px 60px ${accent}66, 0 2px 0 ${accent}22`,
+        letterSpacing: "-0.02em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -257,6 +258,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             src={persona.bg}
             alt=""
             className="w-full h-full object-cover"
+            style={{ filter: "blur(14px) saturate(1.1)", transform: "scale(1.08)" }}
             loading={index === 0 ? "eager" : "lazy"}
             draggable={false}
           />
@@ -273,107 +275,12 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Floating accent orb */}
-      <motion.div
-        aria-hidden
-        className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full blur-[150px] pointer-events-none"
-        animate={{
-          background: persona.accent,
-          opacity: 0.18,
-          x: reduce ? 0 : [0, 50, 0],
-          y: reduce ? 0 : [0, 30, 0],
-        }}
-        transition={{
-          background: { duration: 1 },
-          opacity: { duration: 1 },
-          x: { duration: 14, repeat: Infinity, ease: "easeInOut" },
-          y: { duration: 14, repeat: Infinity, ease: "easeInOut" },
-        }}
-      />
-
-      {/* Subtle grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-screen"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(0 0% 100% / 1) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100% / 1) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          maskImage:
-            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse at center, black 30%, transparent 75%)",
-        }}
-      />
-
       {/* Cursor spotlight */}
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none hidden md:block z-[5]"
         style={{ background: spotlight as unknown as string }}
       />
-
-      {/* Drifting particles */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 14 }).map((_, i) => {
-          const left = (i * 73) % 100;
-          const delay = (i % 7) * 0.7;
-          const dur = 9 + (i % 5) * 2;
-          const size = 2 + (i % 3);
-          return (
-            <motion.span
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${left}%`,
-                bottom: "-10px",
-                width: size,
-                height: size,
-                background: persona.accent,
-                boxShadow: `0 0 8px ${persona.accent}`,
-              }}
-              animate={
-                reduce
-                  ? {}
-                  : {
-                      y: ["0vh", "-105vh"],
-                      opacity: [0, 0.7, 0],
-                      x: [0, i % 2 === 0 ? 30 : -30, 0],
-                    }
-              }
-              transition={{
-                duration: dur,
-                delay,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Giant scrolling watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={`wm-${persona.id}`}
-            className="font-display font-black tracking-tighter select-none whitespace-nowrap"
-            style={{
-              fontSize: "clamp(160px, 30vw, 480px)",
-              color: persona.accent,
-              opacity: 0.07,
-              letterSpacing: "-0.07em",
-              WebkitTextStroke: `1px ${persona.accent}`,
-            }}
-            initial={{ x: "-15%", opacity: 0 }}
-            animate={{ x: "0%", opacity: 0.07 }}
-            exit={{ x: "12%", opacity: 0 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {persona.label}
-          </motion.span>
-        </AnimatePresence>
-      </div>
 
       {/* Content grid */}
       <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-20 sm:pt-24 flex items-end md:items-center">
@@ -525,83 +432,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
               }}
             />
-            {/* Concentric rings */}
-            <motion.div
-              aria-hidden
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] rounded-full border pointer-events-none hidden md:block"
-              animate={{
-                borderColor: `${persona.accent}33`,
-                rotate: reduce ? 0 : 360,
-              }}
-              transition={{
-                borderColor: { duration: 0.8 },
-                rotate: { duration: 40, repeat: Infinity, ease: "linear" },
-              }}
-            />
-            <motion.div
-              aria-hidden
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[330px] h-[330px] rounded-full border-2 border-dashed pointer-events-none hidden md:block"
-              animate={{
-                borderColor: `${persona.accent}22`,
-                rotate: reduce ? 0 : -360,
-              }}
-              transition={{
-                borderColor: { duration: 0.8 },
-                rotate: { duration: 60, repeat: Infinity, ease: "linear" },
-              }}
-            />
-
-            {/* Animated SVG progress ring */}
-            <svg
-              aria-hidden
-              viewBox="0 0 200 200"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none hidden md:block -rotate-90"
-            >
-              <circle
-                cx="100"
-                cy="100"
-                r="96"
-                stroke={`${persona.accent}22`}
-                strokeWidth="0.6"
-                fill="none"
-              />
-              <motion.circle
-                key={`ring-${persona.id}`}
-                cx="100"
-                cy="100"
-                r="96"
-                stroke={persona.accent}
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                fill="none"
-                pathLength={1}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.9 }}
-                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                style={{ filter: `drop-shadow(0 0 6px ${persona.accent})` }}
-              />
-              {Array.from({ length: 60 }).map((_, i) => {
-                const angle = (i / 60) * Math.PI * 2;
-                const r1 = 88;
-                const r2 = i % 5 === 0 ? 80 : 84;
-                const x1 = 100 + Math.cos(angle) * r1;
-                const y1 = 100 + Math.sin(angle) * r1;
-                const x2 = 100 + Math.cos(angle) * r2;
-                const y2 = 100 + Math.sin(angle) * r2;
-                return (
-                  <line
-                    key={i}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    stroke={`${persona.accent}${i % 5 === 0 ? "55" : "22"}`}
-                    strokeWidth="0.5"
-                  />
-                );
-              })}
-            </svg>
-
             {/* Character — BIGGER. Mobile: fills the 65svh container, scales >100% */}
             <motion.div
               style={{ x: px, y: py }}
@@ -630,57 +460,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               </AnimatePresence>
             </motion.div>
 
-            {/* Floating keyword tags */}
-            <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`tags-${persona.id}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0"
-                >
-                  {persona.marquee.slice(0, 4).map((tag, i) => {
-                    const positions = [
-                      { top: "10%", left: "2%" },
-                      { top: "30%", right: "0%" },
-                      { bottom: "30%", left: "-2%" },
-                      { top: "60%", right: "4%" },
-                    ];
-                    return (
-                      <motion.span
-                        key={tag}
-                        initial={{ opacity: 0, y: 14, scale: 0.8 }}
-                        animate={{
-                          opacity: 1,
-                          y: [0, -8, 0],
-                          scale: 1,
-                        }}
-                        transition={{
-                          opacity: { delay: 0.4 + i * 0.12, duration: 0.5 },
-                          scale: { delay: 0.4 + i * 0.12, duration: 0.5 },
-                          y: {
-                            duration: 4 + i,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: i * 0.3,
-                          },
-                        }}
-                        className="absolute font-mono text-[10px] tracking-[0.25em] uppercase px-2.5 py-1 rounded-full glass-strong"
-                        style={{
-                          ...positions[i],
-                          color: persona.accent,
-                          borderColor: `${persona.accent}55`,
-                        }}
-                      >
-                        ◆ {tag}
-                      </motion.span>
-                    );
-                  })}
-                </motion.div>
-              </AnimatePresence>
-            </div>
           </div>
         </div>
       </div>
