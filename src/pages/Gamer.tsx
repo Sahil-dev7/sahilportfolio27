@@ -8,9 +8,9 @@ import MarqueeText from "@/components/MarqueeText";
 const PERSONA = {
   label: "GAMER",
   title: "S A A H O",
-  subtitle: "Competitive Gamer · BGMI Conqueror",
+  subtitle: "Casual gamer — weekends only",
   description:
-    "2500+ hours across battle royales, RPGs and the unforgiving classics. Where reflexes meet strategy and every drop is a story.",
+    "Gaming is how I unwind, not how I grind. A few BGMI squad matches with friends, an open-world drive in GTA, a quick race in NFS. This is the playlist of games I keep coming back to.",
   bg: "https://i.postimg.cc/7YRbQHnw/gamer-bg.webp",
   png: "https://i.postimg.cc/TYshHdqH/Gamer.webp",
   accent: "hsl(190 90% 55%)",
@@ -50,14 +50,13 @@ const Gamer = () => {
             <div className="order-2 md:order-1">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-6">
-                  <ArrowLeft className="w-4 h-4" /> Back to All Personas
+                  <ArrowLeft className="w-4 h-4" /> Back to Home
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 mb-5">
                 <span className="px-3 py-1 font-display font-bold text-xs tracking-widest text-white" style={{ background: PERSONA.accent }}>
                   {PERSONA.label}
                 </span>
-                <span className="text-xs font-mono text-muted-foreground tracking-widest">03 / 03</span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground"
@@ -76,9 +75,9 @@ const Gamer = () => {
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-wrap gap-3">
                 {[
-                  { icon: Clock, label: "Playtime", value: "2500+ hrs" },
-                  { icon: Trophy, label: "Completed", value: "50+" },
-                  { icon: Star, label: "Avg Rating", value: "9/10" },
+                  { icon: Clock, label: "When", value: "Weekends" },
+                  { icon: Trophy, label: "Vibe", value: "Casual" },
+                  { icon: Star, label: "Mood", value: "Wind down" },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center gap-2 px-3 py-2 rounded-xl glass border border-border/50">
                     <s.icon className="w-4 h-4" style={{ color: PERSONA.accent }} />

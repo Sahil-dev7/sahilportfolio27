@@ -11,9 +11,9 @@ import ContactSection from "@/components/ContactSection";
 const PERSONA = {
   label: "DEVELOPER",
   title: "SAHIL DEV",
-  subtitle: "Android Developer & Software Engineer",
+  subtitle: "Senior Android Engineer · Kotlin · Jetpack Compose",
   description:
-    "Six years building Android apps with Kotlin, Jetpack Compose, Firebase and clean architecture. This is the keyboard-side of me — the projects, the stack, and the craft.",
+    "Six years deep in Android. I architect production apps with Kotlin, Jetpack Compose, MVVM, Clean Architecture, Firebase and modern DI. From zero-to-launch to scaling features — this is the craft I live in every single day.",
   bg: "https://i.postimg.cc/VLh5HfWP/Dev-bg.webp",
   png: "https://i.postimg.cc/wTr3bqQ6/Dev.webp",
   accent: "hsl(0 85% 55%)",
@@ -50,14 +50,13 @@ const Developer = () => {
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-6">
                   <ArrowLeft className="w-4 h-4" />
-                  Back to All Personas
+                  Back to Home
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 mb-5">
                 <span className="px-3 py-1 font-display font-bold text-xs tracking-widest text-white" style={{ background: PERSONA.accent }}>
                   {PERSONA.label}
                 </span>
-                <span className="text-xs font-mono text-muted-foreground tracking-widest">01 / 03</span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground"
