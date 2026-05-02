@@ -26,19 +26,19 @@ export type Persona = {
   marquee: string[];
 };
 
-/* Cursive name title — viral, hand-written feel */
+/* Cursive name title — viral, hand-written feel, single-line on desktop */
 const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
   const letters = Array.from(text);
   return (
     <h1
-      className="leading-[0.9] text-foreground"
+      className="leading-[0.85] text-foreground whitespace-nowrap"
       style={{
         fontFamily: "'Italianno', 'Caveat', cursive",
         fontWeight: 400,
         fontStyle: "italic",
-        fontSize: "clamp(4.5rem, 16vw, 14rem)",
-        textShadow: `0 14px 60px ${accent}66, 0 2px 0 ${accent}22`,
-        letterSpacing: "-0.02em",
+        fontSize: "clamp(3.5rem, 9.5vw, 9.5rem)",
+        textShadow: `0 14px 60px ${accent}55, 0 2px 0 ${accent}22`,
+        letterSpacing: "-0.01em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -47,12 +47,12 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
           <motion.span
             key={i}
             className="inline-block"
-            initial={{ y: "60%", opacity: 0, rotate: -8, filter: "blur(6px)" }}
+            initial={{ y: "55%", opacity: 0, rotate: -6, filter: "blur(6px)" }}
             animate={{ y: "0%", opacity: 1, rotate: 0, filter: "blur(0px)" }}
-            exit={{ y: "-30%", opacity: 0, filter: "blur(6px)" }}
+            exit={{ y: "-25%", opacity: 0, filter: "blur(6px)" }}
             transition={{
-              duration: 0.7,
-              delay: 0.1 + i * 0.04,
+              duration: 0.65,
+              delay: 0.08 + i * 0.035,
               ease: [0.22, 1, 0.36, 1],
             }}
             style={{ transformOrigin: "50% 100%" }}
