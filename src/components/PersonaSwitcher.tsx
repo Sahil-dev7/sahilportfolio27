@@ -244,36 +244,38 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         transition={{ duration: 1.2, ease: "easeInOut" }}
       />
 
-      {/* Crossfading background image */}
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={`bg-${persona.id}`}
-          className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img
-            src={persona.bg}
+      {/* Preloaded layered backgrounds — opacity crossfade, no remount glitch */}
+      <div className="absolute inset-0">
+        {personas.map((p, i) => (
+          <motion.img
+            key={p.id}
+            src={p.bg}
             alt=""
-            className="w-full h-full object-cover"
-            style={{ filter: "blur(14px) saturate(1.1)", transform: "scale(1.08)" }}
-            loading={index === 0 ? "eager" : "lazy"}
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              filter: "blur(18px) saturate(1.15)",
+              transform: "scale(1.12)",
+              willChange: "opacity",
+            }}
+            initial={false}
+            animate={{ opacity: i === index ? 1 : 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            loading={i === 0 ? "eager" : "lazy"}
             draggable={false}
           />
-          {/* On mobile, lighter overlay so PNG dominates 65% of screen */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-background/10 md:to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, transparent 35%, hsl(0 0% 0% / 0.6) 100%)",
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+        ))}
+        {/* Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20 md:to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.65) 100%)",
+          }}
+        />
+      </div>
 
       {/* Cursor spotlight */}
       <motion.div
