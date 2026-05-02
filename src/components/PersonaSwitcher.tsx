@@ -26,19 +26,19 @@ export type Persona = {
   marquee: string[];
 };
 
-/* Cursive name title — viral, hand-written feel */
+/* Cursive name title — viral, hand-written feel, single-line on desktop */
 const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
   const letters = Array.from(text);
   return (
     <h1
-      className="leading-[0.9] text-foreground"
+      className="leading-[0.85] text-foreground md:whitespace-nowrap"
       style={{
         fontFamily: "'Italianno', 'Caveat', cursive",
         fontWeight: 400,
         fontStyle: "italic",
-        fontSize: "clamp(4.5rem, 16vw, 14rem)",
-        textShadow: `0 14px 60px ${accent}66, 0 2px 0 ${accent}22`,
-        letterSpacing: "-0.02em",
+        fontSize: "clamp(2.75rem, 8.5vw, 8.5rem)",
+        textShadow: `0 14px 60px ${accent}55, 0 2px 0 ${accent}22`,
+        letterSpacing: "-0.01em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -47,12 +47,12 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
           <motion.span
             key={i}
             className="inline-block"
-            initial={{ y: "60%", opacity: 0, rotate: -8, filter: "blur(6px)" }}
+            initial={{ y: "55%", opacity: 0, rotate: -6, filter: "blur(6px)" }}
             animate={{ y: "0%", opacity: 1, rotate: 0, filter: "blur(0px)" }}
-            exit={{ y: "-30%", opacity: 0, filter: "blur(6px)" }}
+            exit={{ y: "-25%", opacity: 0, filter: "blur(6px)" }}
             transition={{
-              duration: 0.7,
-              delay: 0.1 + i * 0.04,
+              duration: 0.65,
+              delay: 0.08 + i * 0.035,
               ease: [0.22, 1, 0.36, 1],
             }}
             style={{ transformOrigin: "50% 100%" }}
@@ -244,36 +244,38 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         transition={{ duration: 1.2, ease: "easeInOut" }}
       />
 
-      {/* Crossfading background image */}
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={`bg-${persona.id}`}
-          className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img
-            src={persona.bg}
+      {/* Preloaded layered backgrounds — opacity crossfade, no remount glitch */}
+      <div className="absolute inset-0">
+        {personas.map((p, i) => (
+          <motion.img
+            key={p.id}
+            src={p.bg}
             alt=""
-            className="w-full h-full object-cover"
-            style={{ filter: "blur(14px) saturate(1.1)", transform: "scale(1.08)" }}
-            loading={index === 0 ? "eager" : "lazy"}
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              filter: "blur(18px) saturate(1.15)",
+              transform: "scale(1.12)",
+              willChange: "opacity",
+            }}
+            initial={false}
+            animate={{ opacity: i === index ? 1 : 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            loading={i === 0 ? "eager" : "lazy"}
             draggable={false}
           />
-          {/* On mobile, lighter overlay so PNG dominates 65% of screen */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-background/10 md:to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, transparent 35%, hsl(0 0% 0% / 0.6) 100%)",
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+        ))}
+        {/* Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-background/20 md:to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.65) 100%)",
+          }}
+        />
+      </div>
 
       {/* Cursor spotlight */}
       <motion.div
@@ -283,7 +285,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       />
 
       {/* Content grid */}
-      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-20 sm:pt-24 flex items-end md:items-center">
+      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-24 sm:pt-24 flex items-end md:items-center">
         {/* Vertical persona rail */}
         <div className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
           <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
@@ -309,9 +311,9 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end md:items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-end md:items-center w-full">
           {/* LEFT — copy (on mobile sits at bottom, smaller, since PNG dominates) */}
-          <div className="order-2 md:order-1 md:col-span-7 lg:col-span-6 relative">
+          <div className="order-2 md:order-1 md:col-span-7 lg:col-span-7 relative max-w-2xl">
             {/* Subtitle ABOVE name */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -415,8 +417,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
           </div>
 
-          {/* RIGHT — character image (mobile: 65vh dominant) */}
-          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[65svh] md:h-[82svh] flex justify-center md:justify-end items-end">
+          {/* RIGHT — character image (mobile: 65vh dominant, desktop full height) */}
+          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-5 relative h-[60svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-hidden">
             {/* Glow */}
             <motion.div
               aria-hidden
@@ -437,27 +439,35 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               style={{ x: px, y: py }}
               className="relative z-10 h-full w-full flex items-end justify-center md:justify-end"
             >
-              <AnimatePresence mode="sync">
-                <motion.img
-                  key={`png-${persona.id}`}
-                  src={persona.png}
-                  alt={persona.title}
-                  initial={{ opacity: 0, x: dir * 80, scale: 1.0, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, x: 0, scale: 1.12, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -dir * 80, scale: 1.0, filter: "blur(8px)" }}
-                  transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute bottom-0 h-[115%] md:h-[110%] w-auto object-contain object-bottom select-none pointer-events-none"
-                  style={{
-                    maskImage:
-                      "linear-gradient(to bottom, black 94%, transparent 100%)",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 94%, transparent 100%)",
-                    filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))",
-                  }}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  draggable={false}
-                />
-              </AnimatePresence>
+              {personas.map((p, i) => {
+                const active = i === index;
+                return (
+                  <motion.img
+                    key={p.id}
+                    src={p.png}
+                    alt={active ? p.title : ""}
+                    initial={false}
+                    animate={{
+                      opacity: active ? 1 : 0,
+                      x: active ? 0 : (i < index ? -60 : 60),
+                      scale: active ? 1 : 0.96,
+                      filter: active ? "blur(0px)" : "blur(10px)",
+                    }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute bottom-0 h-full w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                    style={{
+                      maskImage:
+                        "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))",
+                      willChange: "opacity, transform",
+                    }}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    draggable={false}
+                  />
+                );
+              })}
             </motion.div>
 
           </div>
