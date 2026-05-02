@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Car, Music, ExternalLink, Play } from "lucide-react";
+import { Heart, Car, Music, ExternalLink, Play, Youtube, Instagram } from "lucide-react";
 
 const favourites = [
   {
@@ -10,6 +10,7 @@ const favourites = [
     description: "V10 naturally aspirated, 630 HP of pure adrenaline.",
     url: "https://www.lamborghini.com/en-en/models/huracan",
     icon: Car,
+    source: { label: "Saved on Instagram", icon: Instagram, href: "https://www.instagram.com/__sahil_.27" },
     gradient: "from-amber-500/30 via-orange-500/20 to-transparent",
   },
   {
@@ -20,6 +21,7 @@ const favourites = [
     description: "Vishal Dadlani's powerful vocals with Amit Trivedi's composition.",
     url: "https://www.youtube.com/watch?v=woCicWwE-i8",
     icon: Music,
+    source: { label: "Listening on YouTube", icon: Youtube, href: "https://youtube.com/@SahilDev" },
     gradient: "from-purple-500/30 via-pink-500/20 to-transparent",
   },
 ];
@@ -86,9 +88,17 @@ const FavouritesSection = () => {
                   )}
                   
                   <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-end">
-                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-display font-semibold mb-1.5 w-fit">
-                      <item.icon className="w-2.5 h-2.5" />
-                      {item.category}
+                    <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-display font-semibold">
+                        <item.icon className="w-2.5 h-2.5" />
+                        {item.category}
+                      </span>
+                      {item.source && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-sm text-white/85 text-[9px] sm:text-[10px] font-mono uppercase tracking-wider">
+                          <item.source.icon className="w-2.5 h-2.5" />
+                          {item.source.label}
+                        </span>
+                      )}
                     </div>
                     
                     <h3 className="font-display text-sm sm:text-base md:text-lg font-bold text-white mb-1 flex items-center gap-1.5 drop-shadow-lg">

@@ -12,11 +12,11 @@ import ContactSection from "@/components/ContactSection";
 import MarqueeText from "@/components/MarqueeText";
 
 const PERSONA = {
-  label: "CREATOR",
-  title: "THE FRIEND",
-  subtitle: "Content Creator · Storyteller · Human",
+  label: "ABOUT ME",
+  title: "THE HUMAN",
+  subtitle: "Off the keyboard — music, films, frames, friends",
   description:
-    "Off the keyboard. Music I loop, films I rewatch, photographs I take, and the corners of the internet I call home. The human side behind the dev.",
+    "When I'm not shipping code, I'm chasing songs on loop, films on repeat, and photographs that mean something. This is the slower, softer side of Sahil — the corners of the internet I call home.",
   bg: "https://i.postimg.cc/gk7rBzHF/Friend-Bg.webp",
   png: "https://i.postimg.cc/ncWMwFGJ/Friend.webp",
   accent: "hsl(28 90% 55%)",
@@ -46,14 +46,13 @@ const Friend = () => {
             <div className="order-2 md:order-1">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-6">
-                  <ArrowLeft className="w-4 h-4" /> Back to All Personas
+                  <ArrowLeft className="w-4 h-4" /> Back to Home
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 mb-5">
                 <span className="px-3 py-1 font-display font-bold text-xs tracking-widest text-white" style={{ background: PERSONA.accent }}>
                   {PERSONA.label}
                 </span>
-                <span className="text-xs font-mono text-muted-foreground tracking-widest">02 / 03</span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground">

@@ -8,21 +8,21 @@ import MarqueeText from "@/components/MarqueeText";
 const PERSONA = {
   label: "GAMER",
   title: "S A A H O",
-  subtitle: "Competitive Gamer · BGMI Conqueror",
+  subtitle: "Casual gamer — weekends only",
   description:
-    "2500+ hours across battle royales, RPGs and the unforgiving classics. Where reflexes meet strategy and every drop is a story.",
+    "Gaming is how I unwind, not how I grind. A few BGMI squad matches with friends, an open-world drive in GTA, a quick race in NFS. This is the playlist of games I keep coming back to.",
   bg: "https://i.postimg.cc/7YRbQHnw/gamer-bg.webp",
   png: "https://i.postimg.cc/TYshHdqH/Gamer.webp",
   accent: "hsl(190 90% 55%)",
 };
 
 const games = [
-  { name: "GTA V", logo: "https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png", description: "Open world action-adventure masterpiece by Rockstar Games.", url: "https://www.rockstargames.com/gta-v", playtime: "500+ hours", rating: "10/10", genre: "Action-Adventure", highlights: ["Completed main story 3 times", "Online level 200+", "All heists completed"], color: "from-green-500/30 to-green-600/10" },
-  { name: "Red Dead Redemption 2", logo: "https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg", description: "Epic tale of life in America's unforgiving heartland.", url: "https://www.rockstargames.com/reddeadredemption2", playtime: "300+ hours", rating: "10/10", genre: "Action-Adventure", highlights: ["100% Story completion", "All legendary animals hunted", "Max honor playthrough"], color: "from-amber-500/30 to-amber-600/10" },
-  { name: "Getting Over It", logo: "https://cdn.cloudflare.steamstatic.com/steam/apps/240720/header.jpg", description: "The ultimate test of patience and skill.", url: "https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/", playtime: "50+ hours", rating: "9/10", genre: "Platformer", highlights: ["Completed under 10 minutes", "Golden pot achieved", "Only 1 rage quit"], color: "from-orange-500/30 to-orange-600/10" },
-  { name: "BGMI", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Battlegrounds_Mobile_India_logo.png/220px-Battlegrounds_Mobile_India_logo.png", description: "Battle Royale at its finest. Where legends are born.", url: "https://www.battlegroundsmobileindia.com/", playtime: "1000+ hours", rating: "9/10", genre: "Battle Royale", highlights: ["Conqueror tier reached", "Squad wins: 200+", "K/D ratio: 4.5"], playerId: "5697409495", color: "from-yellow-500/30 to-yellow-600/10" },
-  { name: "Need for Speed", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Need_for_Speed_2015.jpg/220px-Need_for_Speed_2015.jpg", description: "Speed is life. The thrill never ends.", url: "https://www.ea.com/games/need-for-speed", playtime: "400+ hours", rating: "9/10", genre: "Racing", highlights: ["Highest rank achieved", "All cars unlocked", "Drift king status"], color: "from-blue-500/30 to-blue-600/10" },
-  { name: "eFootball", logo: "https://upload.wikimedia.org/wikipedia/en/e/e0/EFootball_2022_cover.jpg", description: "The beautiful game, digitized.", url: "https://www.konami.com/efootball/", playtime: "200+ hours", rating: "8/10", genre: "Sports", highlights: ["Division 1 player", "Full legendary squad", "Online win rate: 70%"], color: "from-emerald-500/30 to-emerald-600/10" },
+  { name: "BGMI", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/Battlegrounds_Mobile_India_logo.png/220px-Battlegrounds_Mobile_India_logo.png", description: "My weekend squad ritual. A few rounds with friends and we're sorted.", url: "https://www.battlegroundsmobileindia.com/", playtime: "Weekends", rating: "Fun", genre: "Battle Royale", highlights: ["Squad TPP regular", "Drop-and-loot vibes", "Friends-only lobbies"], playerId: "5697409495", color: "from-yellow-500/30 to-yellow-600/10" },
+  { name: "GTA V", logo: "https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png", description: "When I just want to drive around Los Santos with no agenda.", url: "https://www.rockstargames.com/gta-v", playtime: "Casual", rating: "Loved it", genre: "Action-Adventure", highlights: ["Story mode favourite", "Long open-world drives", "Background music on"], color: "from-green-500/30 to-green-600/10" },
+  { name: "Need for Speed", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Need_for_Speed_2015.jpg/220px-Need_for_Speed_2015.jpg", description: "A quick race when I want pure adrenaline for 20 minutes.", url: "https://www.ea.com/games/need-for-speed", playtime: "Casual", rating: "Solid", genre: "Racing", highlights: ["Tuner builds I love", "Late-night street races", "Drift > grip, always"], color: "from-blue-500/30 to-blue-600/10" },
+  { name: "Red Dead Redemption 2", logo: "https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg", description: "Slow, beautiful, cinematic. The story stayed with me.", url: "https://www.rockstargames.com/reddeadredemption2", playtime: "Story run", rating: "All-time", genre: "Action-Adventure", highlights: ["Played for the story", "Loved the world building", "Camp life > missions"], color: "from-amber-500/30 to-amber-600/10" },
+  { name: "eFootball", logo: "https://upload.wikimedia.org/wikipedia/en/e/e0/EFootball_2022_cover.jpg", description: "Quick matches when friends are online. Football, but on the couch.", url: "https://www.konami.com/efootball/", playtime: "Now and then", rating: "Fun", genre: "Sports", highlights: ["Quick online matches", "Manager mode tinkering", "Squad of favourites"], color: "from-emerald-500/30 to-emerald-600/10" },
+  { name: "Getting Over It", logo: "https://cdn.cloudflare.steamstatic.com/steam/apps/240720/header.jpg", description: "Played for the chaos. Mostly to laugh, sometimes to suffer.", url: "https://store.steampowered.com/app/240720/Getting_Over_It_with_Bennett_Foddy/", playtime: "Few sessions", rating: "Pain/10", genre: "Platformer", highlights: ["Tried, fell, repeated", "Streamed it for friends", "Lots of laughter"], color: "from-orange-500/30 to-orange-600/10" },
 ];
 
 const Gamer = () => {
@@ -50,14 +50,13 @@ const Gamer = () => {
             <div className="order-2 md:order-1">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-6">
-                  <ArrowLeft className="w-4 h-4" /> Back to All Personas
+                  <ArrowLeft className="w-4 h-4" /> Back to Home
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="inline-flex items-center gap-2 mb-5">
                 <span className="px-3 py-1 font-display font-bold text-xs tracking-widest text-white" style={{ background: PERSONA.accent }}>
                   {PERSONA.label}
                 </span>
-                <span className="text-xs font-mono text-muted-foreground tracking-widest">03 / 03</span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground"
@@ -76,9 +75,9 @@ const Gamer = () => {
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-wrap gap-3">
                 {[
-                  { icon: Clock, label: "Playtime", value: "2500+ hrs" },
-                  { icon: Trophy, label: "Completed", value: "50+" },
-                  { icon: Star, label: "Avg Rating", value: "9/10" },
+                  { icon: Clock, label: "When", value: "Weekends" },
+                  { icon: Trophy, label: "Vibe", value: "Casual" },
+                  { icon: Star, label: "Mood", value: "Wind down" },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center gap-2 px-3 py-2 rounded-xl glass border border-border/50">
                     <s.icon className="w-4 h-4" style={{ color: PERSONA.accent }} />
@@ -182,11 +181,11 @@ const Gamer = () => {
             <div className="relative z-10">
               <Gamepad2 className="w-10 h-10 mx-auto mb-3" style={{ color: PERSONA.accent }} />
               <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Let's </span>
-                <span className="text-gradient">Squad Up!</span>
+                <span className="text-foreground">Drop with </span>
+                <span className="text-gradient">the Squad</span>
               </h2>
               <p className="font-body text-sm sm:text-base text-muted-foreground mb-6 max-w-xl mx-auto">
-                Add me on BGMI and let's drop together. Winner winner chicken dinner.
+                Add me on BGMI for a casual weekend match. No pressure, just vibes.
               </p>
               <div className="inline-flex items-center gap-4 px-8 py-4 glass-strong rounded-2xl border border-primary/30">
                 <Gamepad2 className="w-6 h-6" style={{ color: PERSONA.accent }} />
