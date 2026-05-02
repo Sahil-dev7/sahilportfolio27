@@ -6,9 +6,9 @@ const personas: Persona[] = [
     id: "developer",
     label: "DEVELOPER",
     title: "Sahil Wadhwani",
-    subtitle: "Android Developer & Software Engineer",
+    subtitle: "Android Engineer · Kotlin Craftsman",
     description:
-      "Crafting clean, scalable mobile apps with Kotlin & Jetpack Compose. Six years of shipping products that just work.",
+      "I build calm, fast Android apps with Kotlin and Jetpack Compose — clean architecture, zero friction, ship-ready code.",
     bg: "https://i.postimg.cc/VLh5HfWP/Dev-bg.webp",
     png: "https://i.postimg.cc/wTr3bqQ6/Dev.webp",
     accent: "hsl(0, 85%, 58%)",
@@ -17,8 +17,8 @@ const personas: Persona[] = [
     ctaTo: "/developer",
     stats: [
       { value: "6+", label: "Years Coding" },
-      { value: "15+", label: "Projects Shipped" },
-      { value: "10K+", label: "Lines of Kotlin" },
+      { value: "15+", label: "Apps Shipped" },
+      { value: "Kotlin", label: "Daily Driver" },
     ],
     marquee: [
       "KOTLIN", "JETPACK COMPOSE", "FIREBASE", "MVVM",
@@ -29,9 +29,9 @@ const personas: Persona[] = [
     id: "friend",
     label: "CREATOR",
     title: "Sahil Wadhwani",
-    subtitle: "Content Creator · Storyteller · Human",
+    subtitle: "Storyteller · Filmmaker · Quiet Human",
     description:
-      "Off the keyboard — music I loop, films I rewatch, photographs I take, and the corners of the internet I call home.",
+      "Away from code — songs on loop, films on repeat, frames I chase, and the small everyday things worth saving.",
     bg: "https://i.postimg.cc/gk7rBzHF/Friend-Bg.webp",
     png: "https://i.postimg.cc/ncWMwFGJ/Friend.webp",
     accent: "hsl(28, 95%, 58%)",
@@ -39,7 +39,7 @@ const personas: Persona[] = [
     ctaLabel: "Meet The Friend",
     ctaTo: "/friend",
     stats: [
-      { value: "100+", label: "Videos Made" },
+      { value: "120+", label: "Reels & Films" },
       { value: "5K+", label: "Followers" },
       { value: "∞", label: "Stories Told" },
     ],
@@ -51,10 +51,10 @@ const personas: Persona[] = [
   {
     id: "gamer",
     label: "GAMER",
-    title: "Sahil Wadhwani",
-    subtitle: "Competitive Gamer · BGMI Conqueror",
+    title: "S A A H O",
+    subtitle: "BGMI Conqueror · Squad IGL",
     description:
-      "Where reflexes meet strategy. 2500+ hours across battle royales, RPGs and the unforgiving classics.",
+      "Reflex over recoil. 2500+ hours of battle royale grind, conqueror lobbies, and squads that actually clutch.",
     bg: "https://i.postimg.cc/7YRbQHnw/gamer-bg.webp",
     png: "https://i.postimg.cc/TYshHdqH/Gamer.webp",
     accent: "hsl(190, 95%, 55%)",
@@ -62,9 +62,9 @@ const personas: Persona[] = [
     ctaLabel: "Open Player Card",
     ctaTo: "/gamer",
     stats: [
-      { value: "2500+", label: "Hours Played" },
-      { value: "50+", label: "Titles Cleared" },
-      { value: "9/10", label: "Avg Rating" },
+      { value: "Conqueror", label: "BGMI Tier" },
+      { value: "4.5", label: "Avg K/D" },
+      { value: "2500h", label: "Battle Time" },
     ],
     marquee: [
       "BGMI", "GTA V", "RDR 2", "NFS",
