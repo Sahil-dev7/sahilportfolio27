@@ -417,8 +417,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
           </div>
 
-          {/* RIGHT — character image (mobile: 65vh dominant) */}
-          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[65svh] md:h-[82svh] flex justify-center md:justify-end items-end">
+          {/* RIGHT — character image (mobile: 65vh dominant, desktop full height) */}
+          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[60svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-hidden">
             {/* Glow */}
             <motion.div
               aria-hidden
@@ -439,27 +439,35 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               style={{ x: px, y: py }}
               className="relative z-10 h-full w-full flex items-end justify-center md:justify-end"
             >
-              <AnimatePresence mode="sync">
-                <motion.img
-                  key={`png-${persona.id}`}
-                  src={persona.png}
-                  alt={persona.title}
-                  initial={{ opacity: 0, x: dir * 80, scale: 1.0, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, x: 0, scale: 1.12, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -dir * 80, scale: 1.0, filter: "blur(8px)" }}
-                  transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute bottom-0 h-[115%] md:h-[110%] w-auto object-contain object-bottom select-none pointer-events-none"
-                  style={{
-                    maskImage:
-                      "linear-gradient(to bottom, black 94%, transparent 100%)",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 94%, transparent 100%)",
-                    filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))",
-                  }}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  draggable={false}
-                />
-              </AnimatePresence>
+              {personas.map((p, i) => {
+                const active = i === index;
+                return (
+                  <motion.img
+                    key={p.id}
+                    src={p.png}
+                    alt={active ? p.title : ""}
+                    initial={false}
+                    animate={{
+                      opacity: active ? 1 : 0,
+                      x: active ? 0 : (i < index ? -60 : 60),
+                      scale: active ? 1 : 0.96,
+                      filter: active ? "blur(0px)" : "blur(10px)",
+                    }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute bottom-0 h-full w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                    style={{
+                      maskImage:
+                        "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 92%, transparent 100%)",
+                      filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))",
+                      willChange: "opacity, transform",
+                    }}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    draggable={false}
+                  />
+                );
+              })}
             </motion.div>
 
           </div>
