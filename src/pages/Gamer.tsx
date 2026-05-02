@@ -181,11 +181,11 @@ const Gamer = () => {
             <div className="relative z-10">
               <Gamepad2 className="w-10 h-10 mx-auto mb-3" style={{ color: PERSONA.accent }} />
               <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                <span className="text-foreground">Let's </span>
-                <span className="text-gradient">Squad Up!</span>
+                <span className="text-foreground">Drop with </span>
+                <span className="text-gradient">the Squad</span>
               </h2>
               <p className="font-body text-sm sm:text-base text-muted-foreground mb-6 max-w-xl mx-auto">
-                Add me on BGMI and let's drop together. Winner winner chicken dinner.
+                Add me on BGMI for a casual weekend match. No pressure, just vibes.
               </p>
               <div className="inline-flex items-center gap-4 px-8 py-4 glass-strong rounded-2xl border border-primary/30">
                 <Gamepad2 className="w-6 h-6" style={{ color: PERSONA.accent }} />
