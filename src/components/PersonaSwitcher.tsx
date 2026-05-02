@@ -285,7 +285,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       />
 
       {/* Content grid */}
-      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-12 pt-20 pb-20 sm:pt-24 flex items-end md:items-center">
+      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-24 sm:pt-24 flex items-end md:items-center">
         {/* Vertical persona rail */}
         <div className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-6">
           <span className="font-mono text-[9px] tracking-[0.4em] text-foreground/40 [writing-mode:vertical-rl] rotate-180">
@@ -311,9 +311,9 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end md:items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-end md:items-center w-full">
           {/* LEFT — copy (on mobile sits at bottom, smaller, since PNG dominates) */}
-          <div className="order-2 md:order-1 md:col-span-7 lg:col-span-6 relative">
+          <div className="order-2 md:order-1 md:col-span-7 lg:col-span-7 relative max-w-2xl">
             {/* Subtitle ABOVE name */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -418,7 +418,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </div>
 
           {/* RIGHT — character image (mobile: 65vh dominant, desktop full height) */}
-          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-6 relative h-[60svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-hidden">
+          <div className="order-1 md:order-2 md:col-span-5 lg:col-span-5 relative h-[60svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-hidden">
             {/* Glow */}
             <motion.div
               aria-hidden
