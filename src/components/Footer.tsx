@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Github, Linkedin, Twitter, Instagram, Youtube, Mail, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Github, Linkedin, Twitter, Instagram, Youtube, Mail, ArrowUpRight } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
@@ -16,52 +15,68 @@ const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-t border-border/30">
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
-      
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="py-5 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          {/* Brand */}
-          <span className="font-display text-base sm:text-lg font-bold text-gradient">SAHIL DEV</span>
 
-          {/* Social */}
-          <div className="flex items-center gap-1">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 py-6">
+        {/* Single compact row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Brand + signature */}
+          <div className="flex items-center gap-3">
+            <span
+              className="font-bold italic text-xl sm:text-2xl text-gradient leading-none"
+              style={{ fontFamily: "'Italianno', cursive", fontStyle: "italic" }}
+            >
+              Sahil Wadhwani
+            </span>
+            <span className="text-muted-foreground/30 hidden sm:inline">·</span>
+            <span className="hidden sm:inline text-[10px] font-mono uppercase tracking-[0.3em] text-foreground/40">
+              Android · Stories · Pixels
+            </span>
+          </div>
+
+          {/* Socials — icon-only chips */}
+          <div className="flex items-center gap-1.5">
             {socialLinks.map((social) => (
               <motion.a
                 key={social.label}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.15, y: -2 }}
-                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-foreground/60 hover:text-primary hover:bg-primary/10 transition-all text-[10px] font-display"
+                whileHover={{ y: -2, scale: 1.08 }}
                 aria-label={social.label}
+                title={social.label}
+                className="w-8 h-8 inline-flex items-center justify-center rounded-full text-foreground/60 hover:text-primary hover:bg-primary/10 border border-border/40 transition-all"
               >
                 <social.icon className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{social.label}</span>
               </motion.a>
             ))}
           </div>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3 text-[10px] sm:text-xs text-muted-foreground font-body">
-            <a href="mailto:sahilwadhwani712@gmail.com" className="flex items-center gap-1 hover:text-primary transition-colors">
-              <Mail className="w-3 h-3" />
-              <span className="hidden sm:inline">sahilwadhwani712@gmail.com</span>
-            </a>
-            <span className="text-muted-foreground/30">•</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="resume-btn-slide h-7 px-3 text-[10px] sm:text-xs font-display font-semibold border border-primary/30 relative overflow-hidden group"
-              asChild
+          {/* Contact + resume */}
+          <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-body">
+            <a
+              href="mailto:sahilwadhwani712@gmail.com"
+              className="hidden md:inline-flex items-center gap-1.5 hover:text-primary transition-colors"
             >
-              <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">Resume</span>
-              </a>
-            </Button>
-            <span className="text-muted-foreground/30">•</span>
-            <span className="flex items-center gap-1">
-              © 2025 <Heart className="w-2.5 h-2.5 text-primary" />
-            </span>
+              <Mail className="w-3 h-3" />
+              <span>sahilwadhwani712@gmail.com</span>
+            </a>
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/30 text-foreground hover:bg-primary hover:text-primary-foreground transition-all text-[11px] font-display font-semibold tracking-widest uppercase"
+            >
+              Resume
+              <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
           </div>
+        </div>
+
+        {/* Tiny baseline */}
+        <div className="mt-4 pt-3 border-t border-border/20 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.3em] text-foreground/35">
+          <span>© 2025 Sahil Wadhwani</span>
+          <span className="hidden sm:inline">Crafted with care · IST</span>
+          <span className="sm:hidden">IST</span>
         </div>
       </div>
     </footer>
