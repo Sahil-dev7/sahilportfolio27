@@ -378,7 +378,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           </div>
 
           {/* RIGHT — character image. Single anchored container; no second silhouette. */}
-          <div className="order-1 md:order-2 md:col-span-6 lg:col-span-6 relative h-[58svh] md:h-[92svh] flex justify-center md:justify-end items-end overflow-visible">
+          <div className="order-1 md:order-2 md:col-span-6 lg:col-span-6 relative h-[62svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-visible">
             {/* Glow */}
             <motion.div
               aria-hidden
@@ -411,13 +411,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                       filter: active ? "blur(0px)" : "blur(8px)",
                     }}
                     transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute bottom-0 h-full w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                    className="absolute -bottom-2 sm:-bottom-3 h-[102%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
                     style={{
-                      /* Soft bottom fade to blend, NO top mask (was creating "second figure") */
-                      maskImage:
-                        "linear-gradient(to bottom, black 88%, transparent 100%)",
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 88%, transparent 100%)",
                       filter:
                         "drop-shadow(0 40px 60px hsl(0 0% 0% / 0.75)) drop-shadow(0 0 30px hsl(0 0% 0% / 0.4))",
                       willChange: "opacity, transform",

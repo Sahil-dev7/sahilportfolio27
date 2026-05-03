@@ -9,6 +9,21 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   image-rendering: -webkit-optimize-contrast;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Globally hide scrollbar — small site, not needed */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 * {
