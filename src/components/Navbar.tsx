@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, Home, Code2, Heart, Gamepad2, Image, Phone, FileText } from "lucide-react";
+import { Menu, X, Home, Code2, Heart, Gamepad2, Image, Phone, FileText, ArrowUpRight } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Home", to: "/", icon: Home },
   { label: "Developer", to: "/developer", icon: Code2 },
-  { label: "Friend", to: "/friend", icon: Heart },
+  { label: "About", to: "/friend", icon: Heart },
   { label: "Gamer", to: "/gamer", icon: Gamepad2 },
   { label: "Gallery", href: "https://sahildev.odoo.com/gallery", external: true, icon: Image },
   { label: "Contact", to: "/friend#contact", icon: Phone },
@@ -111,19 +111,24 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Resume CTA */}
+            {/* Resume CTA — same animation as Enter Dev pill */}
             <div className="hidden md:block">
-              <Button
-                className="resume-btn-slide font-display font-semibold border-primary/30 relative overflow-hidden group"
-                variant="outline"
-                asChild
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full font-display font-medium text-[11px] uppercase tracking-[0.24em] text-foreground overflow-hidden border border-primary/40"
+                style={{ background: "hsl(0 0% 100% / 0.04)", backdropFilter: "blur(14px)" }}
               >
-                <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                  <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">
-                    Resume/CV
-                  </span>
-                </a>
-              </Button>
+                <span
+                  aria-hidden
+                  className="absolute inset-0 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out bg-primary"
+                />
+                <span className="relative z-10 transition-colors group-hover:text-white">Resume / CV</span>
+                <span className="relative z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary transition-colors group-hover:bg-white/20">
+                  <ArrowUpRight className="w-4 h-4 text-white transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -209,18 +214,23 @@ const Navbar = () => {
                   )}
                 </nav>
                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
-                  <Button
-                    className="w-full resume-btn-slide font-display font-semibold relative overflow-hidden group border-primary/30"
-                    variant="outline"
-                    asChild
+                  <a
+                    href={resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="group relative w-full inline-flex items-center justify-between gap-3 pl-5 pr-2 py-2.5 rounded-full font-display font-medium text-[11px] uppercase tracking-[0.24em] text-foreground overflow-hidden border border-primary/40"
+                    style={{ background: "hsl(0 0% 100% / 0.04)" }}
                   >
-                    <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                      <span className="relative z-10 flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-primary-foreground">
-                        <FileText className="w-4 h-4" />
-                        Resume/CV
-                      </span>
-                    </a>
-                  </Button>
+                    <span aria-hidden className="absolute inset-0 rounded-full origin-left scale-x-0 group-hover:scale-x-100 group-active:scale-x-100 transition-transform duration-700 ease-out bg-primary" />
+                    <span className="relative z-10 flex items-center gap-2 transition-colors group-hover:text-white group-active:text-white">
+                      <FileText className="w-4 h-4" />
+                      Resume / CV
+                    </span>
+                    <span className="relative z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary">
+                      <ArrowUpRight className="w-4 h-4 text-white" />
+                    </span>
+                  </a>
                 </motion.div>
               </div>
             </motion.div>
