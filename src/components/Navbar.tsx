@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X, Home, Code2, Heart, Gamepad2, Image, Phone, FileText, ArrowUpRight } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Home", to: "/", icon: Home },
