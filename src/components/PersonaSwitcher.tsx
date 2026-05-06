@@ -40,6 +40,7 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
         fontSize: "clamp(3rem, 9vw, 9rem)",
         textShadow: `0 18px 70px ${accent}66, 0 2px 0 ${accent}22`,
         letterSpacing: "-0.01em",
+        wordSpacing: "0.35em",
       }}
     >
       <span className="sr-only">{text}</span>
