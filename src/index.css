@@ -32,6 +32,49 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Water-droplet hover + click ripple for nav links */
+@keyframes nav-droplet-rise {
+  0% { transform: translate(var(--x, 50%), 0) scale(0.4); opacity: 0; }
+  40% { opacity: 0.85; }
+  100% { transform: translate(var(--x, 50%), -22px) scale(1); opacity: 0; }
+}
+@keyframes nav-droplet-ripple {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+.nav-droplet { position: relative; isolation: isolate; }
+.nav-droplet::before,
+.nav-droplet::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  z-index: -1;
+}
+.nav-droplet::before {
+  left: 50%;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle at 35% 30%, hsl(0 0% 100% / 0.85), hsl(var(--primary) / 0.55) 65%, transparent 80%);
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.6);
+  opacity: 0;
+}
+.nav-droplet:hover::before {
+  animation: nav-droplet-rise 1.4s ease-out infinite;
+}
+.nav-droplet::after {
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: hsl(var(--primary) / 0.4);
+  opacity: 0;
+}
+.nav-droplet:active::after {
+  animation: nav-droplet-ripple 0.6s ease-out;
+}
+
 /* Premium Red Dark Theme - Luxury Aesthetic */
 
 @layer base {
