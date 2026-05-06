@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Star, ArrowUpRight, Mail, Rocket, Clock, CheckCircle2, X } from "lucide-react";
+import { Github, Star, ArrowUpRight, Mail, Rocket, Clock, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
