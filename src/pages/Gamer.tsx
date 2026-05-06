@@ -31,7 +31,7 @@ const Gamer = () => {
   return <GamerInner />;
 };
 
-const GameDeck = ({ games }: { games: typeof import("./Gamer")["games" extends keyof never ? never : never] | any[] }) => {
+const GameDeck = ({ games }: { games: any[] }) => {
   const [i, setI] = useState(0);
   const next = () => setI((i + 1) % games.length);
   const prev = () => setI((i - 1 + games.length) % games.length);
