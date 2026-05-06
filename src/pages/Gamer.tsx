@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Trophy, Clock, Star, ExternalLink, Users, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MarqueeText from "@/components/MarqueeText";
