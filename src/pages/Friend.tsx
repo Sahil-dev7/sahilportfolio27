@@ -71,10 +71,10 @@ const Friend = () => {
               className="order-1 md:order-2 relative flex justify-center md:justify-end">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full blur-[80px] opacity-30 pointer-events-none" style={{ background: PERSONA.accent }} />
               <img src={PERSONA.png} alt={PERSONA.title}
-                className="relative z-10 h-[55svh] sm:h-[70svh] md:h-[80svh] lg:h-[88svh] w-auto object-contain object-bottom select-none"
+                className="relative z-10 h-[68svh] sm:h-[82svh] md:h-[94svh] lg:h-[100svh] w-auto object-contain object-bottom select-none"
                 style={{
-                  maskImage: "linear-gradient(to bottom, black 92%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 92%, transparent 100%)",
+                  
+                  
                   filter: "drop-shadow(0 25px 50px hsl(0 0% 0% / 0.6))",
                 }}
                 loading="eager" draggable={false}
