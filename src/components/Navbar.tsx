@@ -123,7 +123,7 @@ const Navbar = () => {
                   aria-hidden
                   className="absolute inset-0 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out bg-primary"
                 />
-                <span className="relative z-10 transition-colors group-hover:text-white">Resume</span>
+                <span className="relative z-10 transition-colors group-hover:text-white">Resume / CV</span>
                 <span className="relative z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary transition-colors group-hover:bg-white/20">
                   <ArrowUpRight className="w-4 h-4 text-white transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
