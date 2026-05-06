@@ -59,8 +59,8 @@ const Gamer = () => {
                 </span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground"
-                style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: "0.15em" }}
+                className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.95] mb-4 text-foreground whitespace-nowrap"
+                style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: "0.08em" }}
               >
                 {PERSONA.title}
               </motion.h1>
