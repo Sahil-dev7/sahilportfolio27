@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, Trophy, Clock, Star, ExternalLink, Users, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MarqueeText from "@/components/MarqueeText";
@@ -26,6 +27,92 @@ const games = [
 ];
 
 const Gamer = () => {
+  return <GamerInner />;
+};
+
+const GameDeck = ({ games }: { games: any[] }) => {
+  const [i, setI] = useState(0);
+  const next = () => setI((i + 1) % games.length);
+  const prev = () => setI((i - 1 + games.length) % games.length);
+  return (
+    <div className="relative max-w-2xl mx-auto h-[480px] sm:h-[520px] select-none">
+      <div className="relative w-full h-full">
+        {games.map((g: any, idx: number) => {
+          const offset = (idx - i + games.length) % games.length;
+          const isTop = offset === 0;
+          const visible = offset < 4;
+          return (
+            <motion.div
+              key={g.name}
+              animate={{
+                y: offset * 14,
+                scale: 1 - offset * 0.04,
+                opacity: visible ? 1 - offset * 0.2 : 0,
+                rotate: offset === 0 ? 0 : (idx % 2 === 0 ? -1.5 : 1.5) * offset,
+                zIndex: 100 - offset,
+              }}
+              transition={{ type: "spring", stiffness: 220, damping: 26 }}
+              drag={isTop ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -80) next();
+                else if (info.offset.x > 80) prev();
+              }}
+              className="absolute inset-0 cursor-grab active:cursor-grabbing"
+            >
+              <div className="relative h-full glass-card rounded-3xl overflow-hidden border border-border/40">
+                <div className={`absolute inset-0 bg-gradient-to-br ${g.color} opacity-60`} />
+                <img src={g.logo} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 blur-md scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+                <div className="relative h-full flex flex-col p-6 sm:p-8">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-muted flex-shrink-0 ring-1 ring-border/50">
+                      <img src={g.logo} alt={g.name} className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="80">🎮</text></svg>'; }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground truncate">{g.name}</h3>
+                      <span className="text-xs font-display text-muted-foreground px-2 py-0.5 rounded-full bg-muted inline-block mt-1">{g.genre}</span>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <div className="flex items-center gap-1 text-yellow-500"><Star className="w-4 h-4 fill-current" /><span className="font-display text-sm font-bold">{g.rating}</span></div>
+                      <div className="text-xs text-muted-foreground">{g.playtime}</div>
+                    </div>
+                  </div>
+                  <p className="font-body text-sm text-muted-foreground mb-4">{g.description}</p>
+                  <div className="space-y-1.5 mb-4">
+                    {g.highlights.map((h: string) => (
+                      <div key={h} className="flex items-center gap-2 text-sm"><Trophy className="w-3 h-3 text-primary flex-shrink-0" /><span className="text-foreground/80">{h}</span></div>
+                    ))}
+                  </div>
+                  <div className="mt-auto flex items-center justify-between gap-3">
+                    {g.playerId ? (
+                      <div className="px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 inline-flex items-center gap-2">
+                        <Users className="w-4 h-4 text-primary" />
+                        <span className="font-mono text-xs text-primary font-bold">ID: {g.playerId}</span>
+                      </div>
+                    ) : <span />}
+                    <a href={g.url} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-display font-semibold text-primary hover:underline">
+                      Visit <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+      <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <button onClick={prev} className="px-3 py-1.5 rounded-full glass border border-border/50 text-xs font-display hover:border-primary/50 transition-colors">Prev</button>
+        <span className="text-xs font-mono text-muted-foreground">{i + 1} / {games.length}</span>
+        <button onClick={next} className="px-3 py-1.5 rounded-full glass border border-border/50 text-xs font-display hover:border-primary/50 transition-colors">Next</button>
+      </div>
+    </div>
+  );
+};
+
+const GamerInner = () => {
   return (
     <div className="min-h-screen bg-background grain overflow-x-hidden">
       <Navbar />
@@ -59,8 +146,8 @@ const Gamer = () => {
                 </span>
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.9] mb-4 text-foreground"
-                style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: "0.15em" }}
+                className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.95] mb-4 text-foreground whitespace-nowrap"
+                style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: "0.08em" }}
               >
                 {PERSONA.title}
               </motion.h1>
@@ -119,56 +206,10 @@ const Gamer = () => {
               <span className="text-foreground">My </span>
               <span className="text-gradient">Game Library</span>
             </h2>
+            <p className="text-muted-foreground font-body text-xs sm:text-sm mt-2">Tap to flip — the deck shifts to the next title.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {games.map((game, index) => (
-              <motion.a key={game.name} href={game.url} target="_blank" rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }} whileHover={{ y: -6, scale: 1.01 }} className="group block">
-                <div className="relative glass-card rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-500">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${game.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative p-5 sm:p-6">
-                    <div className="flex items-start gap-3 sm:gap-4 mb-4">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted flex-shrink-0">
-                        <img src={game.logo} alt={game.name} className="w-full h-full object-cover"
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="80">🎮</text></svg>'; }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-display text-lg sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors truncate">{game.name}</h3>
-                          <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary flex-shrink-0" />
-                        </div>
-                        <span className="text-xs font-display text-muted-foreground px-2 py-0.5 rounded-full bg-muted">{game.genre}</span>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="flex items-center gap-1 text-yellow-500">
-                          <Star className="w-4 h-4 fill-current" />
-                          <span className="font-display text-sm font-bold">{game.rating}</span>
-                        </div>
-                        <div className="text-xs text-muted-foreground">{game.playtime}</div>
-                      </div>
-                    </div>
-                    <p className="font-body text-sm text-muted-foreground mb-4">{game.description}</p>
-                    <div className="space-y-1.5">
-                      {game.highlights.map((h) => (
-                        <div key={h} className="flex items-center gap-2 text-sm">
-                          <Trophy className="w-3 h-3 text-primary flex-shrink-0" />
-                          <span className="text-foreground/80">{h}</span>
-                        </div>
-                      ))}
-                    </div>
-                    {game.playerId && (
-                      <div className="mt-4 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 inline-flex items-center gap-2">
-                        <Users className="w-4 h-4 text-primary" />
-                        <span className="font-mono text-sm text-primary font-bold">ID: {game.playerId}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.a>
-            ))}
-          </div>
+          <GameDeck games={games} />
         </div>
       </section>
 

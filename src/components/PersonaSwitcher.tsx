@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -23,6 +24,7 @@ export type Persona = {
   ctaTo: string;
   stats: { label: string; value: string }[];
   marquee: string[];
+  socials?: { icon: LucideIcon; label: string; href: string }[];
 };
 
 /* Cursive name — single line, viral feel */
@@ -38,6 +40,7 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
         fontSize: "clamp(3rem, 9vw, 9rem)",
         textShadow: `0 18px 70px ${accent}66, 0 2px 0 ${accent}22`,
         letterSpacing: "-0.01em",
+        wordSpacing: "0.35em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -420,25 +423,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </div>
       </div>
 
-      {/* Indicator dots + scroll hint (left-aligned) */}
-      <div className="absolute bottom-4 sm:bottom-6 left-5 sm:left-8 lg:left-16 z-30 flex flex-col items-start gap-3 pointer-events-none">
-        <div className="flex items-center gap-2">
-          {personas.map((p, i) => {
-            const isActive = i === index;
-            return (
-              <motion.span
-                key={p.id}
-                aria-hidden
-                className="block h-[3px] rounded-full"
-                animate={{
-                  width: isActive ? 36 : 10,
-                  background: isActive ? p.accent : "hsl(0 0% 100% / 0.25)",
-                }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              />
-            );
-          })}
-        </div>
+      {/* Scroll hint — bottom center */}
+      <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
         <motion.span
           className="font-mono text-[9px] sm:text-[10px] tracking-[0.4em] text-foreground/40 uppercase"
           animate={{ y: [0, 4, 0], opacity: [0.4, 0.7, 0.4] }}
@@ -446,6 +432,71 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         >
           Scroll to switch
         </motion.span>
+      </div>
+
+      {/* Right-center stack: persona dots + socials */}
+      <div className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-4 sm:gap-5">
+        {/* Persona indicator dots — vertical, clickable */}
+        <div className="flex flex-col items-center gap-2">
+          {personas.map((p, i) => {
+            const isActive = i === index;
+            return (
+              <button
+                key={p.id}
+                onClick={() => go(i)}
+                aria-label={`Go to ${p.label}`}
+                className="group relative flex items-center justify-center w-5 h-5"
+              >
+                <motion.span
+                  aria-hidden
+                  className="block w-[3px] rounded-full"
+                  animate={{
+                    height: isActive ? 32 : 10,
+                    background: isActive ? p.accent : "hsl(0 0% 100% / 0.3)",
+                  }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        <span className="block w-px h-6 bg-foreground/20" />
+
+        {/* Socials — three stacked, swap per persona */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`socials-${persona.id}`}
+            initial={{ opacity: 0, x: 14 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 14 }}
+            transition={{ duration: 0.45 }}
+            className="flex flex-col items-center gap-2"
+          >
+            {(persona.socials ?? []).map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="group relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-foreground/15 hover:border-foreground/40 transition-colors"
+                style={{
+                  background: "hsl(0 0% 100% / 0.04)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                }}
+              >
+                <span
+                  aria-hidden
+                  className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: `${persona.accent}33`, boxShadow: `0 0 22px ${persona.accent}66` }}
+                />
+                <s.icon className="relative z-10 w-4 h-4 text-foreground/80 group-hover:text-foreground transition-colors" />
+              </a>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

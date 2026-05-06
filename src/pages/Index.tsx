@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import PersonaSwitcher, { Persona } from "@/components/PersonaSwitcher";
+import { Github, Linkedin, Mail, Instagram, Youtube, Music2, Gamepad2, Twitch, Disc3 } from "lucide-react";
 
 const personas: Persona[] = [
   {
@@ -16,13 +17,18 @@ const personas: Persona[] = [
     ctaLabel: "Enter Dev Mode",
     ctaTo: "/developer",
     stats: [
-      { value: "6+", label: "Years Building" },
-      { value: "20+", label: "Apps Shipped" },
+      { value: "4", label: "Years of Experience" },
+      { value: "7+", label: "Apps Shipped" },
       { value: "Compose", label: "Daily Stack" },
     ],
     marquee: [
       "KOTLIN", "JETPACK COMPOSE", "FIREBASE", "MVVM",
       "ANDROID SDK", "DART", "REST APIs", "CLEAN ARCHITECTURE",
+    ],
+    socials: [
+      { icon: Github, label: "GitHub", href: "https://github.com/Sahil-dev7" },
+      { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/sahil-w712" },
+      { icon: Mail, label: "Email", href: "mailto:sahilwadhwani712@gmail.com" },
     ],
   },
   {
@@ -47,6 +53,11 @@ const personas: Persona[] = [
       "YOUTUBE", "INSTAGRAM", "SPOTIFY", "MUSIC",
       "PHOTOGRAPHY", "FILMS", "CULTURE", "STORYTELLING",
     ],
+    socials: [
+      { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/__sahil_.27" },
+      { icon: Youtube, label: "YouTube", href: "https://youtube.com/@SahilDev" },
+      { icon: Music2, label: "Spotify", href: "https://open.spotify.com/" },
+    ],
   },
   {
     id: "gamer",
@@ -69,6 +80,11 @@ const personas: Persona[] = [
     marquee: [
       "BGMI", "GTA V", "RDR 2", "NFS",
       "EFOOTBALL", "WEEKENDS", "SQUAD UP",
+    ],
+    socials: [
+      { icon: Gamepad2, label: "BGMI", href: "https://www.battlegroundsmobileindia.com/" },
+      { icon: Disc3, label: "Discord", href: "https://discord.com/" },
+      { icon: Twitch, label: "Twitch", href: "https://twitch.tv/" },
     ],
   },
 ];
