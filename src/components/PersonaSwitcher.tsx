@@ -279,7 +279,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
         <motion.div
           style={{ x: px, y: py }}
-          className="absolute inset-x-0 bottom-0 h-[68svh] sm:h-[72svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
+          className="absolute inset-x-0 bottom-0 h-[70svh] sm:h-[74svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
         >
           <motion.div
             aria-hidden
@@ -307,7 +307,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   scale: active ? 1 : 0.985,
                 }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute bottom-0 h-full md:h-[98%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                className="absolute -bottom-[7svh] sm:-bottom-[6svh] md:-bottom-[3svh] h-[112%] md:h-[104%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
                 style={{
                   transformOrigin: "50% 100%",
                   filter:
