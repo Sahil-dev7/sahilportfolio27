@@ -75,7 +75,7 @@ const EnterPill = ({
   accent: string;
 }) => {
   return (
-    <motion.div layout className="inline-block">
+    <div className="inline-block">
       <Link
         to={to}
         className="group relative inline-flex items-center gap-3 sm:gap-4 pl-5 sm:pl-6 pr-2 py-2 sm:py-2.5 rounded-full font-display font-medium text-[11px] sm:text-xs uppercase tracking-[0.24em] text-foreground overflow-hidden"
@@ -119,7 +119,7 @@ const EnterPill = ({
           <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </Link>
-    </motion.div>
+    </div>
   );
 };
 
@@ -279,7 +279,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
         <motion.div
           style={{ x: px, y: py }}
-          className="absolute inset-x-0 bottom-0 h-[70svh] sm:h-[74svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
+          className="absolute inset-x-0 bottom-0 h-[78svh] sm:h-[80svh] md:h-[100svh] flex items-end justify-center md:justify-end"
         >
           <motion.div
             aria-hidden
@@ -295,6 +295,9 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           />
           {personas.map((p, i) => {
             const active = i === index;
+            // Friend (creator) on desktop nudged ~30% left from the right edge
+            const desktopShift =
+              p.id === "friend" ? "md:right-[32%]" : "md:right-[6%]";
             return (
               <motion.img
                 key={p.id}
@@ -307,7 +310,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   scale: active ? 1 : 0.985,
                 }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -bottom-[7svh] sm:-bottom-[6svh] md:-bottom-[3svh] h-[112%] md:h-[104%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 ${desktopShift} h-[88svh] sm:h-[90svh] md:h-[100svh] w-auto max-w-none object-contain object-bottom select-none pointer-events-none`}
                 style={{
                   transformOrigin: "50% 100%",
                   filter:
@@ -327,29 +330,18 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="relative z-20 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 flex items-end md:items-center">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 items-end md:items-center w-full">
           {/* LEFT — copy */}
-          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[42svh] md:pt-0">
-            {/* Accent + label rule */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`sub-${persona.id}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="mb-3 sm:mb-4 flex items-center gap-3"
-              >
-                <span
-                  className="block h-px w-10 sm:w-14"
-                  style={{ background: persona.accent }}
-                />
-                <span
-                  className="font-mono text-[10px] sm:text-xs tracking-[0.34em] uppercase font-medium"
-                  style={{ color: persona.accent }}
-                >
-                  {persona.subtitle}
-                </span>
-              </motion.div>
-            </AnimatePresence>
+          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[34svh] md:pt-0">
+            {/* Tiny accent rule (no subtitle text per request) */}
+            <div className="mb-4 sm:mb-5">
+              <motion.span
+                key={`rule-${persona.id}`}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="block h-[2px] w-12 sm:w-16 origin-left"
+                style={{ background: persona.accent }}
+              />
+            </div>
 
             <div className="relative mb-5 sm:mb-6 min-h-[1.2em]">
               <AnimatePresence mode="wait">
@@ -362,7 +354,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </div>
 
             {/* Description — visible on mobile too, more breathing room */}
-            <div className="mb-6 sm:mb-7">
+            <div className="mb-6 sm:mb-7 min-h-[6.5rem] sm:min-h-[5.5rem]">
               <AnimatePresence mode="wait">
                 <motion.p
                   key={`desc-${persona.id}`}
@@ -428,8 +420,8 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </div>
       </div>
 
-      {/* Indicator dots + scroll hint */}
-      <div className="absolute bottom-4 sm:bottom-6 left-0 right-0 z-30 flex flex-col items-center gap-3 pointer-events-none">
+      {/* Indicator dots + scroll hint (left-aligned) */}
+      <div className="absolute bottom-4 sm:bottom-6 left-5 sm:left-8 lg:left-16 z-30 flex flex-col items-start gap-3 pointer-events-none">
         <div className="flex items-center gap-2">
           {personas.map((p, i) => {
             const isActive = i === index;
