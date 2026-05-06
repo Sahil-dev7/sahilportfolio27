@@ -11,9 +11,9 @@ import ContactSection from "@/components/ContactSection";
 const PERSONA = {
   label: "DEVELOPER",
   title: "SAHIL DEV",
-  subtitle: "Senior Android Engineer · Kotlin · Jetpack Compose",
+  subtitle: "Android engineer building human-first products",
   description:
-    "Six years deep in Android. I architect production apps with Kotlin, Jetpack Compose, MVVM, Clean Architecture, Firebase and modern DI. From zero-to-launch to scaling features — this is the craft I live in every single day.",
+    "Passionate about AI and shipping tech that genuinely helps people. I turn ideas into clean, user-focused Android apps and explore how intelligent systems can create real-world impact.",
   bg: "https://i.postimg.cc/VLh5HfWP/Dev-bg.webp",
   png: "https://i.postimg.cc/wTr3bqQ6/Dev.webp",
   accent: "hsl(0 85% 55%)",
