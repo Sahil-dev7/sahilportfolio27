@@ -83,7 +83,7 @@ const Navbar = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative px-3 py-1.5 font-body text-sm text-foreground/60 hover:text-foreground transition-colors rounded-md hover:bg-primary/5"
+                    className="nav-droplet relative px-3 py-1.5 font-body text-sm text-foreground/60 hover:text-foreground transition-colors rounded-md hover:bg-primary/5"
                   >
                     {item.label}
                   </a>
@@ -91,7 +91,7 @@ const Navbar = () => {
                   <button
                     key={item.label}
                     onClick={() => handleNavigate(item.to!)}
-                    className={`relative px-3 py-1.5 font-body text-sm rounded-md transition-all duration-200 ${
+                    className={`nav-droplet relative px-3 py-1.5 font-body text-sm rounded-md transition-all duration-200 ${
                       isActive(item.to!)
                         ? "text-primary font-medium"
                         : "text-foreground/60 hover:text-foreground hover:bg-primary/5"
