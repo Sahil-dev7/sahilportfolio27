@@ -11,9 +11,9 @@ import ContactSection from "@/components/ContactSection";
 const PERSONA = {
   label: "DEVELOPER",
   title: "SAHIL DEV",
-  subtitle: "Senior Android Engineer · Kotlin · Jetpack Compose",
+  subtitle: "Android engineer building human-first products",
   description:
-    "Six years deep in Android. I architect production apps with Kotlin, Jetpack Compose, MVVM, Clean Architecture, Firebase and modern DI. From zero-to-launch to scaling features — this is the craft I live in every single day.",
+    "Passionate about AI and shipping tech that genuinely helps people. I turn ideas into clean, user-focused Android apps and explore how intelligent systems can create real-world impact.",
   bg: "https://i.postimg.cc/VLh5HfWP/Dev-bg.webp",
   png: "https://i.postimg.cc/wTr3bqQ6/Dev.webp",
   accent: "hsl(0 85% 55%)",
@@ -79,10 +79,10 @@ const Developer = () => {
             >
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full blur-[80px] opacity-30 pointer-events-none" style={{ background: PERSONA.accent }} />
               <img src={PERSONA.png} alt={PERSONA.title}
-                className="relative z-10 h-[55svh] sm:h-[70svh] md:h-[80svh] lg:h-[88svh] w-auto object-contain object-bottom select-none"
+                className="relative z-10 h-[68svh] sm:h-[82svh] md:h-[94svh] lg:h-[100svh] w-auto object-contain object-bottom select-none"
                 style={{
-                  maskImage: "linear-gradient(to bottom, black 92%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 92%, transparent 100%)",
+                  
+                  
                   filter: "drop-shadow(0 25px 50px hsl(0 0% 0% / 0.6))",
                 }}
                 loading="eager" draggable={false}
