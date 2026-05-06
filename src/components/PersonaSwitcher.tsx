@@ -279,7 +279,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
         <motion.div
           style={{ x: px, y: py }}
-          className="absolute inset-x-0 bottom-0 h-[74svh] sm:h-[78svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
+          className="absolute inset-x-0 bottom-0 h-[68svh] sm:h-[72svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
         >
           <motion.div
             aria-hidden
@@ -319,7 +319,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               />
             );
           })}
-          <div className="absolute inset-x-0 bottom-0 h-[34svh] bg-gradient-to-t from-background via-background/55 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[20svh] bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
         </motion.div>
       </div>
 
@@ -327,7 +327,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="relative z-20 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 flex items-end md:items-center">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 items-end md:items-center w-full">
           {/* LEFT — copy */}
-          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-8 sm:pb-0">
+          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[42svh] md:pt-0">
             {/* Accent + label rule */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -370,7 +370,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -14 }}
                   transition={{ duration: 0.5, delay: 0.08 }}
-                  className="font-body text-[13px] sm:text-base text-foreground/75 max-w-lg leading-relaxed"
+                  className="font-body text-[13px] sm:text-base text-foreground/75 max-w-lg leading-relaxed drop-shadow-[0_2px_18px_hsl(0_0%_0%_/_0.9)]"
                 >
                   {persona.description}
                 </motion.p>
