@@ -275,11 +275,59 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         <span className="block w-px h-14 bg-foreground/15" />
       </div>
 
+      {/* Character layer — anchored to the real viewport bottom, never inside the text grid */}
+      <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
+        <motion.div
+          style={{ x: px, y: py }}
+          className="absolute inset-x-0 bottom-0 h-[70svh] sm:h-[74svh] md:h-[96svh] flex items-end justify-center md:justify-end md:pr-[3vw]"
+        >
+          <motion.div
+            aria-hidden
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:right-[10%] md:translate-x-0 w-[76%] md:w-[46%] h-[48%] rounded-full blur-[100px]"
+            animate={{
+              background: persona.accent,
+              opacity: reduce ? 0.22 : [0.2, 0.36, 0.2],
+            }}
+            transition={{
+              background: { duration: 0.8 },
+              opacity: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+            }}
+          />
+          {personas.map((p, i) => {
+            const active = i === index;
+            return (
+              <motion.img
+                key={p.id}
+                src={p.png}
+                alt={active ? p.title : ""}
+                initial={false}
+                animate={{
+                  opacity: active ? 1 : 0,
+                  x: active ? 0 : i < index ? -46 : 46,
+                  scale: active ? 1 : 0.985,
+                }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute -bottom-[7svh] sm:-bottom-[6svh] md:-bottom-[3svh] h-[112%] md:h-[104%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
+                style={{
+                  transformOrigin: "50% 100%",
+                  filter:
+                    "drop-shadow(0 42px 64px hsl(0 0% 0% / 0.78)) drop-shadow(0 0 28px hsl(0 0% 0% / 0.42))",
+                  willChange: "opacity, transform",
+                }}
+                loading={i === 0 ? "eager" : "lazy"}
+                draggable={false}
+              />
+            );
+          })}
+          <div className="absolute inset-x-0 bottom-0 h-[20svh] bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+        </motion.div>
+      </div>
+
       {/* Content grid */}
-      <div className="relative z-10 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-28 sm:pt-24 flex items-end md:items-center">
+      <div className="relative z-20 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 flex items-end md:items-center">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 items-end md:items-center w-full">
           {/* LEFT — copy */}
-          <div className="order-2 md:order-1 md:col-span-6 lg:col-span-6 relative max-w-2xl">
+          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[42svh] md:pt-0">
             {/* Accent + label rule */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -322,7 +370,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -14 }}
                   transition={{ duration: 0.5, delay: 0.08 }}
-                  className="font-body text-[13px] sm:text-base text-foreground/75 max-w-lg leading-relaxed"
+                  className="font-body text-[13px] sm:text-base text-foreground/75 max-w-lg leading-relaxed drop-shadow-[0_2px_18px_hsl(0_0%_0%_/_0.9)]"
                 >
                   {persona.description}
                 </motion.p>
@@ -377,53 +425,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             </AnimatePresence>
           </div>
 
-          {/* RIGHT — character image. Single anchored container; no second silhouette. */}
-          <div className="order-1 md:order-2 md:col-span-6 lg:col-span-6 relative h-[62svh] md:h-[88svh] flex justify-center md:justify-end items-end overflow-visible">
-            {/* Glow */}
-            <motion.div
-              aria-hidden
-              className="absolute bottom-[8%] left-1/2 -translate-x-1/2 md:left-auto md:right-[10%] md:translate-x-0 w-[80%] h-[60%] rounded-full blur-[110px] pointer-events-none"
-              animate={{
-                background: persona.accent,
-                opacity: reduce ? 0.28 : [0.25, 0.42, 0.25],
-              }}
-              transition={{
-                background: { duration: 0.8 },
-                opacity: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-              }}
-            />
-            <motion.div
-              style={{ x: px, y: py }}
-              className="relative z-10 h-full w-full flex items-end justify-center md:justify-end"
-            >
-              {personas.map((p, i) => {
-                const active = i === index;
-                return (
-                  <motion.img
-                    key={p.id}
-                    src={p.png}
-                    alt={active ? p.title : ""}
-                    initial={false}
-                    animate={{
-                      opacity: active ? 1 : 0,
-                      x: active ? 0 : (i < index ? -50 : 50),
-                      scale: active ? 1 : 0.97,
-                      filter: active ? "blur(0px)" : "blur(8px)",
-                    }}
-                    transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute -bottom-2 sm:-bottom-3 h-[102%] w-auto max-w-none object-contain object-bottom select-none pointer-events-none"
-                    style={{
-                      filter:
-                        "drop-shadow(0 40px 60px hsl(0 0% 0% / 0.75)) drop-shadow(0 0 30px hsl(0 0% 0% / 0.4))",
-                      willChange: "opacity, transform",
-                    }}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    draggable={false}
-                  />
-                );
-              })}
-            </motion.div>
-          </div>
         </div>
       </div>
 
