@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export type Persona = {
   id: string;
@@ -23,6 +24,7 @@ export type Persona = {
   ctaTo: string;
   stats: { label: string; value: string }[];
   marquee: string[];
+  socials?: { icon: LucideIcon; label: string; href: string }[];
 };
 
 /* Cursive name — single line, viral feel */
