@@ -40,7 +40,7 @@ const CursiveName = ({ text, accent }: { text: string; accent: string }) => {
         fontSize: "clamp(3rem, 9vw, 9rem)",
         textShadow: `0 18px 70px ${accent}66, 0 2px 0 ${accent}22`,
         letterSpacing: "-0.01em",
-        wordSpacing: "0.35em",
+        wordSpacing: "0.12em",
       }}
     >
       <span className="sr-only">{text}</span>
@@ -126,7 +126,7 @@ const EnterPill = ({
   );
 };
 
-const SCROLL_COOLDOWN = 1100;
+const SCROLL_COOLDOWN = 950;
 
 const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
   const [index, setIndex] = useState(0);
@@ -141,7 +141,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
     const tryAdvance = (delta: number) => {
       const now = Date.now();
       if (now - lastSwapRef.current < SCROLL_COOLDOWN) return;
-      if (Math.abs(delta) < 10) return;
+      if (Math.abs(delta) < 14) return;
       lastSwapRef.current = now;
       if (delta > 0) go((index + 1) % personas.length);
       else go((index - 1 + personas.length) % personas.length);
@@ -282,7 +282,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
         <motion.div
           style={{ x: px, y: py }}
-          className="absolute inset-x-0 bottom-0 h-[78svh] sm:h-[80svh] md:h-[100svh] flex items-end justify-center md:justify-end"
+          className="absolute inset-x-0 bottom-0 h-[60svh] sm:h-[78svh] md:h-[100svh] flex items-end justify-center md:justify-end"
         >
           <motion.div
             aria-hidden
@@ -298,9 +298,9 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           />
           {personas.map((p, i) => {
             const active = i === index;
-            // Friend (creator) on desktop nudged ~30% left from the right edge
+            // Friend (creator) on desktop sits closer to right edge
             const desktopShift =
-              p.id === "friend" ? "md:right-[32%]" : "md:right-[6%]";
+              p.id === "friend" ? "md:right-[22%]" : "md:right-[6%]";
             return (
               <motion.img
                 key={p.id}
@@ -309,11 +309,11 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 initial={false}
                 animate={{
                   opacity: active ? 1 : 0,
-                  x: active ? 0 : i < index ? -46 : 46,
-                  scale: active ? 1 : 0.985,
+                  x: active ? 0 : i < index ? -28 : 28,
+                  scale: active ? 1 : 0.99,
                 }}
-                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 ${desktopShift} h-[88svh] sm:h-[90svh] md:h-[100svh] w-auto max-w-none object-contain object-bottom select-none pointer-events-none`}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 ${desktopShift} h-[60svh] sm:h-[80svh] md:h-[100svh] w-auto max-w-[96vw] md:max-w-none object-contain object-bottom select-none pointer-events-none`}
                 style={{
                   transformOrigin: "50% 100%",
                   filter:
@@ -333,18 +333,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
       <div className="relative z-20 h-full container mx-auto px-5 sm:px-8 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 flex items-end md:items-center">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 items-end md:items-center w-full">
           {/* LEFT — copy */}
-          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[34svh] md:pt-0">
-            {/* Tiny accent rule (no subtitle text per request) */}
-            <div className="mb-4 sm:mb-5">
-              <motion.span
-                key={`rule-${persona.id}`}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="block h-[2px] w-12 sm:w-16 origin-left"
-                style={{ background: persona.accent }}
-              />
-            </div>
+          <div className="md:col-span-6 lg:col-span-6 relative max-w-2xl pb-12 sm:pb-0 pt-[26svh] sm:pt-[40svh] md:pt-0">
 
             <div className="relative mb-5 sm:mb-6 min-h-[1.2em]">
               <AnimatePresence mode="wait">
@@ -379,6 +368,42 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                 accent={persona.accent}
               />
             </div>
+
+            {/* Persona socials — inline under the CTA */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`pers-socials-${persona.id}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="flex items-center gap-2 mt-5"
+              >
+                {(persona.socials ?? []).map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    title={s.label}
+                    className="group relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-foreground/15 hover:border-foreground/40 transition-colors"
+                    style={{
+                      background: "hsl(0 0% 100% / 0.04)",
+                      backdropFilter: "blur(10px)",
+                      WebkitBackdropFilter: "blur(10px)",
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{ background: `${persona.accent}33`, boxShadow: `0 0 22px ${persona.accent}66` }}
+                    />
+                    <s.icon className="relative z-10 w-4 h-4 text-foreground/85 group-hover:text-foreground transition-colors" />
+                  </a>
+                ))}
+              </motion.div>
+            </AnimatePresence>
 
             {/* Stat tiles */}
             <AnimatePresence mode="wait">
@@ -434,7 +459,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         </motion.span>
       </div>
 
-      {/* Right-center stack: persona dots + socials */}
+      {/* Right-center: persona dots only (socials moved inline next to CTA) */}
       <div className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-4 sm:gap-5">
         {/* Persona indicator dots — vertical, clickable */}
         <div className="flex flex-col items-center gap-2">
@@ -460,43 +485,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
             );
           })}
         </div>
-
-        <span className="block w-px h-6 bg-foreground/20" />
-
-        {/* Socials — three stacked, swap per persona */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`socials-${persona.id}`}
-            initial={{ opacity: 0, x: 14 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 14 }}
-            transition={{ duration: 0.45 }}
-            className="flex flex-col items-center gap-2"
-          >
-            {(persona.socials ?? []).map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="group relative inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-foreground/15 hover:border-foreground/40 transition-colors"
-                style={{
-                  background: "hsl(0 0% 100% / 0.04)",
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                }}
-              >
-                <span
-                  aria-hidden
-                  className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ background: `${persona.accent}33`, boxShadow: `0 0 22px ${persona.accent}66` }}
-                />
-                <s.icon className="relative z-10 w-4 h-4 text-foreground/80 group-hover:text-foreground transition-colors" />
-              </a>
-            ))}
-          </motion.div>
-        </AnimatePresence>
       </div>
     </section>
   );
