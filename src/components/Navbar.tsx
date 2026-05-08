@@ -98,13 +98,12 @@ const Navbar = () => {
                     }`}
                   >
                     {item.label}
-                    {isActive(item.to!) && (
-                      <motion.div
-                        layoutId="nav-indicator"
-                        className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary rounded-full"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
+                    <span
+                      aria-hidden
+                      className={`absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-primary origin-center transition-transform duration-300 ease-out ${
+                        isActive(item.to!) ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
                   </button>
                 )
               )}
