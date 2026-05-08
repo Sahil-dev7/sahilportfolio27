@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, Star, ArrowUpRight, Mail, Rocket, Clock, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const categories = [
   { key: "completed", label: "Completed", icon: CheckCircle2, color: "text-green-400" },
@@ -95,6 +96,13 @@ const ProjectsSection = () => {
   const [activeCategory, setActiveCategory] = useState("completed");
   const [openProject, setOpenProject] = useState<any | null>(null);
   const filteredProjects = projects.filter(p => p.category === activeCategory);
+
+  useEffect(() => {
+    if (!openProject) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpenProject(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openProject]);
 
   return (
     <section id="projects" className="py-12 sm:py-20 relative overflow-hidden">
@@ -190,6 +198,9 @@ const ProjectsSection = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             onClick={() => setOpenProject(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-modal-title"
           >
             <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
             <motion.div
@@ -202,14 +213,14 @@ const ProjectsSection = () => {
             >
               <div className={`relative h-32 sm:h-40 bg-gradient-to-br ${openProject.color}`}>
                 <div className="absolute inset-0 flex items-center justify-center text-6xl sm:text-7xl drop-shadow-xl">{openProject.image}</div>
-                <button onClick={() => setOpenProject(null)}
+                <button onClick={() => setOpenProject(null)} aria-label="Close project details"
                   className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/60 backdrop-blur flex items-center justify-center hover:bg-background/90 transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <div className="p-5 sm:p-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-foreground">{openProject.title}</h3>
+                  <h3 id="project-modal-title" className="font-display text-lg sm:text-xl font-bold text-foreground">{openProject.title}</h3>
                   {openProject.featured && (
                     <span className="inline-flex items-center gap-0.5 text-[9px] font-display text-primary bg-primary/20 px-1.5 py-0.5 rounded-full">
                       <Star className="w-2 h-2" /> Featured
