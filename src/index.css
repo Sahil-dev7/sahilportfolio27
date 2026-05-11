@@ -13,6 +13,21 @@ html {
   -ms-overflow-style: none;
 }
 
+/* Editorial typography defaults — sharp contrast, refined kerning */
+html, body {
+  font-feature-settings: "ss01", "cv11", "kern";
+  font-variant-ligatures: common-ligatures contextual;
+  letter-spacing: -0.005em;
+}
+h1, h2, h3, h4 {
+  letter-spacing: -0.022em;
+  font-feature-settings: "ss01", "ss02", "kern";
+}
+::selection {
+  background: hsl(var(--primary) / 0.35);
+  color: hsl(var(--foreground));
+}
+
 /* Globally hide scrollbar — small site, not needed */
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
@@ -79,43 +94,42 @@ body {
 
 @layer base {
   :root {
-    /* Deep black base with red undertones */
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
+    /* Refined warm-neutral base — not dead black, slightly warm */
+    --background: 24 6% 5%;
+    --foreground: 30 10% 97%;
 
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
+    --card: 24 6% 8%;
+    --card-foreground: 30 10% 97%;
 
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 24 6% 8%;
+    --popover-foreground: 30 10% 97%;
 
-    /* Premium crimson red as primary */
-    --primary: 0 85% 55%;
+    /* Signature crimson — kept for brand continuity */
+    --primary: 0 85% 58%;
     --primary-foreground: 0 0% 100%;
 
-    /* Rose gold as secondary */
-    --secondary: 15 60% 65%;
+    /* Warm amber-rose secondary — editorial accent */
+    --secondary: 22 88% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 5% 60%;
+    --muted: 24 5% 13%;
+    --muted-foreground: 30 8% 65%;
 
-    /* Deep wine accent */
-    --accent: 350 70% 45%;
+    --accent: 22 88% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 85% 55%;
+    --border: 24 6% 16%;
+    --input: 24 6% 16%;
+    --ring: 0 85% 58%;
 
     --radius: 0.75rem;
 
     /* Premium gradient tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(0 85% 55%) 0%, hsl(350 70% 45%) 50%, hsl(15 60% 50%) 100%);
-    --gradient-text: linear-gradient(135deg, hsl(0 85% 60%) 0%, hsl(15 70% 65%) 50%, hsl(40 80% 70%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(0 85% 58%) 0%, hsl(12 80% 52%) 50%, hsl(22 88% 60%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(0 85% 62%) 0%, hsl(15 80% 68%) 55%, hsl(38 92% 72%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 10%) 0%, hsl(0 0% 5%) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsl(0 85% 55% / 0.2) 0%, transparent 70%);
     --gradient-hero: linear-gradient(135deg, hsl(0 0% 2%) 0%, hsl(0 30% 8%) 50%, hsl(0 0% 4%) 100%);
@@ -126,10 +140,22 @@ body {
     --glass-border: hsl(0 0% 100% / 0.1);
     --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.37);
 
-    /* Premium Shadows */
-    --shadow-glow: 0 0 80px -20px hsl(0 85% 55% / 0.5);
+    /* Premium Shadows — 8pt aligned, layered depth */
+    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.18);
+    --shadow-sm: 0 2px 4px -1px hsl(0 0% 0% / 0.24), 0 1px 2px hsl(0 0% 0% / 0.18);
+    --shadow-md: 0 8px 16px -4px hsl(0 0% 0% / 0.32), 0 2px 4px hsl(0 0% 0% / 0.18);
+    --shadow-lg: 0 16px 32px -8px hsl(0 0% 0% / 0.42), 0 4px 8px hsl(0 0% 0% / 0.22);
+    --shadow-xl: 0 24px 48px -12px hsl(0 0% 0% / 0.55), 0 8px 16px hsl(0 0% 0% / 0.28);
+    --shadow-glow: 0 0 80px -20px hsl(0 85% 58% / 0.5);
     --shadow-card: 0 20px 60px -15px hsl(0 0% 0% / 0.7);
     --shadow-glass: 0 8px 32px 0 hsl(0 0% 0% / 0.4);
+
+    /* Motion easing tokens — handcrafted feel */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+    --duration-fast: 180ms;
+    --duration-base: 240ms;
+    --duration-slow: 420ms;
 
     --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 98%;
@@ -140,6 +166,41 @@ body {
     --sidebar-border: 0 0% 15%;
     --sidebar-ring: 0 85% 55%;
   }
+}
+
+/* High-quality micro-interaction utilities */
+@layer utilities {
+  .elevate {
+    transition:
+      transform var(--duration-base) var(--ease-out-expo),
+      box-shadow var(--duration-base) var(--ease-out-expo),
+      border-color var(--duration-base) var(--ease-out-expo);
+  }
+  .elevate:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hairline {
+    border: 1px solid hsl(var(--foreground) / 0.08);
+  }
+  .hairline-strong {
+    border: 1px solid hsl(var(--foreground) / 0.14);
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Editorial display headline — tight tracking, optical sizing */
+  .display-tight {
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    font-feature-settings: "ss01","ss02","kern";
+  }
+
+  .shadow-soft { box-shadow: var(--shadow-md); }
+  .shadow-soft-lg { box-shadow: var(--shadow-lg); }
+  .shadow-soft-xl { box-shadow: var(--shadow-xl); }
 }
 
 /* Custom utilities */
