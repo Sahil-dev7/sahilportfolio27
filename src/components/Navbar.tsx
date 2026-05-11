@@ -61,21 +61,24 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "glass-strong py-2 sm:py-3 border-b border-border/30" : "py-3 sm:py-5"
+          isScrolled ? "py-2 sm:py-3 border-b border-border/40 backdrop-blur-xl bg-background/70" : "py-3 sm:py-5"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="container mx-auto px-4 sm:px-8">
           <div className="flex items-center justify-between">
             <motion.button
               onClick={() => handleNavigate("/")}
-              className="font-display text-lg sm:text-2xl font-bold text-gradient"
-              whileHover={{ scale: 1.05 }}
+              className="font-display text-base sm:text-xl font-semibold tracking-tight text-foreground"
+              whileHover={{ opacity: 0.7 }}
+              transition={{ duration: 0.2 }}
             >
-              SAHIL DEV
+              <span className="text-gradient">Sahil</span>
+              <span className="text-foreground/50 mx-1">/</span>
+              <span className="text-foreground/90">dev</span>
             </motion.button>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5 rounded-full hairline px-1.5 py-1 bg-background/40 backdrop-blur-md">
               {navItems.map((item) =>
                 item.external ? (
                   <a
@@ -83,7 +86,7 @@ const Navbar = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="nav-droplet relative px-3 py-1.5 font-body text-sm text-foreground/60 hover:text-foreground transition-colors rounded-md hover:bg-primary/5"
+                    className="relative px-3.5 py-1.5 font-body text-[13px] tracking-tight text-foreground/55 hover:text-foreground transition-colors duration-200 rounded-full"
                   >
                     {item.label}
                   </a>
@@ -91,19 +94,21 @@ const Navbar = () => {
                   <button
                     key={item.label}
                     onClick={() => handleNavigate(item.to!)}
-                    className={`nav-droplet relative px-3 py-1.5 font-body text-sm rounded-md transition-all duration-200 ${
+                    className={`relative px-3.5 py-1.5 font-body text-[13px] tracking-tight rounded-full transition-colors duration-200 ${
                       isActive(item.to!)
-                        ? "text-primary font-medium"
-                        : "text-foreground/60 hover:text-foreground hover:bg-primary/5"
+                        ? "text-foreground"
+                        : "text-foreground/55 hover:text-foreground"
                     }`}
                   >
-                    {item.label}
-                    <span
-                      aria-hidden
-                      className={`absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-primary origin-center transition-transform duration-300 ease-out ${
-                        isActive(item.to!) ? "scale-x-100" : "scale-x-0"
-                      }`}
-                    />
+                    {isActive(item.to!) && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        aria-hidden
+                        className="absolute inset-0 rounded-full bg-foreground/[0.08] hairline-strong"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    <span className="relative z-10">{item.label}</span>
                   </button>
                 )
               )}
