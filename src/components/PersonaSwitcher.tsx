@@ -278,18 +278,18 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
         <span className="block w-px h-14 bg-foreground/15" />
       </div>
 
-      {/* Character layer — anchored to the real viewport bottom, never inside the text grid */}
+      {/* Character layer — bigger on home, anchored bottom-right on desktop, centered on mobile */}
       <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
         <motion.div
           style={{ x: px, y: py }}
-          className="absolute inset-x-0 bottom-0 h-[60svh] sm:h-[78svh] md:h-[100svh] flex items-end justify-center md:justify-end"
+          className="absolute inset-x-0 bottom-0 h-[68svh] sm:h-[88svh] md:h-[112svh] flex items-end justify-center md:justify-end"
         >
           <motion.div
             aria-hidden
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:right-[10%] md:translate-x-0 w-[76%] md:w-[46%] h-[48%] rounded-full blur-[100px]"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:right-[8%] md:translate-x-0 w-[82%] md:w-[48%] h-[50%] rounded-full blur-[110px]"
             animate={{
               background: persona.accent,
-              opacity: reduce ? 0.22 : [0.2, 0.36, 0.2],
+              opacity: reduce ? 0.24 : [0.22, 0.4, 0.22],
             }}
             transition={{
               background: { duration: 0.8 },
@@ -298,9 +298,6 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
           />
           {personas.map((p, i) => {
             const active = i === index;
-            // Friend (creator) on desktop sits closer to right edge
-            const desktopShift =
-              p.id === "friend" ? "md:right-[22%]" : "md:right-[6%]";
             return (
               <motion.img
                 key={p.id}
@@ -313,7 +310,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
                   scale: active ? 1 : 0.99,
                 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 ${desktopShift} h-[60svh] sm:h-[80svh] md:h-[100svh] w-auto max-w-[96vw] md:max-w-none object-contain object-bottom select-none pointer-events-none`}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-[3%] h-[68svh] sm:h-[90svh] md:h-[112svh] w-auto max-w-[100vw] md:max-w-none object-contain object-bottom select-none pointer-events-none"
                 style={{
                   transformOrigin: "50% 100%",
                   filter:
@@ -325,7 +322,7 @@ const PersonaSwitcher = ({ personas }: { personas: Persona[] }) => {
               />
             );
           })}
-          <div className="absolute inset-x-0 bottom-0 h-[20svh] bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[22svh] bg-gradient-to-t from-background/85 via-background/25 to-transparent" />
         </motion.div>
       </div>
 
