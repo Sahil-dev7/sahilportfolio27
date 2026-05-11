@@ -37,14 +37,14 @@ const Friend = () => {
         <img
           src={PERSONA.png}
           alt={PERSONA.title}
-          className="pointer-events-none select-none absolute bottom-0 left-0 sm:left-2 md:left-6 h-[58svh] sm:h-[78svh] md:h-[92svh] lg:h-[100svh] w-auto object-contain object-bottom z-10"
+          className="pointer-events-none select-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[62svh] sm:h-[82svh] md:h-[96svh] lg:h-[104svh] w-auto object-contain object-bottom z-10"
           style={{ filter: "drop-shadow(0 30px 60px hsl(0 0% 0% / 0.7))" }}
           loading="eager" draggable={false}
         />
 
         <div className="relative z-20 container mx-auto px-5 sm:px-8 lg:px-12 pt-24 pb-10 sm:py-0">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-7 md:col-start-6 md:text-right">
+            <div className="md:col-span-6 md:col-start-1 md:text-left">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                 <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm mb-6">
                   <ArrowLeft className="w-4 h-4" /> Back to Home
